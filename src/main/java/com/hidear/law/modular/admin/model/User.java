@@ -14,7 +14,7 @@ public class User {
     @Id
     @GeneratedValue
     @Column(name="id",nullable = false,length = 11)
-    private Long id;
+    private Integer id;
     /**
      * 头像
      */
@@ -64,7 +64,7 @@ public class User {
      * 角色id
      */
     @Column(name = "roleid",nullable = false,length = 255)
-    private String roleid;
+    private Integer roleid;
     /**
      * 部门id
      */
@@ -86,11 +86,11 @@ public class User {
     @Column(name = "version",nullable = false,length = 11)
     private Integer version;
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -166,11 +166,11 @@ public class User {
         this.phone = phone;
     }
 
-    public String getRoleid() {
+    public Integer getRoleid() {
         return roleid;
     }
 
-    public void setRoleid(String roleid) {
+    public void setRoleid(Integer roleid) {
         this.roleid = roleid;
     }
 

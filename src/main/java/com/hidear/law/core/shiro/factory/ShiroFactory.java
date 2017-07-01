@@ -1,12 +1,17 @@
 package com.hidear.law.core.shiro.factory;
 
+import com.hidear.law.common.constent.factory.ConstantFactory;
 import com.hidear.law.common.constent.state.ManagerStatus;
+import com.hidear.law.core.util.Convert;
 import com.hidear.law.modular.admin.dao.MenuRepository;
+import com.hidear.law.modular.admin.dao.RelationRepository;
+import com.hidear.law.modular.admin.dao.RoleRepository;
+import com.hidear.law.modular.admin.model.Relation;
+import com.hidear.law.modular.admin.model.Role;
 import com.hidear.law.modular.admin.model.User;
 import com.hidear.law.modular.admin.dao.UserRepository;
 import com.hidear.law.core.shiro.ShiroUser;
 import com.hidear.law.core.util.SpringContextHolder;
-import org.apache.commons.collections.functors.ConstantFactory;
 import org.apache.shiro.authc.CredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
@@ -14,6 +19,7 @@ import org.apache.shiro.crypto.hash.Md5Hash;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,6 +38,12 @@ public class ShiroFactory implements IShiro{
 
     @Autowired
     private MenuRepository menuRepository;
+
+    @Autowired
+    private RelationRepository relationRepository;
+
+    @Autowired
+    private RoleRepository roleRepository;
 
     public static IShiro me() {
         return SpringContextHolder.getBean(IShiro.class);
@@ -63,7 +75,7 @@ public class ShiroFactory implements IShiro{
         shiroUser.setDeptName(ConstantFactory.me().getDeptName(user.getDeptid()));// 部门名称
         shiroUser.setName(user.getName());        // 用户名称
 
-        Integer[] roleArray = Convert.toIntArray(user.getRoleid());// 角色集合
+        Integer[] roleArray = Convert.toIntArray(user.getRoleid().toString());// 角色集合
         List<Integer> roleList = new ArrayList<Integer>();
         List<String> roleNameList = new ArrayList<String>();
         for (int roleId : roleArray) {
@@ -78,7 +90,15 @@ public class ShiroFactory implements IShiro{
 
     @Override
     public List<String> findPermissionsByRoleId(Integer roleId) {
-        List<String> resUrls = menuRepository.getResUrlsByRoleId(roleId);
+        Role role = roleRepository.findOne(roleId);
+        Relation relation = new Relation();
+        relation.setRole(role);
+        Example<Relation> example = Example.of(relation);
+        List<Relation> relations = relationRepository.findAll(example);
+        List<String> resUrls = new ArrayList<>();
+        for(Relation item: relations){
+            resUrls.add(item.getMenu().getUrl());
+        }
         return resUrls;
     }
 

@@ -2,16 +2,17 @@ package com.hidear.law.common.constent.factory;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
-import com.stylefeng.guns.common.constant.state.ManagerStatus;
-import com.stylefeng.guns.common.constant.state.MenuStatus;
-import com.stylefeng.guns.common.persistence.dao.*;
-import com.stylefeng.guns.common.persistence.model.*;
-import com.stylefeng.guns.core.log.LogObjectHolder;
-import com.stylefeng.guns.core.support.StrKit;
-import com.stylefeng.guns.core.util.Convert;
-import com.stylefeng.guns.core.util.SpringContextHolder;
-import com.stylefeng.guns.core.util.ToolUtil;
+import com.hidear.law.common.constent.state.ManagerStatus;
+import com.hidear.law.common.constent.state.MenuStatus;
+import com.hidear.law.core.log.LogObjectHolder;
+import com.hidear.law.core.support.StrKit;
+import com.hidear.law.core.util.Convert;
+import com.hidear.law.core.util.SpringContextHolder;
+import com.hidear.law.core.util.ToolUtil;
+import com.hidear.law.modular.admin.dao.*;
+import com.hidear.law.modular.admin.model.*;
 import org.springframework.context.annotation.DependsOn;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -26,12 +27,12 @@ import java.util.List;
 @DependsOn("springContextHolder")
 public class ConstantFactory implements IConstantFactory {
 
-    private RoleMapper roleMapper = SpringContextHolder.getBean(RoleMapper.class);
-    private DeptMapper deptMapper = SpringContextHolder.getBean(DeptMapper.class);
-    private DictMapper dictMapper = SpringContextHolder.getBean(DictMapper.class);
-    private UserMapper userMapper = SpringContextHolder.getBean(UserMapper.class);
-    private MenuMapper menuMapper = SpringContextHolder.getBean(MenuMapper.class);
-    private NoticeMapper noticeMapper = SpringContextHolder.getBean(NoticeMapper.class);
+    private RoleRepository roleRepository = SpringContextHolder.getBean(RoleRepository.class);
+    private DeptRepository deptRepository = SpringContextHolder.getBean(DeptRepository.class);
+    private DictRepository dictRepository = SpringContextHolder.getBean(DictRepository.class);
+    private UserRepository userRepository = SpringContextHolder.getBean(UserRepository.class);
+    private MenuRepository menuRepository = SpringContextHolder.getBean(MenuRepository.class);
+    private NoticeRepository noticeRepository = SpringContextHolder.getBean(NoticeRepository.class);
 
     public static IConstantFactory me() {
         return SpringContextHolder.getBean("constantFactory");
@@ -45,7 +46,7 @@ public class ConstantFactory implements IConstantFactory {
      */
     @Override
     public String getUserNameById(Integer userId) {
-        User user = userMapper.selectById(userId);
+        User user = userRepository.findOne(userId);
         if (user != null) {
             return user.getName();
         } else {
@@ -61,7 +62,7 @@ public class ConstantFactory implements IConstantFactory {
      */
     @Override
     public String getUserAccountById(Integer userId) {
-        User user = userMapper.selectById(userId);
+        User user = userRepository.findOne(userId);
         if (user != null) {
             return user.getAccount();
         } else {
@@ -77,7 +78,7 @@ public class ConstantFactory implements IConstantFactory {
         Integer[] roles = Convert.toIntArray(roleIds);
         StringBuilder sb = new StringBuilder();
         for (int role : roles) {
-            Role roleObj = roleMapper.selectById(role);
+            Role roleObj = roleRepository.findOne(role);
             if (ToolUtil.isNotEmpty(roleObj) && ToolUtil.isNotEmpty(roleObj.getName())) {
                 sb.append(roleObj.getName()).append(",");
             }
@@ -93,7 +94,7 @@ public class ConstantFactory implements IConstantFactory {
         if (0 == roleId) {
             return "--";
         }
-        Role roleObj = roleMapper.selectById(roleId);
+        Role roleObj = roleRepository.findOne(roleId);
         if (ToolUtil.isNotEmpty(roleObj) && ToolUtil.isNotEmpty(roleObj.getName())) {
             return roleObj.getName();
         }
@@ -108,7 +109,7 @@ public class ConstantFactory implements IConstantFactory {
         if (0 == roleId) {
             return "--";
         }
-        Role roleObj = roleMapper.selectById(roleId);
+        Role roleObj = roleRepository.findOne(roleId);
         if (ToolUtil.isNotEmpty(roleObj) && ToolUtil.isNotEmpty(roleObj.getName())) {
             return roleObj.getTips();
         }
@@ -120,7 +121,7 @@ public class ConstantFactory implements IConstantFactory {
      */
     @Override
     public String getDeptName(Integer deptId) {
-        Dept dept = deptMapper.selectById(deptId);
+        Dept dept = deptRepository.findOne(deptId);
         if (ToolUtil.isNotEmpty(dept) && ToolUtil.isNotEmpty(dept.getFullname())) {
             return dept.getFullname();
         }
@@ -135,7 +136,7 @@ public class ConstantFactory implements IConstantFactory {
         Integer[] menus = Convert.toIntArray(menuIds);
         StringBuilder sb = new StringBuilder();
         for (int menu : menus) {
-            Menu menuObj = menuMapper.selectById(menu);
+            Menu menuObj = menuRepository.findOne(menu);
             if (ToolUtil.isNotEmpty(menuObj) && ToolUtil.isNotEmpty(menuObj.getName())) {
                 sb.append(menuObj.getName()).append(",");
             }
@@ -151,7 +152,7 @@ public class ConstantFactory implements IConstantFactory {
         if (ToolUtil.isEmpty(menuId)) {
             return "";
         } else {
-            Menu menu = menuMapper.selectById(menuId);
+            Menu menu = menuRepository.findOne(menuId);
             if (menu == null) {
                 return "";
             } else {
@@ -170,7 +171,8 @@ public class ConstantFactory implements IConstantFactory {
         } else {
             Menu param = new Menu();
             param.setCode(code);
-            Menu menu = menuMapper.selectOne(param);
+            Example<Menu> menuExample = Example.of(param);
+            Menu menu = menuRepository.findOne(menuExample);
             if (menu == null) {
                 return "";
             } else {
@@ -187,7 +189,7 @@ public class ConstantFactory implements IConstantFactory {
         if (ToolUtil.isEmpty(dictId)) {
             return "";
         } else {
-            Dict dict = dictMapper.selectById(dictId);
+            Dict dict = dictRepository.findOne(dictId);
             if (dict == null) {
                 return "";
             } else {
@@ -204,7 +206,7 @@ public class ConstantFactory implements IConstantFactory {
         if (ToolUtil.isEmpty(dictId)) {
             return "";
         } else {
-            Notice notice = noticeMapper.selectById(dictId);
+            Notice notice = noticeRepository.findOne(dictId);
             if (notice == null) {
                 return "";
             } else {
@@ -220,13 +222,15 @@ public class ConstantFactory implements IConstantFactory {
     public String getDictsByName(String name, Integer val) {
         Dict temp = new Dict();
         temp.setName(name);
-        Dict dict = dictMapper.selectOne(temp);
+        Example<Dict> example = Example.of(temp);
+        Dict dict = dictRepository.findOne(example);
         if (dict == null) {
             return "";
         } else {
-            Wrapper<Dict> wrapper = new EntityWrapper<>();
-            wrapper = wrapper.eq("pid", dict.getId());
-            List<Dict> dicts = dictMapper.selectList(wrapper);
+            Dict wrapper = new Dict();
+            wrapper.setPid(dict.getId());
+            Example<Dict> dictExample = Example.of(wrapper);
+            List<Dict> dicts = dictRepository.findAll(dictExample);
             for (Dict item : dicts) {
                 if (item.getNum() != null && item.getNum().equals(val)) {
                     return item.getName();
@@ -269,7 +273,9 @@ public class ConstantFactory implements IConstantFactory {
             return null;
         } else {
             EntityWrapper<Dict> wrapper = new EntityWrapper<>();
-            List<Dict> dicts = dictMapper.selectList(wrapper.eq("pid", id));
+            Dict dict = new Dict();
+            dict.setPid(id);
+            List<Dict> dicts = dictRepository.findAll(Example.of(dict));
             if (dicts == null || dicts.size() == 0) {
                 return null;
             } else {

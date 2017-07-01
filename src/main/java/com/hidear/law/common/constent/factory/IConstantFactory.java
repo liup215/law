@@ -1,8 +1,8 @@
 package com.hidear.law.common.constent.factory;
 
-import com.stylefeng.guns.common.constant.cache.Cache;
-import com.stylefeng.guns.common.constant.cache.CacheKey;
-import com.stylefeng.guns.common.persistence.model.Dict;
+import com.hidear.law.common.constent.cache.Cache;
+import com.hidear.law.common.constent.cache.CacheKey;
+import com.hidear.law.modular.admin.model.Dict;
 import org.springframework.cache.annotation.Cacheable;
 
 import java.util.List;

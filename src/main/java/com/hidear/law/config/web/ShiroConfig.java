@@ -1,6 +1,7 @@
 package com.hidear.law.config.web;
 
 import com.hidear.law.config.properties.LawProperties;
+import com.hidear.law.core.shiro.ShiroDbRealm;
 import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.codec.Base64;

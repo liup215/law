@@ -1,5 +1,8 @@
 package com.hidear.law.core.shiro;
 
+import com.hidear.law.core.shiro.factory.IShiro;
+import com.hidear.law.core.shiro.factory.ShiroFactory;
+import com.hidear.law.core.util.ToolUtil;
 import com.hidear.law.modular.admin.model.User;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authc.credential.CredentialsMatcher;
@@ -23,7 +26,7 @@ public class ShiroDbRealm extends AuthorizingRealm {
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authcToken)
             throws AuthenticationException {
-        IShiro shiroFactory = ShiroFactroy.me();
+        IShiro shiroFactory = ShiroFactory.me();
         UsernamePasswordToken token = (UsernamePasswordToken) authcToken;
         User user = shiroFactory.user(token.getUsername());
         ShiroUser shiroUser = shiroFactory.shiroUser(user);
@@ -36,7 +39,7 @@ public class ShiroDbRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-        IShiro shiroFactory = ShiroFactroy.me();
+        IShiro shiroFactory = ShiroFactory.me();
         ShiroUser shiroUser = (ShiroUser) principals.getPrimaryPrincipal();
         List<Integer> roleList = shiroUser.getRoleList();
 

@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by Administrator on 2017/7/1.
  */
-public interface MenuRepository extends JpaRepository<Menu,Long>{
+public interface MenuRepository extends JpaRepository<Menu,Integer>{
 
     public List<String> getResUrlsByRoleId();
 }

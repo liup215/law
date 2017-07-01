@@ -46,6 +46,9 @@ public class ToolUtil {
         return false;
     }
 
+    public static boolean isNotEmpty(Object o){
+        return !isEmpty(o);
+    };
     public static String getTempPath(){
         return System.getProperty("java.io.tmpdir");
     }
