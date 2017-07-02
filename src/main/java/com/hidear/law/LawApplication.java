@@ -20,14 +20,6 @@ public class LawApplication extends WebMvcConfigurerAdapter {
     @Autowired
     LawProperties lawProperties;
 
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry){
-        if(lawProperties.getSwaggerOpen()){
-            registry.addResourceHandler("swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
-            registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
-        }
-    }
-
     public static void main(String[] args){
         SpringApplication.run(LawApplication.class,args);
         logger.info("LawApplication Start success!!!");

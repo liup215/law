@@ -35,6 +35,13 @@ spring:
   http:
     converters:
       preferred-json-mapper: fastjson
+  jpa:
+    properties:
+      hibernate:
+        hbm2ddl:
+          auto: update
+        dialect: org.hibernate.dialect.MySQL5Dialect
+        show_sql: true
 
 ###################  mybatis-plus配置  ###################
 #mybatis-plus:

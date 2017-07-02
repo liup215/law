@@ -13,11 +13,11 @@ import java.util.Map;
 @Controller
 public class HomeController {
 
-    @RequestMapping("/")
+    @RequestMapping("/ss")
     @ResponseBody
     public Map<String,String> index(){
         Map<String,String> map = new HashMap<>();
-        map.put("title","test");
+        map.put("user","User");
         return map;
     }
 }
