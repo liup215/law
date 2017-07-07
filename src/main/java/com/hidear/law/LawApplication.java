@@ -6,13 +6,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 /**
  * Created by Administrator on 2017/7/1.
  */
-
+@EnableTransactionManagement
 @SpringBootApplication
 public class LawApplication extends WebMvcConfigurerAdapter {
     protected final static Logger logger = LoggerFactory.getLogger(LawApplication.class);

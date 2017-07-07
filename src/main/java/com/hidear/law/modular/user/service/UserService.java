@@ -1,11 +1,15 @@
 package com.hidear.law.modular.user.service;
 
+import com.hidear.law.core.util.MD5Util;
+import com.hidear.law.modular.home.model.RegisterInfo;
+import com.hidear.law.modular.home.model.SuccessTip;
 import com.hidear.law.modular.user.dao.UserRepository;
 import com.hidear.law.modular.user.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -16,19 +20,10 @@ public class UserService {
     @Autowired
     UserRepository userRepository;
 
-    public User getUserById(Integer id){
-        User user = userRepository.findOne(id);
-        return user;
-    }
 
-    public User saveUser(User user){
-        userRepository.saveAndFlush(user);
-        return user;
-    }
+    @Transactional
+    public User createUser(User user){
 
-    public List<User> getUserByUser(User user){
-        Example example = Example.of(user);
-        List<User> users= userRepository.findAll(example);
-        return users;
+        return userRepository.save(user);
     }
 }
