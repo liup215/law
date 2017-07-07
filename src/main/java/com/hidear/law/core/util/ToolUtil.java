@@ -1,5 +1,7 @@
 package com.hidear.law.core.util;
 
+import com.hidear.law.config.properties.LawProperties;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -51,5 +53,9 @@ public class ToolUtil {
     };
     public static String getTempPath(){
         return System.getProperty("java.io.tmpdir");
+    }
+
+    public static Boolean getKaptchaOnOff(){
+        return SpringContextHolder.getBean(LawProperties.class).getKaptchaOpen();
     }
 }

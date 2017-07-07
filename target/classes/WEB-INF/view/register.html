@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>登录</title>
+    <title>注册</title>
 
     <link rel="shortcut icon" href="${ctxPath}/static/favicon.ico">
     <script src="${ctxPath}/static/js/jquery.min.js?v=2.1.4"></script>
@@ -35,6 +35,11 @@
                     data: data,
                     success:function (data) {
                         alert(data.message)
+                        $.ajax({
+                            type:"POST",
+                            url:"/index",
+                            data:data.user
+                        })
                     },
                     dataType: "json"
                 });

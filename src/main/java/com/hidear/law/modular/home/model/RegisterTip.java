@@ -6,7 +6,7 @@ import com.hidear.law.modular.user.model.User;
 /**
  * Created by Administrator on 2017/7/5.
  */
-public class SuccessTip {
+public class RegisterTip {
     private String status;
 
     private String code;

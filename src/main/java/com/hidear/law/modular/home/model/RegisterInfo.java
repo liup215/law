@@ -6,6 +6,8 @@ package com.hidear.law.modular.home.model;
 public class RegisterInfo {
     private String phone;
     private String verifyCode;
+    private String username;
+    private String nickName;
     private String password;
     private String passwordConfirm;
 
@@ -23,6 +25,22 @@ public class RegisterInfo {
 
     public void setVerifyCode(String verifyCode) {
         this.verifyCode = verifyCode;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
     }
 
     public String getPassword() {
@@ -46,6 +64,8 @@ public class RegisterInfo {
         return "RegisterInfo{" +
                 "phone='" + phone + '\'' +
                 ", verifyCode='" + verifyCode + '\'' +
+                ", username='" + username + '\'' +
+                ", nickName='" + nickName + '\'' +
                 ", password='" + password + '\'' +
                 ", passwordConfirm='" + passwordConfirm + '\'' +
                 '}';

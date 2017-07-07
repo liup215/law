@@ -1,12 +1,14 @@
-package com.hidear.law.modular.home.service;
+package com.hidear.law.modular.home.service.serviceImpl;
 
 import com.hidear.law.core.util.MD5Util;
 import com.hidear.law.modular.home.model.RegisterInfo;
-import com.hidear.law.modular.home.model.SuccessTip;
+import com.hidear.law.modular.home.model.RegisterTip;
+import com.hidear.law.modular.home.service.IRegisterService;
 import com.hidear.law.modular.user.dao.UserRepository;
 import com.hidear.law.modular.user.model.User;
-import com.hidear.law.modular.user.service.UserService;
+import com.hidear.law.modular.user.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
@@ -14,24 +16,26 @@ import java.util.Date;
 /**
  * Created by Administrator on 2017/7/5.
  */
-public class RegisterService {
+@Service
+public class RegisterServiceImpl implements IRegisterService {
 
     @Autowired
-    UserService service;
+    IUserService userService;
 
     @Autowired
     UserRepository userRepository;
 
+    @Override
     @Transactional
     public Object doRegister(RegisterInfo info) {
-        SuccessTip tip = (SuccessTip) checkInfo(info);
+        RegisterTip tip = (RegisterTip) checkInfo(info);
         if(tip!=null){
             return tip;
         }
 
-        tip = new SuccessTip();
+        tip = new RegisterTip();
         User user = getUserByInfo(info);
-        user = service.createUser(user);
+        user = userService.createUser(user);
         if(user==null){
             System.out.println(info.getVerifyCode());
             tip.setCode("4");
@@ -48,7 +52,7 @@ public class RegisterService {
     }
 
     public Object checkInfo(RegisterInfo info){
-        SuccessTip tip = new SuccessTip();
+        RegisterTip tip = new RegisterTip();
         if(!info.getVerifyCode().equals("111111")){
             System.out.println(info.getVerifyCode());
             tip.setCode("1");
