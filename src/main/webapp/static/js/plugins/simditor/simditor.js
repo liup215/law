@@ -1,18 +1,18 @@
 (function (root, factory) {
   if (typeof define === 'function' && define.amd) {
-    // AMD. Register as an anonymous module.
+    // AMD. Register as an anonymous model.
     define('simditor', ["jquery",
-      "simple-module",
+      "simple-model",
       "simple-hotkeys",
       "simple-uploader"], function ($, SimpleModule, simpleHotkeys, simpleUploader) {
       return (root.returnExportsGlobal = factory($, SimpleModule, simpleHotkeys, simpleUploader));
     });
   } else if (typeof exports === 'object') {
     // Node. Does not work with strict CommonJS, but
-    // only CommonJS-like enviroments that support module.exports,
+    // only CommonJS-like enviroments that support model.exports,
     // like Node.
     module.exports = factory(require("jquery"),
-      require("simple-module"),
+      require("simple-model"),
       require("simple-hotkeys"),
       require("simple-uploader"));
   } else {

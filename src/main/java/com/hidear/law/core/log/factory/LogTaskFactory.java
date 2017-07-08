@@ -1,10 +1,14 @@
 package com.hidear.law.core.log.factory;
 
+import com.hidear.law.common.constant.status.LogSucceed;
 import com.hidear.law.common.constant.status.LogType;
 import com.hidear.law.core.db.Db;
 import com.hidear.law.core.log.LogManager;
-import com.hidear.law.modular.system.dao.LoginLogRepository;
-import com.hidear.law.modular.system.model.LoginLog;
+import com.hidear.law.core.util.ToolUtil;
+import com.hidear.law.modular.dao.LoginLogRepository;
+import com.hidear.law.modular.dao.OperationRepository;
+import com.hidear.law.modular.model.LoginLog;
+import com.hidear.law.modular.model.OperationLog;
 import org.apache.log4j.Logger;
 
 import java.util.TimerTask;
@@ -19,7 +23,7 @@ public class LogTaskFactory {
 
     private static Logger logger = Logger.getLogger(LogManager.class);
     private static LoginLogRepository loginLogRepository = Db.getRepository(LoginLogRepository.class);
-//    private static OperationLogMapper operationLogMapper = Db.getMapper(OperationLogMapper.class);
+    private static OperationRepository operationRepository = Db.getRepository(OperationRepository.class);
 
     public static TimerTask loginLog(final Long userId, final String ip) {
         return new TimerTask() {
@@ -79,19 +83,19 @@ public class LogTaskFactory {
 //        };
 //    }
 //
-//    public static TimerTask exceptionLog(final Integer userId, final Exception exception) {
-//        return new TimerTask() {
-//            @Override
-//            public void run() {
-//                String msg = ToolUtil.getExceptionMsg(exception);
-//                OperationLog operationLog = LogFactory.createOperationLog(
-//                        LogType.EXCEPTION, userId, "", null, null, msg, LogSucceed.FAIL);
-//                try {
-//                    operationLogMapper.insert(operationLog);
-//                } catch (Exception e) {
-//                    logger.error("创建异常日志异常!", e);
-//                }
-//            }
-//        };
-//    }
+    public static TimerTask exceptionLog(final Long userId, final Exception exception) {
+        return new TimerTask() {
+            @Override
+            public void run() {
+                String msg = ToolUtil.getExceptionMsg(exception);
+                OperationLog operationLog = LogFactory.createOperationLog(
+                        LogType.EXCEPTION, userId, "", null, null, msg, LogSucceed.FAIL);
+                try {
+                    operationRepository.save(operationLog);
+                } catch (Exception e) {
+                    logger.error("创建异常日志异常!", e);
+                }
+            }
+        };
+    }
 }

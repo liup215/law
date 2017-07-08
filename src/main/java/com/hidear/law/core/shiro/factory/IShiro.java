@@ -1,7 +1,7 @@
 package com.hidear.law.core.shiro.factory;
 
 import com.hidear.law.core.shiro.ShiroUser;
-import com.hidear.law.modular.user.model.User;
+import com.hidear.law.modular.model.User;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 
 import java.util.List;
