@@ -14,14 +14,12 @@ public class ShiroUser implements Serializable{
     public String username;      // 账号
     public String nickname;         // 姓名
     public String truename;//真实姓名
-    public Integer deptId;      // 部门id
     public String phone;//手机号码
     public String userType;//用户所属类型
     public String avatar;//头像地址
     public Date lastLoginTime;//上次登录时间
     public Double coin;//金币数
     public List<Integer> roleList; // 角色集
-    public String deptName;        // 部门名称
     public List<String> roleNames; // 角色名称集
 
     public static long getSerialVersionUID() {
@@ -58,14 +56,6 @@ public class ShiroUser implements Serializable{
 
     public void setTruename(String truename) {
         this.truename = truename;
-    }
-
-    public Integer getDeptId() {
-        return deptId;
-    }
-
-    public void setDeptId(Integer deptId) {
-        this.deptId = deptId;
     }
 
     public String getPhone() {
@@ -108,27 +98,4 @@ public class ShiroUser implements Serializable{
         this.coin = coin;
     }
 
-    public List<Integer> getRoleList() {
-        return roleList;
-    }
-
-    public void setRoleList(List<Integer> roleList) {
-        this.roleList = roleList;
-    }
-
-    public String getDeptName() {
-        return deptName;
-    }
-
-    public void setDeptName(String deptName) {
-        this.deptName = deptName;
-    }
-
-    public List<String> getRoleNames() {
-        return roleNames;
-    }
-
-    public void setRoleNames(List<String> roleNames) {
-        this.roleNames = roleNames;
-    }
 }

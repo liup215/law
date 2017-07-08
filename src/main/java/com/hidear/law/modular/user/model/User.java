@@ -39,7 +39,7 @@ public class User {
     private String detailAddress;
 
     @Column(name="userType",nullable = true,length=15)
-    private Long userType;
+    private String userType;
 
     @Column(name="avatar",nullable = true,length = 75)
     private String avatar;
@@ -50,8 +50,14 @@ public class User {
     @Column(name="lastLoginTime",nullable = true)
     private Date lastLoginTime;
 
-    @Column(name="coinNum",nullable = false,length = 10)
-    private Double coinNum;
+    @Column(name="coin",nullable = false,length = 10)
+    private Double coin;
+
+    @Column(name="status",nullable = false,length = 10)
+    private Integer status;
+
+    @Column(name="salt",nullable=false,length = 45)
+    private String salt;
 
     public Long getId() {
         return id;
@@ -83,14 +89,6 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getMoblilePhone() {
-        return phoneNumber;
-    }
-
-    public void setMoblilePhone(String moblilePhone) {
-        this.phoneNumber = moblilePhone;
     }
 
     public String getEmail() {
@@ -125,11 +123,11 @@ public class User {
         this.detailAddress = detailAddress;
     }
 
-    public Long getUserType() {
+    public String getUserType() {
         return userType;
     }
 
-    public void setUserType(Long userType) {
+    public void setUserType(String userType) {
         this.userType = userType;
     }
 
@@ -157,11 +155,35 @@ public class User {
         this.lastLoginTime = lastLoginTime;
     }
 
-    public Double getCoinNum() {
-        return coinNum;
+    public Double getCoin() {
+        return coin;
     }
 
-    public void setCoinNum(Double coinNum) {
-        this.coinNum = coinNum;
+    public void setCoin(Double coinNum) {
+        this.coin = coinNum;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
     }
 }

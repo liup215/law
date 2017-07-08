@@ -2,7 +2,6 @@ package com.hidear.law.core.shiro;
 
 import com.hidear.law.core.shiro.factory.IShiro;
 import com.hidear.law.core.shiro.factory.ShiroFactory;
-import com.hidear.law.core.util.ToolUtil;
 import com.hidear.law.modular.user.model.User;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authc.credential.CredentialsMatcher;
@@ -41,24 +40,25 @@ public class ShiroDBRealm extends AuthorizingRealm {
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         IShiro shiroFactory = ShiroFactory.me();
         ShiroUser shiroUser = (ShiroUser) principals.getPrimaryPrincipal();
-        List<Integer> roleList = shiroUser.getRoleList();
+//        List<Integer> roleList = shiroUser.getRoleList();
+        List<Integer> roleList = null;
 
         Set<String> permissionSet = new HashSet<>();
         Set<String> roleNameSet = new HashSet<>();
 
-        for (Integer roleId : roleList) {
-            List<String> permissions = shiroFactory.findPermissionsByRoleId(roleId);
-            if (permissions != null) {
-                for (String permission : permissions) {
-                    if (ToolUtil.isNotEmpty(permission)) {
-                        permissionSet.add(permission);
-                    }
-                }
-            }
-            String roleName = shiroFactory.findRoleNameByRoleId(roleId);
-            roleNameSet.add(roleName);
-        }
-
+//        for (Integer roleId : roleList) {
+//            List<String> permissions = shiroFactory.findPermissionsByRoleId(roleId);
+//            if (permissions != null) {
+//                for (String permission : permissions) {
+//                    if (ToolUtil.isNotEmpty(permission)) {
+//                        permissionSet.add(permission);
+//                    }
+//                }
+//            }
+//            String roleName = shiroFactory.findRoleNameByRoleId(roleId);
+//            roleNameSet.add(roleName);
+//        }
+//
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         info.addStringPermissions(permissionSet);
         info.addRoles(roleNameSet);

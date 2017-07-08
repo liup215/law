@@ -27,7 +27,8 @@ public class RegisterController {
     @RequestMapping(value = "/register",method = RequestMethod.POST)
     public @ResponseBody Object register(RegisterInfo info){
 
-        RegisterTip tip = (RegisterTip) service.doRegister(info);
+        RegisterTip tip = service.doRegister(info);
+
         return tip;
     }
 

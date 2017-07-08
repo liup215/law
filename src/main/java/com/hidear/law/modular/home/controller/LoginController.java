@@ -14,6 +14,7 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import static com.hidear.law.core.support.HttpKit.getIp;
 
@@ -29,6 +30,7 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/login",method = RequestMethod.POST)
+    @ResponseBody
     public String login(LoginInfo info){
 
         if(ToolUtil.getKaptchaOnOff()){
@@ -49,7 +51,8 @@ public class LoginController {
 
         LogManager.me().executeLog(LogTaskFactory.loginLog(shiroUser.getId(), getIp()));
 
+        ShiroKit.getSession().setAttribute("sessionFlag",true);
 
-        return "redirect:/";
+        return "登录成功！！！";
     }
 }

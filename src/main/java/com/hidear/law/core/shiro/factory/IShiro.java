@@ -14,9 +14,9 @@ public interface IShiro {
     /**
      * 根据账号获取登录用户
      *
-     * @param account 账号
+     * @param username 账号
      */
-    User user(String account);
+    User user(String username);
 
     /**
      * 根据系统用户获取Shiro的用户
