@@ -1,27 +1,33 @@
 package com.hidear.law.modular.controller;
 
 import com.google.code.kaptcha.Constants;
+import com.hidear.law.common.constant.status.UserStatus;
 import com.hidear.law.common.exception.InvalidKaptchaException;
-import com.hidear.law.common.exception.InvalidVarifyException;
-import com.hidear.law.common.exception.PasswordConfirmException;
-import com.hidear.law.common.exception.UserExistException;
 import com.hidear.law.core.log.LogManager;
 import com.hidear.law.core.log.factory.LogTaskFactory;
 import com.hidear.law.core.shiro.ShiroKit;
 import com.hidear.law.core.shiro.ShiroUser;
+import com.hidear.law.core.shiro.factory.ShiroFactory;
 import com.hidear.law.core.support.HttpKit;
 import com.hidear.law.core.util.ToolUtil;
 import com.hidear.law.modular.dao.UserRepository;
 import com.hidear.law.modular.model.User;
 import com.hidear.law.modular.service.IUserService;
-import com.hidear.law.modular.transfer.LoginInfo;
-import com.hidear.law.modular.transfer.RegisterInfo;
+import com.hidear.law.modular.transfer.LoginTF;
+import com.hidear.law.modular.transfer.RegisterTF;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.validation.Valid;
+import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -38,6 +44,7 @@ public class HomeController {
 
     @RequestMapping(value="/",method = RequestMethod.GET)
     public String index(){
+
         return "/index.html";
     }
 
@@ -49,37 +56,55 @@ public class HomeController {
     @RequestMapping(value="/login",method = RequestMethod.GET)
     public String login(){
         if (ShiroKit.isAuthenticated() || ShiroKit.getUser() != null) {
-            return "redirect:/";
+            return "/index.html";
         } else {
             return "/login.html";
         }
     }
 
     @RequestMapping(value = "/login",method = RequestMethod.POST)
-    public String login(LoginInfo info){
+    @ResponseBody
+    public String login(@Valid LoginTF loginTF,BindingResult result){
+        if(result.hasErrors()){
+            List<ObjectError>  errors = result.getAllErrors();
+            for(ObjectError error : errors){
+                return error.getDefaultMessage();
+            }
+        }
+
         //验证验证码是否正确
         if(ToolUtil.getKaptchaOnOff()){
-            String kaptcha = info.getKaptcha();
+            String kaptcha = loginTF.getKaptcha();
             String code = (String) HttpKit.getRequest().getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY);
             if(ToolUtil.isEmpty(kaptcha) || !kaptcha.equals(code)){
-                throw new InvalidKaptchaException();
+                return "验证码输入错误！！！";
             }
         }
 
         Subject currentUser = ShiroKit.getSubject();
-        UsernamePasswordToken token = new UsernamePasswordToken(info.getUsername(),info.getPassword());
-
+        UsernamePasswordToken token = new UsernamePasswordToken(loginTF.getPhoneNumber(),loginTF.getPassword().toCharArray());
         token.setRememberMe(true);
 
         currentUser.login(token);
-        ShiroUser shiroUser = ShiroKit.getUser();
-        HttpKit.getRequest().getSession().setAttribute("shiroUser",shiroUser);
-        HttpKit.getRequest().getSession().setAttribute("username",shiroUser.getUsername());
 
-        LogManager.me().executeLog(LogTaskFactory.loginLog(shiroUser.getId(), HttpKit.getRequest().getRemoteHost()));
+        ShiroUser shiroUser = ShiroKit.getUser();
+        HttpKit.getRequest().getSession().setAttribute("shiroUser", shiroUser);
+        HttpKit.getRequest().getSession().setAttribute("username", shiroUser.getUsername());
+
+//        User user = userRepository.findByPhoneNumber(loginTF.getPhoneNumber());
+//        if(user==null){
+//            return "查无此用户！！！";
+//        }
+//
+//        if(!user.getPassword().equals(ShiroKit.md5(loginTF.getPassword(),user.getSalt()))){
+//            return "密码输入错误！！！";
+//        }
+
+        LogManager.me().executeLog(LogTaskFactory.loginLog(shiroUser.getId(), HttpKit.getIp()));
 
         ShiroKit.getSession().setAttribute("sessionFlag",true);
-        return "redirect:/";
+
+        return "登录成功！！！";
 
     }
 
@@ -96,44 +121,51 @@ public class HomeController {
     }
 
     @RequestMapping(value = "/register",method = RequestMethod.POST)
-    public String register(RegisterInfo info){
-        //判断手机验证码是否正确
-        String varifyCode = "1011";
-        if(ToolUtil.isEmpty(info.getVerifyCode())|| !varifyCode.equals(info.getVerifyCode())){
-            throw new InvalidVarifyException();
+    @ResponseBody
+    public String register(@Valid RegisterTF registerTF, BindingResult result){
+
+        //校验输入规则
+        if(result.hasErrors()){
+            List<ObjectError> list = result.getAllErrors();
+            for(ObjectError error:list){
+                return error.getDefaultMessage();
+            }
         }
 
-        //判断手机号是否存在
-        if(ToolUtil.isEmpty(info.getPhone())|| userRepository.findByPhoneNumber(info.getPhone())!=null){
-            throw new RuntimeException();
+        //校验验证码是否正确
+        if(!registerTF.getVerifyCode().equals("1011")){
+            return "验证码输入错误！！！";
         }
 
-        //判断用户名是否存在
-        if(ToolUtil.isEmpty(info.getUsername())||userRepository.findByUsername(info.getUsername())!=null){
-            throw new UserExistException();
+        //密码确认是否相同
+        if(!registerTF.getPassword().equals(registerTF.getPasswordConfirm())){
+            return "两次输入密码不相同";
         }
 
-        //判断两次输入密码是否相同
-        if((ToolUtil.isEmpty(info.getPassword()) && ToolUtil.isEmpty(info.getPasswordConfirm()))|| info.getPassword()!=info.getPasswordConfirm()){
-            throw new PasswordConfirmException();
+        //手机号是否唯一
+        if(userRepository.findByPhoneNumber(registerTF.getPhoneNumber())!=null){
+            return "手机号已存在！！！";
         }
 
-        //创建用户
-        User user = userService.createUser(info);
 
-        Subject currentUser = ShiroKit.getSubject();
-        UsernamePasswordToken token = new UsernamePasswordToken(info.getUsername(),info.getPassword());
+        User user = new User();
+//        String username = null;
+//        do {
+//            username = "lw_"+ShiroKit.getRandomSalt(8);
+//
+//        }while (userRepository.findByUsername(username)==null);
+        //完善账号信息
+        user.setUsername(registerTF.getPhoneNumber());
 
-        token.setRememberMe(true);
+        user.setPhoneNumber(registerTF.getPhoneNumber());
+        user.setCoin(0.00);
+        user.setSalt(ShiroKit.getRandomSalt(5));
+        user.setPassword(ShiroKit.md5(registerTF.getPassword(),user.getSalt()));
+        user.setRegisterTime((new Date()).getTime());
+        user.setStatus(UserStatus.OK.getCode());
 
-        currentUser.login(token);
-        ShiroUser shiroUser = ShiroKit.getUser();
-        HttpKit.getRequest().getSession().setAttribute("shiroUser",shiroUser);
-        HttpKit.getRequest().getSession().setAttribute("username",shiroUser.getUsername());
+        userRepository.save(user);
 
-        LogManager.me().executeLog(LogTaskFactory.loginLog(shiroUser.getId(), HttpKit.getRequest().getRemoteHost()));
-
-        ShiroKit.getSession().setAttribute("sessionFlag",true);
-        return "redirect:/";
+       return "注册成功！！！";
     }
 }

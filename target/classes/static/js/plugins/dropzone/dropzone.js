@@ -2,7 +2,7 @@
 ;(function(){
 
     /**
-     * Require the module at `name`.
+     * Require the model at `name`.
      *
      * @param {String} name
      * @return {Object} exports
@@ -29,7 +29,7 @@
     require.modules = {};
 
     /**
-     * Register module at `name` with callback `definition`.
+     * Register model at `name` with callback `definition`.
      *
      * @param {String} name
      * @param {Function} definition
@@ -43,7 +43,7 @@
     };
 
     /**
-     * Define a module's exports immediately with `exports`.
+     * Define a model's exports immediately with `exports`.
      *
      * @param {String} name
      * @param {Generic} exports

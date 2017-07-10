@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="${ctxPath}/static/js/jquery.min.js?v=2.1.4"></script>
+</head>
+<body>
+    <form>
+        <input id="name" type="text" placeholder="请输入项目名称">
+        <input id="contact" type="text" placeholder="请输入联系人">
+        <input id="phone" type="text" placeholder="请输入联系电话">
+        <input id="scale" type="text" placeholder="请输入企业规模">
+        <input id="assets" type="text" placeholder="请输入企业产值（万元）">
+        <input id="output" type="text" placeholder="请输入企业产量（万元）">
+        <input id="area" type="text" placeholder="请输入办公区域">
+        <input id="industry" type="text" placeholder="请输入行业">
+        <input id="caseDetail" type="text" placeholder="请输入项目需求">
+        <input id="workType" type="text" placeholder="请输入工作类型">
+        <input id="post" type="text" placeholder="请输入工作岗位">
+        <input id="submit" type="button" value="提交">
+    </form>
+
+    <script>
+        $(function () {
+            $("#submit").on("click",function () {
+                alert("提交请求开始！！！")
+                var name = $("#name").val();
+                var contact=$("#contact").val();
+                var phone = $("#phone").val();
+                var scale = $("#scale").val();
+                var assets = $("#assets").val();
+                var output=$("#output").val();
+                var area = $("#area").val();
+                var industry = $("#industry").val();
+                var caseDetail = $("#caseDetail").val();
+                var workType=$("#workType").val();
+                var post = $("#post").val();
+
+                var data = {
+                    name:name,
+                    contact:contact,
+                    phone:phone,
+                    scale:scale,
+                    assets:assets,
+                    output:output,
+                    area:area,
+                    industry:industry,
+                    caseDetail:caseDetail,
+                    workType:workType,
+                    post:post,
+                };
+                $.ajax({
+                    type: "POST",
+                    url: "/case/add",
+                    data: data,
+                    success:function (data) {
+                        alert(data)
+                    },
+                    dataType: "json"
+                });
+            })
+        })
+    </script>
+</body>
+</html>

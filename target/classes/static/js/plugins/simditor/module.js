@@ -1,12 +1,12 @@
 (function (root, factory) {
   if (typeof define === 'function' && define.amd) {
-    // AMD. Register as an anonymous module.
+    // AMD. Register as an anonymous model.
     define('simple-module', ["jquery"], function ($) {
       return (root.returnExportsGlobal = factory($));
     });
   } else if (typeof exports === 'object') {
     // Node. Does not work with strict CommonJS, but
-    // only CommonJS-like enviroments that support module.exports,
+    // only CommonJS-like enviroments that support model.exports,
     // like Node.
     module.exports = factory(require("jquery"));
   } else {

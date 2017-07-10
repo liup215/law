@@ -40,7 +40,7 @@ spring:
       hibernate:
         hbm2ddl:
           auto: update
-        dialect: org.hibernate.dialect.MySQL5Dialect
+        dialect: com.hidear.law.core.db.MySQL5UTF8Dialect
         show_sql: true
 
 ###################  mybatis-plus配置  ###################

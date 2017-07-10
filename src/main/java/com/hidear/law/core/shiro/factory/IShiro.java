@@ -25,19 +25,6 @@ public interface IShiro {
      */
     ShiroUser shiroUser(User user);
 
-    /**
-     * 获取权限列表通过角色id
-     *
-     * @param roleId 角色id
-     */
-    List<String> findPermissionsByRoleId(Integer roleId);
-
-    /**
-     * 根据角色id获取角色名称
-     *
-     * @param roleId 角色id
-     */
-    String findRoleNameByRoleId(Integer roleId);
 
     /**
      * 获取shiro的认证信息

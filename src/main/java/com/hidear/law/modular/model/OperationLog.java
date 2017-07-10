@@ -16,7 +16,7 @@ public class OperationLog {
     @Id
     @GeneratedValue
     @Column(name = "id",nullable = false,length = 45)
-    private Long id;
+    private Integer id;
 
     /**
      * 日志类型
@@ -32,7 +32,7 @@ public class OperationLog {
      * 用户id
      */
     @Column(name = "userid",nullable = false,length = 45)
-    private Long userid;
+    private Integer userid;
     /**
      * 类名称
      */
@@ -59,11 +59,11 @@ public class OperationLog {
     @Column(name = "message",nullable = false,length = 45)
     private String message;
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -83,11 +83,11 @@ public class OperationLog {
         this.logname = logname;
     }
 
-    public Long getUserid() {
+    public Integer getUserid() {
         return userid;
     }
 
-    public void setUserid(Long userid) {
+    public void setUserid(Integer userid) {
         this.userid = userid;
     }
 

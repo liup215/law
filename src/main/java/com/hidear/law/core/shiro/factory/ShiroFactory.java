@@ -10,20 +10,24 @@ import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.apache.shiro.util.ByteSource;
+import org.apache.shiro.util.Factory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.DependsOn;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 
-/**
- * Created by Administrator on 2017/7/7.
- */
-public class ShiroFactory implements IShiro{
+@Service
+@DependsOn("springContextHolder")
+@Transactional(readOnly = true)
+public class ShiroFactory implements IShiro {
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     public static IShiro me() {
-        return SpringContextHolder.getBean(IShiro.class);
+
+        return new ShiroFactory();
     }
 
     @Override
@@ -44,29 +48,15 @@ public class ShiroFactory implements IShiro{
 
     @Override
     public ShiroUser shiroUser(User user) {
-        ShiroUser shiroUser= new ShiroUser();
-        shiroUser.setUsername(user.getUsername());
-        shiroUser.setAvatar(user.getAvatar());
-        shiroUser.setCoin(user.getCoin());
-        shiroUser.setNickname(user.getNickname());
-        shiroUser.setPhone(user.getPhoneNumber());
-        shiroUser.setTruename(user.getTruename());
-        shiroUser.setLastLoginTime(user.getLastLoginTime());
-        shiroUser.setUserType(user.getUserType());
+        ShiroUser shiroUser = new ShiroUser();
+
+        shiroUser.setId(user.getId());            // 账号id
+        shiroUser.setUsername(user.getUsername());// 账号
+
 
         return shiroUser;
-
     }
 
-    @Override
-    public List<String> findPermissionsByRoleId(Integer roleId) {
-        return null;
-    }
-
-    @Override
-    public String findRoleNameByRoleId(Integer roleId) {
-        return null;
-    }
 
     @Override
     public SimpleAuthenticationInfo info(ShiroUser shiroUser, User user, String realmName) {
@@ -76,4 +66,5 @@ public class ShiroFactory implements IShiro{
         ByteSource credentialsSalt = new Md5Hash(source);
         return new SimpleAuthenticationInfo(shiroUser, credentials, credentialsSalt, realmName);
     }
+
 }

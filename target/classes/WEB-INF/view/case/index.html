@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <link rel="shortcut icon" href="${ctxPath}/static/favicon.ico">
+    <script src="${ctxPath}/static/js/jquery.min.js?v=2.1.4"></script>
+</head>
+<body>
+需求首页
+<form>
+    <a href="${ctxPath}/case/add"><input type="button" value="添加"></a>
+    <input id="delete" type="button" value="删除">
+    <a href="${ctxPath}/case/update"><input type="button" value="修改"></a>
+    <a href="${ctxPath}/case/find"><input type="button" value="查询"></a>
+    <div >
+        <ul id="case_list">
+        </ul>
+    </div>
+</form>
+<script>
+    $(function () {
+        $.ajax({
+            type: "GET",
+            url: "/case/list",
+            success:function (data) {
+                $.each(data,function(index,value){
+                    $("#case_list").append("<li>"+value.name+"</li>")
+                })
+
+            },
+            dataType: "json"
+        });
+
+        $("#delete").on("click",function () {
+            $.ajax({
+                type: "POST",
+                url: "/case/delete",
+                data:{id:1},
+                success:function (data) {
+                    alert(data)
+
+                },
+                dataType: "json"
+            })
+        })
+
+    })
+</script>
+</body>
+</html>

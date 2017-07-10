@@ -1,6 +1,7 @@
 package com.hidear.law.modular.model;
 
 import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.Date;
 
 /**
@@ -12,7 +13,7 @@ public class User {
     @Id
     @GeneratedValue
     @Column(name="id",nullable = false,length=45)
-    private Long id;
+    private Integer id;
 
     @Column(name="username",nullable = false,length = 75)
     private String username;
@@ -44,11 +45,11 @@ public class User {
     @Column(name="avatar",nullable = true,length = 75)
     private String avatar;
 
-    @Column(name="registerTime",nullable = false)
-    private Date registerTime;
+    @Column(name="registerTime",nullable = false,length = 75)
+    private Long registerTime;
 
-    @Column(name="lastLoginTime",nullable = true)
-    private Date lastLoginTime;
+    @Column(name="lastLoginTime",nullable = true,length = 75)
+    private Long lastLoginTime;
 
     @Column(name="coin",nullable = false,length = 10)
     private Double coin;
@@ -59,11 +60,11 @@ public class User {
     @Column(name="salt",nullable=false,length = 45)
     private String salt;
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -139,19 +140,19 @@ public class User {
         this.avatar = avatar;
     }
 
-    public Date getRegisterTime() {
+    public Long getRegisterTime() {
         return registerTime;
     }
 
-    public void setRegisterTime(Date registerTime) {
+    public void setRegisterTime(Long registerTime) {
         this.registerTime = registerTime;
     }
 
-    public Date getLastLoginTime() {
+    public Long getLastLoginTime() {
         return lastLoginTime;
     }
 
-    public void setLastLoginTime(Date lastLoginTime) {
+    public void setLastLoginTime(Long lastLoginTime) {
         this.lastLoginTime = lastLoginTime;
     }
 

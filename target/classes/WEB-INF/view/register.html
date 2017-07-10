@@ -10,7 +10,7 @@
 <body>
 <img src="/static/favicon.ico">
 <form id="form">
-        <input id="phone" name="phone" type="text" placeholder="请输入手机号">
+        <input id="phoneNumber" name="phoneNumber" type="text" placeholder="请输入手机号">
         <input id="verifyCode" name="verifyCode" type="text" placeholder="验证码">
         <input id="getVerifyCode" type="button" value="获取验证码">
         <input id="password" name="password" type="password" placeholder="请输入密码">
@@ -24,22 +24,17 @@
             })
             $("#submit").on("click",function () {
 
-                var phone = $("#phone").val();
+                var phoneNumber = $("#phoneNumber").val();
                 var verifyCode=$("#verifyCode").val();
                 var password = $("#password").val();
                 var passwordConfirm = $("#passwordConfirm").val();
-                var data = {phone:phone,verifyCode:verifyCode,password:password,passwordConfirm:passwordConfirm};
+                var data = {phoneNumber:phoneNumber,verifyCode:verifyCode,password:password,passwordConfirm:passwordConfirm};
                 $.ajax({
                     type: "POST",
-                    url: "/register",
+                    url: "${ctxPath}/register",
                     data: data,
                     success:function (data) {
-                        alert(data.message)
-                        $.ajax({
-                            type:"POST",
-                            url:"/index",
-                            data:data.user
-                        })
+                        alert(data)
                     },
                     dataType: "json"
                 });

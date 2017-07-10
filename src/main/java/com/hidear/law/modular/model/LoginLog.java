@@ -28,7 +28,7 @@ public class LoginLog {
      * 管理员id
      */
     @Column(name="userid",nullable = false,length = 45)
-    private Long userid;
+    private Integer userid;
     /**
      * 创建时间
      */
@@ -42,7 +42,7 @@ public class LoginLog {
     /**
      * 具体消息
      */
-    @Column(name="message",nullable = false,length = 100)
+    @Column(name="message",nullable = true,length = 100)
     private String message;
     /**
      * 登录ip
@@ -70,11 +70,11 @@ public class LoginLog {
         this.logname = logname;
     }
 
-    public Long getUserid() {
+    public Integer getUserid() {
         return userid;
     }
 
-    public void setUserid(Long userid) {
+    public void setUserid(Integer userid) {
         this.userid = userid;
     }
 

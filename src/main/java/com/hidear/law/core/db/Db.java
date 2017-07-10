@@ -1,12 +1,9 @@
 package com.hidear.law.core.db;
 
 import com.hidear.law.core.util.SpringContextHolder;
-import org.springframework.data.domain.Example;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.List;
 
 /**
  * Created by Administrator on 2017/7/8.

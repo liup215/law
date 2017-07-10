@@ -10,22 +10,37 @@
 <body>
 <img src="/static/favicon.ico">
 <form action="/login" method="post">
-    <input id="username" name="phone" type="text" placeholder="请输入手机号/username">
+    <input id="phoneNumber" name="phoneNumber" type="text" placeholder="请输入手机号/username">
     <input id="password" name="password" type="password" placeholder="请输入密码">
     @if(tool.getKaptchaOnOff() == true){
     <div >
         <div >
-            <input type="text" name="kaptcha" placeholder="验证码" required="">
+            <input id="kaptcha" type="text" name="kaptcha" placeholder="验证码" required="">
         </div>
         <div class="col-sm-4" style="padding-left: 0px; padding-right: 0px;">
-            <img src="${ctxPath}/kaptcha" id="kaptcha" width="100%" height="100%"/>
+            <img src="${ctxPath}/kaptcha"  width="100%" height="100%"/>
         </div>
     </div>
     @}
-    <input id="submit" type="submit" value="登录">
+    <input id="submit" type="button" value="登录">
 </form>
 <script>
+    $("#submit").on("click",function () {
 
+        var phoneNumber = $("#phoneNumber").val();
+        var password = $("#password").val();
+        var kaptcha = $("#kaptcha").val();
+        var data = {phoneNumber:phoneNumber,password:password,kaptcha:kaptcha};
+        $.ajax({
+            type: "POST",
+            url: "${ctxPath}/login",
+            data: data,
+            success:function (data) {
+                alert(data)
+            },
+            dataType: "json"
+        });
+    })
 </script>
 
 </body>

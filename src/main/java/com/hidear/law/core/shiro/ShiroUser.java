@@ -10,27 +10,25 @@ import java.util.List;
 public class ShiroUser implements Serializable{
     private static final long serialVersionUID = 1L;
 
-    public Long id;          // 主键ID
+    public Integer id;          // 主键ID
     public String username;      // 账号
     public String nickname;         // 姓名
     public String truename;//真实姓名
     public String phone;//手机号码
     public String userType;//用户所属类型
     public String avatar;//头像地址
-    public Date lastLoginTime;//上次登录时间
+    public Long lastLoginTime;//上次登录时间
     public Double coin;//金币数
-    public List<Integer> roleList; // 角色集
-    public List<String> roleNames; // 角色名称集
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -82,11 +80,11 @@ public class ShiroUser implements Serializable{
         this.avatar = avatar;
     }
 
-    public Date getLastLoginTime() {
+    public Long getLastLoginTime() {
         return lastLoginTime;
     }
 
-    public void setLastLoginTime(Date lastLoginTime) {
+    public void setLastLoginTime(Long lastLoginTime) {
         this.lastLoginTime = lastLoginTime;
     }
 
