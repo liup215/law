@@ -27,7 +27,7 @@ public class LoginLog {
     /**
      * 管理员id
      */
-    @Column(name="userid",nullable = false,length = 45)
+    @Column(name="userid",nullable = true,length = 45)
     private Integer userid;
     /**
      * 创建时间

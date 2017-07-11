@@ -8,7 +8,7 @@ import java.util.List;
  * Created by Administrator on 2017/7/7.
  */
 public class ShiroUser implements Serializable{
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2L;
 
     public Integer id;          // 主键ID
     public String username;      // 账号

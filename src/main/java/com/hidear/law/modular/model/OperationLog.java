@@ -1,5 +1,6 @@
 package com.hidear.law.modular.model;
 
+import org.hibernate.annotations.Type;
 import org.springframework.stereotype.Controller;
 
 import javax.persistence.*;
@@ -36,12 +37,12 @@ public class OperationLog {
     /**
      * 类名称
      */
-    @Column(name = "classname",nullable = false,length = 45)
+    @Column(name = "classname",nullable = true,length = 45)
     private String classname;
     /**
      * 方法名称
      */
-    @Column(name = "method",nullable = false,length = 45)
+    @Column(name = "method",nullable = true,length = 45)
     private String method;
     /**
      * 创建时间
@@ -56,7 +57,8 @@ public class OperationLog {
     /**
      * 备注
      */
-    @Column(name = "message",nullable = false,length = 45)
+    @Type(type="text")
+    @Column(name = "message",nullable = false)
     private String message;
 
     public Integer getId() {

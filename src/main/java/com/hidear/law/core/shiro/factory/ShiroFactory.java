@@ -27,7 +27,7 @@ public class ShiroFactory implements IShiro {
 
     public static IShiro me() {
 
-        return new ShiroFactory();
+        return (SpringContextHolder.getBean(IShiro.class));
     }
 
     @Override

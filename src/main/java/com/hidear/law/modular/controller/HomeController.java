@@ -56,7 +56,7 @@ public class HomeController {
     @RequestMapping(value="/login",method = RequestMethod.GET)
     public String login(){
         if (ShiroKit.isAuthenticated() || ShiroKit.getUser() != null) {
-            return "/index.html";
+            return "redirect:/";
         } else {
             return "/login.html";
         }
@@ -91,16 +91,13 @@ public class HomeController {
         HttpKit.getRequest().getSession().setAttribute("shiroUser", shiroUser);
         HttpKit.getRequest().getSession().setAttribute("username", shiroUser.getUsername());
 
-//        User user = userRepository.findByPhoneNumber(loginTF.getPhoneNumber());
-//        if(user==null){
-//            return "查无此用户！！！";
-//        }
-//
-//        if(!user.getPassword().equals(ShiroKit.md5(loginTF.getPassword(),user.getSalt()))){
-//            return "密码输入错误！！！";
-//        }
 
         LogManager.me().executeLog(LogTaskFactory.loginLog(shiroUser.getId(), HttpKit.getIp()));
+        User user = userRepository.findByPhoneNumber(loginTF.getPhoneNumber());
+        user.setLastLoginTime((new Date()).getTime());
+        userRepository.save(user);
+
+        System.out.println(shiroUser.getPhone());
 
         ShiroKit.getSession().setAttribute("sessionFlag",true);
 

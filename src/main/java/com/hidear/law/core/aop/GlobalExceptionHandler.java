@@ -75,72 +75,15 @@ public class GlobalExceptionHandler {
      * @author fengshuonan
      */
     @ExceptionHandler(CredentialsException.class)
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ResponseBody
     public String credentials(CredentialsException e, Model model) {
-        String username = HttpKit.getRequest().getParameter("username");
-        LogManager.me().executeLog(LogTaskFactory.loginLog(username, "账号密码错误", HttpKit.getIp()));
+        String username = HttpKit.getRequest().getParameter("phoneNumber");
+        String msg = "账号密码错误";
+        LogManager.me().executeLog(LogTaskFactory.loginLog(username, msg, HttpKit.getIp()));
         model.addAttribute("tips", "账号密码错误");
-        return "/login.html";
+        return msg;
     }
 
-    /**
-     * 验证码错误
-     *
-     * @author fengshuonan
-     */
-    @ExceptionHandler(InvalidKaptchaException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public String credentials(InvalidKaptchaException e, Model model) {
-        String username = HttpKit.getRequest().getParameter("username");
-        LogManager.me().executeLog(LogTaskFactory.loginLog(username, "验证码错误", HttpKit.getIp()));
-        model.addAttribute("tips", "验证码错误");
-        return "/login.html";
-    }
-
-    /**
-     * 手机验证码错误
-     * @param e
-     * @param model
-     * @return
-     */
-    @ExceptionHandler(InvalidVarifyException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public String varifys(InvalidVarifyException e,Model model){
-        String username = HttpKit.getRequest().getParameter("username");
-        LogManager.me().executeLog(LogTaskFactory.loginLog(username, "验证码错误", HttpKit.getIp()));
-        model.addAttribute("tips", "手机验证码错误");
-        return "/register.html";
-    }
-
-    /**
-     * 两次输入密码不一致
-     * @param e
-     * @param model
-     * @return
-     */
-    @ExceptionHandler(PasswordConfirmException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public String passwordConfirm(PasswordConfirmException e,Model model){
-        String username = HttpKit.getRequest().getParameter("username");
-        LogManager.me().executeLog(LogTaskFactory.loginLog(username, "验证码错误", HttpKit.getIp()));
-        model.addAttribute("tips", "两次输入密码不一致");
-        return "/register.html";
-    }
-
-    /**
-     * 用户名已存在
-     * @param e
-     * @param model
-     * @return
-     */
-    @ExceptionHandler(UserExistException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public String userExistException(UserExistException e,Model model){
-        String username = HttpKit.getRequest().getParameter("username");
-        LogManager.me().executeLog(LogTaskFactory.loginLog(username, "验证码错误", HttpKit.getIp()));
-        model.addAttribute("tips", "用户名已存在");
-        return "/register.html";
-    }
 
     /**
      * 无权访问该资源
@@ -166,7 +109,7 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public ErrorTip notFount(RuntimeException e) {
         LogManager.me().executeLog(LogTaskFactory.exceptionLog(ShiroKit.getUser().getId(), e));
-        HttpKit.getRequest().setAttribute("tip", "服务器未知运行时异常");
+        HttpKit.getRequest().setAttribute("tip", "服务器运行时异常");
         log.error("运行时异常:", e);
         return new ErrorTip(BizExceptionEnum.SERVER_ERROR);
     }
