@@ -26,6 +26,21 @@ public class DemandTax {
     @Column(name="phone",nullable = false,length = 25)
     private String phone;
 
+    @Column(name="province",nullable = false,length = 20)
+    private String province;
+
+    @Column(name="city",nullable = false,length = 20)
+    private String city;
+
+    @Column(name="town",nullable = false,length = 20)
+    private String town;
+
+    @Column(name="county",nullable = false,length = 20)
+    private String county;
+
+    @Column(name="detail_address",nullable = false,length = 250)
+    private String detailAddress;
+
     @Column(name="scale",nullable = false,length = 75)
     private String scale;
 
@@ -35,9 +50,6 @@ public class DemandTax {
 
     @Column(name = "output",nullable = false,length = 45)
     private String output;
-
-    @Column(name = "area",nullable = false,length = 125)
-    private String area;
 
     @Column(name = "industry",nullable = false,length = 125)
     private String industry;
@@ -60,6 +72,34 @@ public class DemandTax {
 
     @Column(name="status",nullable = false,length = 2)
     private Integer status;
+
+    @Column(name="visitTime",nullable = false,length = 45)
+    private Integer visitTime;
+
+    public DemandTax() {
+    }
+
+    public DemandTax(String name, String contact, String phone, String province, String city, String town, String county, String detailAddress, String scale, String assets, String output, String industry, String caseDetail, Integer workType, Integer post, Long submitTime, Long updateTime, Integer status, Integer visitTime) {
+        this.name = name;
+        this.contact = contact;
+        this.phone = phone;
+        this.province = province;
+        this.city = city;
+        this.town = town;
+        this.county = county;
+        this.detailAddress = detailAddress;
+        this.scale = scale;
+        this.assets = assets;
+        this.output = output;
+        this.industry = industry;
+        this.caseDetail = caseDetail;
+        this.workType = workType;
+        this.post = post;
+        this.submitTime = submitTime;
+        this.updateTime = updateTime;
+        this.status = status;
+        this.visitTime = visitTime;
+    }
 
     public Integer getId() {
         return id;
@@ -93,6 +133,46 @@ public class DemandTax {
         this.phone = phone;
     }
 
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getTown() {
+        return town;
+    }
+
+    public void setTown(String town) {
+        this.town = town;
+    }
+
+    public String getCounty() {
+        return county;
+    }
+
+    public void setCounty(String county) {
+        this.county = county;
+    }
+
+    public String getDetailAddress() {
+        return detailAddress;
+    }
+
+    public void setDetailAddress(String detailAddress) {
+        this.detailAddress = detailAddress;
+    }
+
     public String getScale() {
         return scale;
     }
@@ -117,14 +197,6 @@ public class DemandTax {
         this.output = output;
     }
 
-    public String getArea() {
-        return area;
-    }
-
-    public void setArea(String area) {
-        this.area = area;
-    }
-
     public String getIndustry() {
         return industry;
     }
@@ -137,8 +209,8 @@ public class DemandTax {
         return caseDetail;
     }
 
-    public void setCaseDetail(String case_detail) {
-        this.caseDetail = case_detail;
+    public void setCaseDetail(String caseDetail) {
+        this.caseDetail = caseDetail;
     }
 
     public Integer getWorkType() {
@@ -169,8 +241,8 @@ public class DemandTax {
         return updateTime;
     }
 
-    public void setUpdateTime(Long update_time) {
-        this.updateTime = update_time;
+    public void setUpdateTime(Long updateTime) {
+        this.updateTime = updateTime;
     }
 
     public Integer getStatus() {
@@ -181,42 +253,37 @@ public class DemandTax {
         this.status = status;
     }
 
-    public DemandTax() {
+    public Integer getVisitTime() {
+        return visitTime;
     }
 
-    public DemandTax(String contant, String phone, String scale, String assets, String output, String area, String industry, String case_detail, Integer workType, Integer post, Long submitTime, Long update_time, Integer status) {
-        this.contact = contant;
-        this.phone = phone;
-        this.scale = scale;
-        this.assets = assets;
-        this.output = output;
-        this.area = area;
-        this.industry = industry;
-        this.caseDetail = case_detail;
-        this.workType = workType;
-        this.post = post;
-        this.submitTime = submitTime;
-        this.updateTime = update_time;
-        this.status = status;
+    public void setVisitTime(Integer visitTime) {
+        this.visitTime = visitTime;
     }
 
     @Override
     public String toString() {
         return "DemandTax{" +
                 "id=" + id +
+                ", name='" + name + '\'' +
                 ", contact='" + contact + '\'' +
                 ", phone='" + phone + '\'' +
+                ", province='" + province + '\'' +
+                ", city='" + city + '\'' +
+                ", town='" + town + '\'' +
+                ", county='" + county + '\'' +
+                ", detailAddress='" + detailAddress + '\'' +
                 ", scale='" + scale + '\'' +
                 ", assets='" + assets + '\'' +
                 ", output='" + output + '\'' +
-                ", area='" + area + '\'' +
                 ", industry='" + industry + '\'' +
-                ", case_detail='" + caseDetail + '\'' +
+                ", caseDetail='" + caseDetail + '\'' +
                 ", workType=" + workType +
                 ", post=" + post +
                 ", submitTime=" + submitTime +
-                ", update_time=" + updateTime +
+                ", updateTime=" + updateTime +
                 ", status=" + status +
+                ", visitTime=" + visitTime +
                 '}';
     }
 }

@@ -50,9 +50,10 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(AuthenticationException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public String unAuth(AuthenticationException e) {
+    @ResponseBody
+    public ErrorTip unAuth(AuthenticationException e) {
         log.error("用户未登陆：", e);
-        return "/login.html";
+        return new ErrorTip(BizExceptionEnum.USER_NOT_LOGIN.getCode(),BizExceptionEnum.USER_NOT_LOGIN.getMessage());
     }
 
     /**
@@ -62,11 +63,12 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(DisabledAccountException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public String accountLocked(DisabledAccountException e, Model model) {
+    @ResponseBody
+    public ErrorTip accountLocked(DisabledAccountException e) {
         String username = HttpKit.getRequest().getParameter("username");
         LogManager.me().executeLog(LogTaskFactory.loginLog(username, "账号被冻结", HttpKit.getIp()));
-        model.addAttribute("tips", "账号被冻结");
-        return "/login.html";
+
+        return new ErrorTip(BizExceptionEnum.ACCOUNT_FREEZED.getCode(),BizExceptionEnum.ACCOUNT_FREEZED.getMessage());
     }
 
     /**
@@ -76,12 +78,12 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(CredentialsException.class)
     @ResponseBody
-    public String credentials(CredentialsException e, Model model) {
+    public ErrorTip credentials(CredentialsException e, Model model) {
         String username = HttpKit.getRequest().getParameter("phoneNumber");
         String msg = "账号密码错误";
         LogManager.me().executeLog(LogTaskFactory.loginLog(username, msg, HttpKit.getIp()));
         model.addAttribute("tips", "账号密码错误");
-        return msg;
+        return new ErrorTip(BizExceptionEnum.PWD_NOT_RIGHT.getCode(),BizExceptionEnum.PWD_NOT_RIGHT.getMessage());
     }
 
 
