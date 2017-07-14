@@ -1,8 +1,6 @@
 package com.hidear.law.core.shiro;
 
 import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
 
 /**
  * Created by Administrator on 2017/7/7.
@@ -14,11 +12,29 @@ public class ShiroUser implements Serializable{
     public String username;      // 账号
     public String nickname;         // 姓名
     public String truename;//真实姓名
-    public String phone;//手机号码
+    public String phoneNumber;//手机号码
+    public String password;
     public String userType;//用户所属类型
     public String avatar;//头像地址
     public Long lastLoginTime;//上次登录时间
     public Double coin;//金币数
+    public String salt;
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
+    }
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
@@ -56,12 +72,12 @@ public class ShiroUser implements Serializable{
         this.truename = truename;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public String getUserType() {
@@ -96,4 +112,20 @@ public class ShiroUser implements Serializable{
         this.coin = coin;
     }
 
+    @Override
+    public String toString() {
+        return "ShiroUser{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", nickname='" + nickname + '\'' +
+                ", truename='" + truename + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", password='" + password + '\'' +
+                ", userType='" + userType + '\'' +
+                ", avatar='" + avatar + '\'' +
+                ", lastLoginTime=" + lastLoginTime +
+                ", coin=" + coin +
+                ", salt='" + salt + '\'' +
+                '}';
+    }
 }

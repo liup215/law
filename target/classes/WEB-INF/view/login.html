@@ -36,7 +36,7 @@
             url: "${ctxPath}/login",
             data: data,
             success:function (data) {
-                alert(data)
+                alert(data.message)
                 window.location.replace("/");
             },
             dataType: "json"

@@ -9,7 +9,7 @@
     <form>
         <input id="name" type="text" placeholder="请输入项目名称">
         <input id="contact" type="text" placeholder="请输入联系人">
-        <input id="phone" type="text" placeholder="请输入联系电话">
+        <input id="phoneNumber" type="text" placeholder="请输入联系电话">
         <input id="scale" type="text" placeholder="请输入企业规模">
         <input id="assets" type="text" placeholder="请输入企业产值（万元）">
         <input id="output" type="text" placeholder="请输入企业产量（万元）">
@@ -27,7 +27,7 @@
                 alert("提交请求开始！！！")
                 var name = $("#name").val();
                 var contact=$("#contact").val();
-                var phone = $("#phone").val();
+                var phoneNumber = $("#phoneNumber").val();
                 var scale = $("#scale").val();
                 var assets = $("#assets").val();
                 var output=$("#output").val();
@@ -40,7 +40,7 @@
                 var data = {
                     name:name,
                     contact:contact,
-                    phone:phone,
+                    phoneNumber:phoneNumber,
                     scale:scale,
                     assets:assets,
                     output:output,

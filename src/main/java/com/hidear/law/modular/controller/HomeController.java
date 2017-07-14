@@ -2,32 +2,36 @@ package com.hidear.law.modular.controller;
 
 import com.google.code.kaptcha.Constants;
 import com.hidear.law.common.constant.status.UserStatus;
+import com.hidear.law.common.constant.tip.ErrorTip;
+import com.hidear.law.common.constant.tip.SuccessTip;
+import com.hidear.law.common.constant.tip.Tip;
 import com.hidear.law.common.exception.InvalidKaptchaException;
 import com.hidear.law.core.log.LogManager;
 import com.hidear.law.core.log.factory.LogTaskFactory;
 import com.hidear.law.core.shiro.ShiroKit;
 import com.hidear.law.core.shiro.ShiroUser;
-import com.hidear.law.core.shiro.factory.ShiroFactory;
 import com.hidear.law.core.support.HttpKit;
 import com.hidear.law.core.util.ToolUtil;
 import com.hidear.law.modular.dao.UserRepository;
 import com.hidear.law.modular.model.User;
-import com.hidear.law.modular.service.IUserService;
 import com.hidear.law.modular.transfer.LoginTF;
 import com.hidear.law.modular.transfer.RegisterTF;
+import com.hidear.law.modular.transfer.Test;
+import com.hidear.law.modular.transfer.Test1;
+import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -38,9 +42,6 @@ public class HomeController {
 
     @Autowired
     UserRepository userRepository;
-
-    @Autowired
-    IUserService userService;
 
     @RequestMapping(value="/",method = RequestMethod.GET)
     public String index(){
@@ -64,11 +65,11 @@ public class HomeController {
 
     @RequestMapping(value = "/login",method = RequestMethod.POST)
     @ResponseBody
-    public String login(@Valid LoginTF loginTF,BindingResult result){
+    public Tip login(@Valid LoginTF loginTF, BindingResult result){
         if(result.hasErrors()){
             List<ObjectError>  errors = result.getAllErrors();
             for(ObjectError error : errors){
-                return error.getDefaultMessage();
+                return new ErrorTip(400,error.getDefaultMessage());
             }
         }
 
@@ -77,7 +78,7 @@ public class HomeController {
             String kaptcha = loginTF.getKaptcha();
             String code = (String) HttpKit.getRequest().getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY);
             if(ToolUtil.isEmpty(kaptcha) || !kaptcha.equals(code)){
-                return "验证码输入错误！！！";
+                throw new InvalidKaptchaException();
             }
         }
 
@@ -86,10 +87,9 @@ public class HomeController {
         token.setRememberMe(true);
 
         currentUser.login(token);
-
         ShiroUser shiroUser = ShiroKit.getUser();
         HttpKit.getRequest().getSession().setAttribute("shiroUser", shiroUser);
-        HttpKit.getRequest().getSession().setAttribute("username", shiroUser.getUsername());
+        HttpKit.getRequest().getSession().setAttribute("phone", shiroUser.getPhoneNumber());
 
 
         LogManager.me().executeLog(LogTaskFactory.loginLog(shiroUser.getId(), HttpKit.getIp()));
@@ -97,11 +97,9 @@ public class HomeController {
         user.setLastLoginTime((new Date()).getTime());
         userRepository.save(user);
 
-        System.out.println(shiroUser.getPhone());
-
         ShiroKit.getSession().setAttribute("sessionFlag",true);
 
-        return "登录成功！！！";
+        return new SuccessTip();
 
     }
 
@@ -152,9 +150,7 @@ public class HomeController {
 //
 //        }while (userRepository.findByUsername(username)==null);
         //完善账号信息
-        user.setUsername(registerTF.getPhoneNumber());
-
-        user.setPhoneNumber(registerTF.getPhoneNumber());
+        BeanUtils.copyProperties(registerTF,user);
         user.setCoin(0.00);
         user.setSalt(ShiroKit.getRandomSalt(5));
         user.setPassword(ShiroKit.md5(registerTF.getPassword(),user.getSalt()));
@@ -164,5 +160,13 @@ public class HomeController {
         userRepository.save(user);
 
        return "注册成功！！！";
+    }
+
+    @RequestMapping(value = "/test",method = RequestMethod.POST)
+    @ResponseBody
+    public String test(@RequestBody Test b){
+        System.out.println(b.toString());
+
+        return "succeed!!!";
     }
 }

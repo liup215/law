@@ -22,7 +22,7 @@ public class DemandLaw {
     @Column(name="contact",nullable = false,length = 45)
     private String contact;
 
-    @Column(name="phone",nullable = false,length = 25)
+    @Column(name="phoneNumber",nullable = false,length = 25)
     private String phone;
 
     @Column(name="province",nullable = false,length = 20)
@@ -241,7 +241,7 @@ public class DemandLaw {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", contact='" + contact + '\'' +
-                ", phone='" + phone + '\'' +
+                ", phoneNumber='" + phone + '\'' +
                 ", province='" + province + '\'' +
                 ", city='" + city + '\'' +
                 ", town='" + town + '\'' +

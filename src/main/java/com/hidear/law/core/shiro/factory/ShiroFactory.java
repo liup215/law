@@ -10,7 +10,7 @@ import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.apache.shiro.util.ByteSource;
-import org.apache.shiro.util.Factory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Service;
@@ -31,10 +31,9 @@ public class ShiroFactory implements IShiro {
     }
 
     @Override
-    public User user(String username) {
+    public User user(String phone) {
 
-        User user = userRepository.findByUsername(username);
-
+        User user = userRepository.findByPhoneNumber(phone);
         // 账号不存在
         if (null == user) {
             throw new CredentialsException();
@@ -50,10 +49,7 @@ public class ShiroFactory implements IShiro {
     public ShiroUser shiroUser(User user) {
         ShiroUser shiroUser = new ShiroUser();
 
-        shiroUser.setId(user.getId());            // 账号id
-        shiroUser.setUsername(user.getUsername());// 账号
-
-
+        BeanUtils.copyProperties(user,shiroUser);
         return shiroUser;
     }
 

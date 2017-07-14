@@ -50,7 +50,14 @@ public enum BizExceptionEnum {
 	 */
 	REQUEST_NULL(400, "请求有错误"),
 	SESSION_TIMEOUT(400, "会话超时"),
-	SERVER_ERROR(500, "服务器异常");
+	SERVER_ERROR(500, "服务器异常"),
+
+	/**获取用户信息异常
+	 *
+	 * @param code
+	 * @param message
+	 */
+	NO_USERID_PARAM(400,"缺少用户ID");
 
 	BizExceptionEnum(int code, String message) {
 		this.friendlyCode = code;

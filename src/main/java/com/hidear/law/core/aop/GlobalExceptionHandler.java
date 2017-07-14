@@ -78,11 +78,10 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(CredentialsException.class)
     @ResponseBody
-    public ErrorTip credentials(CredentialsException e, Model model) {
+    public ErrorTip credentials(CredentialsException e) {
         String username = HttpKit.getRequest().getParameter("phoneNumber");
         String msg = "账号密码错误";
         LogManager.me().executeLog(LogTaskFactory.loginLog(username, msg, HttpKit.getIp()));
-        model.addAttribute("tips", "账号密码错误");
         return new ErrorTip(BizExceptionEnum.PWD_NOT_RIGHT.getCode(),BizExceptionEnum.PWD_NOT_RIGHT.getMessage());
     }
 
@@ -114,6 +113,14 @@ public class GlobalExceptionHandler {
         HttpKit.getRequest().setAttribute("tip", "服务器运行时异常");
         log.error("运行时异常:", e);
         return new ErrorTip(BizExceptionEnum.SERVER_ERROR);
+    }
+
+    @ExceptionHandler(InvalidKaptchaException.class)
+    @ResponseBody
+    public ErrorTip invalidKaptcha(InvalidKaptchaException e){
+//        LogManager.me().executeLog(LogTaskFactory.exceptionLog(ShiroKit.getUser().getId(), e));
+        return new ErrorTip(BizExceptionEnum.INVALID_KAPTCHA.getCode(),BizExceptionEnum.INVALID_KAPTCHA.getMessage());
+
     }
 
     /**

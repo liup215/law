@@ -8,6 +8,27 @@
 </head>
 <body>
     这里是首页！！！
-    <a href="/logout">退出</a>
+
+    <button id = "test" >测试</button>
+
+<script>
+    $(function () {
+        $("#test").on("click",function () {
+            $.ajax({
+                type: "POST",
+                url: "${ctxPath}/test",
+                contentType:"application/json;charset=utf-8",
+                data: {a:1,b:{
+                    bb:2,
+                    cc:3
+                }},
+                success:function (data) {
+                    alert(data)
+                },
+                dataType: "json"
+            })
+        })
+    })
+</script>
 </body>
 </html>
