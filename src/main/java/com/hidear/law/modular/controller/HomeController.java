@@ -16,9 +16,6 @@ import com.hidear.law.modular.dao.UserRepository;
 import com.hidear.law.modular.model.User;
 import com.hidear.law.modular.transfer.LoginTF;
 import com.hidear.law.modular.transfer.RegisterTF;
-import com.hidear.law.modular.transfer.Test;
-import com.hidear.law.modular.transfer.Test1;
-import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.BeanUtils;
@@ -31,7 +28,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 
 /**
@@ -51,7 +47,7 @@ public class HomeController {
 
     @RequestMapping(value="/index",method=RequestMethod.GET)
     public String home(){
-        return "/index.html";
+        return "index.html";
     }
 
     @RequestMapping(value="/login",method = RequestMethod.GET)
@@ -144,11 +140,6 @@ public class HomeController {
 
 
         User user = new User();
-//        String username = null;
-//        do {
-//            username = "lw_"+ShiroKit.getRandomSalt(8);
-//
-//        }while (userRepository.findByUsername(username)==null);
         //完善账号信息
         BeanUtils.copyProperties(registerTF,user);
         user.setCoin(0.00);
@@ -162,11 +153,4 @@ public class HomeController {
        return "注册成功！！！";
     }
 
-    @RequestMapping(value = "/test",method = RequestMethod.POST)
-    @ResponseBody
-    public String test(@RequestBody Test b){
-        System.out.println(b.toString());
-
-        return "succeed!!!";
-    }
 }

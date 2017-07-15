@@ -7,6 +7,7 @@ import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter4;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.math.BigDecimal;
 import java.nio.charset.Charset;
 
 /**
@@ -32,6 +33,9 @@ public class FastjsonConfig {
             public Object process(Object o, String s, Object o1) {
                 if (null == o1) {
                     o1 = "";
+                }
+                if(o1 instanceof BigDecimal || o1 instanceof Double || o1 instanceof Long){
+                    return o1.toString();
                 }
                 return o1;
             }

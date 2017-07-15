@@ -1,12 +1,12 @@
 package com.hidear.law.modular.controller;
 
-import com.alibaba.druid.support.spring.stat.SpringStatUtils;
 import com.hidear.law.common.constant.tip.SuccessTip;
 import com.hidear.law.common.constant.tip.Tip;
 import com.hidear.law.common.exception.BizExceptionEnum;
 import com.hidear.law.common.exception.BussinessException;
 import com.hidear.law.modular.dao.DemandTaxRepository;
 import com.hidear.law.modular.model.DemandTax;
+import com.hidear.law.modular.service.IDemandService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,8 +28,12 @@ public class DemandTaxController {
 
     public static final String BasePath="/demand/tax";
 
+
     @Autowired
     DemandTaxRepository demandTaxRepository;
+
+    @Autowired
+    IDemandService taxDemandServiceImpl;
 
     @RequestMapping(value = "",method = RequestMethod.GET)
     public String taxIndex(){
@@ -37,10 +41,9 @@ public class DemandTaxController {
     }
 
     @RequestMapping(value = "/list",method = RequestMethod.GET)
-    @ResponseBody
-    public List<DemandTax> list(){
-        List<DemandTax> list = demandTaxRepository.findAll();
-
+    public @ResponseBody List<DemandTax> list(){
+        List<DemandTax> list = null;
+        list = taxDemandServiceImpl.findDemandBySearch(null);
         return list;
     }
 
@@ -57,10 +60,15 @@ public class DemandTaxController {
         }
         DemandTax tax = new DemandTax();
         BeanUtils.copyProperties(newTax,tax);
+        tax.setProvince("重庆市");
+        tax.setCity("市");
+        tax.setTown("沙坪坝区");
+        tax.setCounty("小龙坎街道");
+        tax.setDetailAddress("---------------");
         tax.setStatus(1);
         tax.setSubmitTime((new Date().getTime()));
         tax.setUpdateTime((new Date().getTime()));
-
+        tax.setVisitCount(0);
         demandTaxRepository.save(tax);
 
         return new SuccessTip();

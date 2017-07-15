@@ -24,7 +24,7 @@ public class DemandTax {
     private String contact;
 
     @Column(name="phoneNumber",nullable = false,length = 25)
-    private String phone;
+    private String phoneNumber;
 
     @Column(name="province",nullable = false,length = 20)
     private String province;
@@ -42,14 +42,14 @@ public class DemandTax {
     private String detailAddress;
 
     @Column(name="scale",nullable = false,length = 75)
-    private String scale;
+    private Integer scale;
 
     @Column(name = "assets",nullable = false,length = 45)
-    private String assets;
+    private Double assets;
 
 
     @Column(name = "output",nullable = false,length = 45)
-    private String output;
+    private Double output;
 
     @Column(name = "industry",nullable = false,length = 125)
     private String industry;
@@ -73,16 +73,16 @@ public class DemandTax {
     @Column(name="status",nullable = false,length = 2)
     private Integer status;
 
-    @Column(name="visitTime",nullable = false,length = 45)
-    private Integer visitTime;
+    @Column(name="visitCount",nullable = false,length = 45)
+    private Integer visitCount;
 
     public DemandTax() {
     }
 
-    public DemandTax(String name, String contact, String phone, String province, String city, String town, String county, String detailAddress, String scale, String assets, String output, String industry, String caseDetail, Integer workType, Integer post, Long submitTime, Long updateTime, Integer status, Integer visitTime) {
+    public DemandTax(String name, String contact, String phoneNumber, String province, String city, String town, String county, String detailAddress, Integer scale, Double assets, Double output, String industry, String caseDetail, Integer workType, Integer post, Long submitTime, Long updateTime, Integer status, Integer visitCount) {
         this.name = name;
         this.contact = contact;
-        this.phone = phone;
+        this.phoneNumber = phoneNumber;
         this.province = province;
         this.city = city;
         this.town = town;
@@ -98,7 +98,7 @@ public class DemandTax {
         this.submitTime = submitTime;
         this.updateTime = updateTime;
         this.status = status;
-        this.visitTime = visitTime;
+        this.visitCount = visitCount;
     }
 
     public Integer getId() {
@@ -125,12 +125,12 @@ public class DemandTax {
         this.contact = contact;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public String getProvince() {
@@ -173,27 +173,27 @@ public class DemandTax {
         this.detailAddress = detailAddress;
     }
 
-    public String getScale() {
+    public Integer getScale() {
         return scale;
     }
 
-    public void setScale(String scale) {
+    public void setScale(Integer scale) {
         this.scale = scale;
     }
 
-    public String getAssets() {
+    public Double getAssets() {
         return assets;
     }
 
-    public void setAssets(String assets) {
+    public void setAssets(Double assets) {
         this.assets = assets;
     }
 
-    public String getOutput() {
+    public Double getOutput() {
         return output;
     }
 
-    public void setOutput(String output) {
+    public void setOutput(Double output) {
         this.output = output;
     }
 
@@ -253,12 +253,12 @@ public class DemandTax {
         this.status = status;
     }
 
-    public Integer getVisitTime() {
-        return visitTime;
+    public Integer getVisitCount() {
+        return visitCount;
     }
 
-    public void setVisitTime(Integer visitTime) {
-        this.visitTime = visitTime;
+    public void setVisitCount(Integer visitCount) {
+        this.visitCount = visitCount;
     }
 
     @Override
@@ -267,7 +267,7 @@ public class DemandTax {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", contact='" + contact + '\'' +
-                ", phoneNumber='" + phone + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
                 ", province='" + province + '\'' +
                 ", city='" + city + '\'' +
                 ", town='" + town + '\'' +
@@ -283,7 +283,7 @@ public class DemandTax {
                 ", submitTime=" + submitTime +
                 ", updateTime=" + updateTime +
                 ", status=" + status +
-                ", visitTime=" + visitTime +
+                ", visitCount=" + visitCount +
                 '}';
     }
 }
