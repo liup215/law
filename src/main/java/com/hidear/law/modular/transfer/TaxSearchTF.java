@@ -183,4 +183,29 @@ public class TaxSearchTF {
     public void setStatus(Integer status) {
         this.status = status;
     }
+
+    @Override
+    public String toString() {
+        return "TaxSearchTF{" +
+                "pageNumber=" + pageNumber +
+                ", pageSize=" + pageSize +
+                ", sortColumn='" + sortColumn + '\'' +
+                ", sortType='" + sortType + '\'' +
+                ", province='" + province + '\'' +
+                ", city='" + city + '\'' +
+                ", town='" + town + '\'' +
+                ", county='" + county + '\'' +
+                ", scaleMin=" + scaleMin +
+                ", scaleMax=" + scaleMax +
+                ", assetsMin=" + assetsMin +
+                ", assetsMax=" + assetsMax +
+                ", outputMin=" + outputMin +
+                ", outputMax=" + outputMax +
+                ", workType=" + workType +
+                ", post=" + post +
+                ", updateTimeMin=" + updateTimeMin +
+                ", updateTimeMax=" + updateTimeMax +
+                ", status=" + status +
+                '}';
+    }
 }

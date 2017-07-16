@@ -142,6 +142,7 @@ public class HomeController {
         User user = new User();
         //完善账号信息
         BeanUtils.copyProperties(registerTF,user);
+        user.setUsername(registerTF.getPhoneNumber());
         user.setCoin(0.00);
         user.setSalt(ShiroKit.getRandomSalt(5));
         user.setPassword(ShiroKit.md5(registerTF.getPassword(),user.getSalt()));

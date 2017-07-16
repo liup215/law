@@ -53,7 +53,7 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public ErrorTip unAuth(AuthenticationException e) {
         log.error("用户未登陆：", e);
-        return new ErrorTip(BizExceptionEnum.USER_NOT_LOGIN.getCode(),BizExceptionEnum.USER_NOT_LOGIN.getMessage());
+        return new ErrorTip(BizExceptionEnum.USER_NOT_LOGIN);
     }
 
     /**
@@ -68,7 +68,7 @@ public class GlobalExceptionHandler {
         String username = HttpKit.getRequest().getParameter("username");
         LogManager.me().executeLog(LogTaskFactory.loginLog(username, "账号被冻结", HttpKit.getIp()));
 
-        return new ErrorTip(BizExceptionEnum.ACCOUNT_FREEZED.getCode(),BizExceptionEnum.ACCOUNT_FREEZED.getMessage());
+        return new ErrorTip(BizExceptionEnum.ACCOUNT_FREEZED);
     }
 
     /**
@@ -82,9 +82,17 @@ public class GlobalExceptionHandler {
         String username = HttpKit.getRequest().getParameter("phoneNumber");
         String msg = "账号密码错误";
         LogManager.me().executeLog(LogTaskFactory.loginLog(username, msg, HttpKit.getIp()));
-        return new ErrorTip(BizExceptionEnum.PWD_NOT_RIGHT.getCode(),BizExceptionEnum.PWD_NOT_RIGHT.getMessage());
+        return new ErrorTip(BizExceptionEnum.PWD_NOT_RIGHT);
     }
 
+    @ExceptionHandler(NumberFormatException.class)
+    @ResponseBody
+    public ErrorTip numberFormatException(NumberFormatException e){
+        String username = HttpKit.getRequest().getParameter("phoneNumber");
+        String msg = "数字格式错误";
+        LogManager.me().executeLog(LogTaskFactory.loginLog(username, msg, HttpKit.getIp()));
+        return new ErrorTip(BizExceptionEnum.NUMBER_FORMAT_ERROR);
+    }
 
     /**
      * 无权访问该资源

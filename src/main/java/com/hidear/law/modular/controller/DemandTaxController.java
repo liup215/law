@@ -7,6 +7,7 @@ import com.hidear.law.common.exception.BussinessException;
 import com.hidear.law.modular.dao.DemandTaxRepository;
 import com.hidear.law.modular.model.DemandTax;
 import com.hidear.law.modular.service.IDemandService;
+import com.hidear.law.modular.transfer.TaxSearchTF;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,8 +27,7 @@ import java.util.List;
 @RequestMapping("/demand/tax")
 public class DemandTaxController {
 
-    public static final String BasePath="/demand/tax";
-
+    public static final String BASE_PATH ="/demand/tax";
 
     @Autowired
     DemandTaxRepository demandTaxRepository;
@@ -37,19 +37,33 @@ public class DemandTaxController {
 
     @RequestMapping(value = "",method = RequestMethod.GET)
     public String taxIndex(){
-        return BasePath+"/tax.html";
+        return BASE_PATH +"/tax.html";
     }
 
     @RequestMapping(value = "/list",method = RequestMethod.GET)
     public @ResponseBody List<DemandTax> list(){
         List<DemandTax> list = null;
-        list = taxDemandServiceImpl.findDemandBySearch(null);
+        list = demandTaxRepository.findAll();
+        return list;
+    }
+
+    @RequestMapping(value = "/find",method = RequestMethod.GET)
+    public @ResponseBody List<DemandTax> list(TaxSearchTF taxSearchTF){
+        List<DemandTax> list = null;
+
+        if(taxSearchTF==null){
+            list = demandTaxRepository.findAll();
+            return list;
+        }
+        System.out.println(taxSearchTF.toString());
+        System.out.println(taxDemandServiceImpl);
+        list = taxDemandServiceImpl.findDemandBySearch(taxSearchTF);
         return list;
     }
 
     @RequestMapping(value = "/add",method = RequestMethod.GET)
     public String taxAdd(){
-        return BasePath+"/tax_add.html";
+        return BASE_PATH +"/tax_add.html";
     }
 
     @RequestMapping(value = "/add",method = RequestMethod.POST)
@@ -60,11 +74,6 @@ public class DemandTaxController {
         }
         DemandTax tax = new DemandTax();
         BeanUtils.copyProperties(newTax,tax);
-        tax.setProvince("重庆市");
-        tax.setCity("市");
-        tax.setTown("沙坪坝区");
-        tax.setCounty("小龙坎街道");
-        tax.setDetailAddress("---------------");
         tax.setStatus(1);
         tax.setSubmitTime((new Date().getTime()));
         tax.setUpdateTime((new Date().getTime()));
@@ -76,23 +85,25 @@ public class DemandTaxController {
 
     @RequestMapping(value = "/delete",method = RequestMethod.POST)
     @ResponseBody
-    public Tip taxDelet(@RequestParam(required = false) Integer taxId){
-        if(taxId==null){
-            throw new BussinessException(BizExceptionEnum.REQUEST_NULL);
-        }
+    public Tip taxDelet(@RequestParam(name = "id") Integer taxId){
+//        if(taxId==null){
+//            return new ErrorTip(400,"请求参数错误");
+//        }
 
         DemandTax tax = demandTaxRepository.findOne(taxId);
+        if(tax==null){
+            throw new BussinessException(BizExceptionEnum.DB_RESOURCE_NULL);
+        }
+
         tax.setStatus(0);
         demandTaxRepository.save(tax);
         return new SuccessTip();
     }
 
     @RequestMapping(value = "/update",method = RequestMethod.GET)
-    public String taxUpdate(Integer taxId){
-        if(taxId==null){
-            throw new BussinessException(BizExceptionEnum.REQUEST_NULL);
-        }
-        return BasePath+"/tax_update.html";
+    public String taxUpdate(){
+
+        return BASE_PATH +"/tax_update.html";
     }
 
     @RequestMapping(value="/update",method = RequestMethod.POST)
@@ -102,10 +113,49 @@ public class DemandTaxController {
             throw new BussinessException(BizExceptionEnum.REQUEST_NULL);
         }
         DemandTax tax = demandTaxRepository.findOne(newTax.getId());
-        BeanUtils.copyProperties(newTax,tax);
+        if(newTax.getName()!=null && !newTax.getName().equals("")){
+            tax.setName(newTax.getName());
+        }
+
+        if(newTax.getContact()!=null && !newTax.getContact().equals("")){
+            tax.setContact(newTax.getContact());
+        }
+        if(newTax.getPhoneNumber()!=null && !newTax.getPhoneNumber().equals("")){
+            tax.setName(newTax.getName());
+        }
+        if(newTax.getScale()!=null && !newTax.getScale().equals("")){
+            tax.setScale(newTax.getScale());
+        }
+        if(newTax.getAssets()!=null && !newTax.getAssets().equals("")){
+            tax.setAssets(newTax.getAssets());
+        }
+        if(newTax.getOutput()!=null && !newTax.getOutput().equals("")){
+            tax.setOutput(newTax.getOutput());
+        }
+        if(newTax.getWorkSpace()!=null && !newTax.getWorkSpace().equals("")){
+            tax.setWorkSpace(newTax.getWorkSpace());
+        }
+        if(newTax.getIndustry()!=null && !newTax.getIndustry().equals("")){
+            tax.setIndustry(newTax.getIndustry());
+        }
+        if(newTax.getCaseDetail()!=null && !newTax.getCaseDetail().equals("")){
+            tax.setCaseDetail(newTax.getCaseDetail());
+        }
+        if(newTax.getWorkType()!=null){
+            tax.setContactAddress(newTax.getContactAddress());
+        }
+        if(newTax.getPost()!=null){
+            tax.setPost(newTax.getPost());
+        }
         tax.setUpdateTime((new Date()).getTime());
+
 
         demandTaxRepository.save(tax);
         return new SuccessTip();
+    }
+
+    @RequestMapping(value="/search",method = RequestMethod.GET)
+    public String search(){
+        return BASE_PATH+"/tax_search.html";
     }
 }

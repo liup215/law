@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <link rel="shortcut icon" href="${ctxPath}/static/favicon.ico">
+    <script type="application/javascript" src="${ctxPath}/static/js/jquery.min.js?v=2.1.4"></script>
+</head>
+<body>
+需求首页
+<form>
+    <input id="pageNumber" type="text" placeholder="请输入页码">
+    <input id="pageSize" type="text" placeholder="请输入每页条数">
+    <select id="sortColumn">
+        <option value ="scale">规模</option>
+        <option value ="assets">产值</option>
+        <option value ="output">产量</option>
+        <option value ="updateTime">更新时间</option>
+    </select>
+    <select id="sortType">
+        <option value ="ASC">升序</option>
+        <option value ="DESC">降序</option>
+    </select>
+    <input id="scaleMin" type="text" placeholder="最小规模">
+    <input id="scaleMax" type="text" placeholder="最大规模（万元）">
+    <input id="assetsMin" type="text" placeholder="最小产值">
+    <input id="assetsMax" type="text" placeholder="最大产值">
+    <input id="outputMin" type="text" placeholder="最小产量">
+    <input id="outputMax" type="text" placeholder="最大产量">
+    <input id="workType" type="text" placeholder="请输入工作类型">
+    <input id="post" type="text" placeholder="请输入工作岗位">
+    <input id="updateTimeMin" type="text" placeholder="最早时间">
+    <input id="updateTimeMax" type="text" placeholder="最晚时间">
+
+    <input id="submit" type="button" value="提交">
+    <div >
+        <ul id="case_list">
+        </ul>
+    </div>
+</form>
+<script type="text/javascript">
+    $(function () {
+        $("#submit").on("click",function () {
+            var pageNumber = $("#pageNumber").val();
+            var pageSize = $("#pageSize").val();
+            var sortColumn = $("#sortColumn").val();
+            var sortType = $("#sortType").val();
+            var scaleMin = $("#scaleMin").val();
+            var scaleMax = $("#scaleMax").val();
+            var assetsMin = $("#assetsMin").val();
+            var assetsMax = $("#assetsMax").val();
+            var outputMin = $("#outputMin").val();
+            var outputMax = $("#outputMax").val();
+            var updateTimeMin = $("#updateTimeMin").val();
+            var updateTimeMax = $("#updateTimeMax").val();
+            var workType = $("#workType").val();
+            var post = $("#post").val();
+
+            var data = {
+                pageNumber:pageNumber,
+                pageSize:pageSize,
+                sortColumn:sortColumn,
+                sortType:sortType,
+                scaleMin:scaleMin,
+                scaleMax:scaleMax,
+                assetsMin:assetsMin,
+                assetsMax:assetsMax,
+                outputMin:outputMin,
+                outputMax:outputMax,
+                updateTimeMin:updateTimeMin,
+                updateTimeMax:updateTimeMax,
+                workType:workType,
+                post:post
+
+            }
+            $.ajax({
+                type: "GET",
+                url: "/demand/tax/find",
+                data:data,
+                success:function (data) {
+                    $("#case_list").empty();
+                    $.each(data,function (index,value) {
+                        $("#case_list").append("<li>"+value.name+"</li>")
+                    })
+
+                },
+                dataType: "json"
+            })
+        })
+
+    })
+</script>
+</body>
+</html>

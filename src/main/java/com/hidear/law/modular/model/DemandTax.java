@@ -9,7 +9,7 @@ import javax.persistence.*;
  */
 
 @Entity
-@Table(name="lw_case_tax")
+@Table(name="lw_demand_tax")
 public class DemandTax {
 
     @Id
@@ -26,20 +26,11 @@ public class DemandTax {
     @Column(name="phoneNumber",nullable = false,length = 25)
     private String phoneNumber;
 
-    @Column(name="province",nullable = false,length = 20)
-    private String province;
+    @Column(name="contactAddress",nullable = false,length = 250)
+    private String contactAddress;
 
-    @Column(name="city",nullable = false,length = 20)
-    private String city;
-
-    @Column(name="town",nullable = false,length = 20)
-    private String town;
-
-    @Column(name="county",nullable = false,length = 20)
-    private String county;
-
-    @Column(name="detail_address",nullable = false,length = 250)
-    private String detailAddress;
+    @Column(name="workSpace",nullable = false,length = 250)
+    private String workSpace;
 
     @Column(name="scale",nullable = false,length = 75)
     private Integer scale;
@@ -79,15 +70,12 @@ public class DemandTax {
     public DemandTax() {
     }
 
-    public DemandTax(String name, String contact, String phoneNumber, String province, String city, String town, String county, String detailAddress, Integer scale, Double assets, Double output, String industry, String caseDetail, Integer workType, Integer post, Long submitTime, Long updateTime, Integer status, Integer visitCount) {
+    public DemandTax(String name, String contact, String phoneNumber, String contactAddress, String workSpace, Integer scale, Double assets, Double output, String industry, String caseDetail, Integer workType, Integer post, Long submitTime, Long updateTime, Integer status, Integer visitCount) {
         this.name = name;
         this.contact = contact;
         this.phoneNumber = phoneNumber;
-        this.province = province;
-        this.city = city;
-        this.town = town;
-        this.county = county;
-        this.detailAddress = detailAddress;
+        this.contactAddress = contactAddress;
+        this.workSpace = workSpace;
         this.scale = scale;
         this.assets = assets;
         this.output = output;
@@ -133,44 +121,20 @@ public class DemandTax {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getProvince() {
-        return province;
+    public String getContactAddress() {
+        return contactAddress;
     }
 
-    public void setProvince(String province) {
-        this.province = province;
+    public void setContactAddress(String contactAddress) {
+        this.contactAddress = contactAddress;
     }
 
-    public String getCity() {
-        return city;
+    public String getWorkSpace() {
+        return workSpace;
     }
 
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getTown() {
-        return town;
-    }
-
-    public void setTown(String town) {
-        this.town = town;
-    }
-
-    public String getCounty() {
-        return county;
-    }
-
-    public void setCounty(String county) {
-        this.county = county;
-    }
-
-    public String getDetailAddress() {
-        return detailAddress;
-    }
-
-    public void setDetailAddress(String detailAddress) {
-        this.detailAddress = detailAddress;
+    public void setWorkSpace(String workSpace) {
+        this.workSpace = workSpace;
     }
 
     public Integer getScale() {
@@ -268,14 +232,11 @@ public class DemandTax {
                 ", name='" + name + '\'' +
                 ", contact='" + contact + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
-                ", province='" + province + '\'' +
-                ", city='" + city + '\'' +
-                ", town='" + town + '\'' +
-                ", county='" + county + '\'' +
-                ", detailAddress='" + detailAddress + '\'' +
-                ", scale='" + scale + '\'' +
-                ", assets='" + assets + '\'' +
-                ", output='" + output + '\'' +
+                ", contactAddress='" + contactAddress + '\'' +
+                ", workSpace='" + workSpace + '\'' +
+                ", scale=" + scale +
+                ", assets=" + assets +
+                ", output=" + output +
                 ", industry='" + industry + '\'' +
                 ", caseDetail='" + caseDetail + '\'' +
                 ", workType=" + workType +

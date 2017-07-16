@@ -31,13 +31,8 @@ public class TaxDemandServiceImpl implements IDemandService<DemandTax,TaxSearchT
     public List<DemandTax> findDemandBySearch(TaxSearchTF taxSearchTF) {
         List<DemandTax> list = null;
 
-        if(taxSearchTF==null){
-            list = demandTaxRepository.findAll();
-            return list;
-        }
-
         Sort sort = new Sort(Sort.Direction.fromStringOrNull(taxSearchTF.getSortType()),taxSearchTF.getSortColumn());
-        Pageable page = new PageRequest(taxSearchTF.getPageNumber()-1,taxSearchTF.getPageSize(),sort);
+        Pageable page = new PageRequest(taxSearchTF.getPageNumber()!=null? (taxSearchTF.getPageNumber()-1):0,taxSearchTF.getPageSize()!=null?taxSearchTF.getPageSize():25,sort);
 
         list = demandTaxRepository.findAll(getSpec(taxSearchTF),page).getContent();
         return list;
@@ -53,70 +48,128 @@ public class TaxDemandServiceImpl implements IDemandService<DemandTax,TaxSearchT
                     Predicate px = criteriaBuilder.equal(root.get("province"),taxSearchTF.getProvince());
                     if(p!=null){
                         p = criteriaBuilder.and(p,px);
+                    }else{
+                        p = px;
                     }
                 }
                 if (taxSearchTF.getCity()!=null){
                     Predicate px = criteriaBuilder.equal(root.get("city"),taxSearchTF.getCity());
                     if(p!=null){
                         p = criteriaBuilder.and(p,px);
+                    }else{
+                        p = px;
                     }
                 }
                 if (taxSearchTF.getTown()!=null){
                     Predicate px = criteriaBuilder.equal(root.get("town"),taxSearchTF.getTown());
                     if(p!=null){
                         p = criteriaBuilder.and(p,px);
+                    }else{
+                        p = px;
                     }
                 }
                 if (taxSearchTF.getCounty()!=null){
                     Predicate px = criteriaBuilder.equal(root.get("county"),taxSearchTF.getCounty());
                     if(p!=null){
                         p = criteriaBuilder.and(p,px);
+                    }else{
+                        p = px;
                     }
                 }
-                if (taxSearchTF.getScaleMin()!=null && taxSearchTF.getScaleMax()!=null){
-                    Predicate px = criteriaBuilder.between(root.get("scale"),taxSearchTF.getScaleMin(),taxSearchTF.getScaleMax());
+                if (taxSearchTF.getScaleMin()!=null){
+                    Predicate px = criteriaBuilder.greaterThanOrEqualTo(root.get("scale"),taxSearchTF.getScaleMin());
                     if(p!=null){
                         p = criteriaBuilder.and(p,px);
+                    }else{
+                        p = px;
                     }
                 }
-                if (taxSearchTF.getAssetsMin()!=null && taxSearchTF.getAssetsMin()!=null){
-                    Predicate px = criteriaBuilder.between(root.get("assets"),taxSearchTF.getAssetsMin(),taxSearchTF.getAssetsMax());
+
+                if (taxSearchTF.getScaleMax()!=null){
+                    Predicate px = criteriaBuilder.lessThan(root.get("scale"),taxSearchTF.getScaleMax());
                     if(p!=null){
                         p = criteriaBuilder.and(p,px);
+                    }else{
+                        p = px;
                     }
                 }
-                if (taxSearchTF.getOutputMin()!=null && taxSearchTF.getOutputMax()!=null){
-                    Predicate px = criteriaBuilder.between(root.get("output"),taxSearchTF.getOutputMin(),taxSearchTF.getOutputMax());
+                if (taxSearchTF.getAssetsMin()!=null){
+                    Predicate px = criteriaBuilder.greaterThanOrEqualTo(root.get("assets"),taxSearchTF.getAssetsMin());
                     if(p!=null){
                         p = criteriaBuilder.and(p,px);
+                    }else{
+                        p = px;
+                    }
+                }
+
+                if (taxSearchTF.getAssetsMax()!=null){
+                    Predicate px = criteriaBuilder.lessThan(root.get("assets"),taxSearchTF.getAssetsMax());
+                    if(p!=null){
+                        p = criteriaBuilder.and(p,px);
+                    }else{
+                        p = px;
+                    }
+                }
+
+                if (taxSearchTF.getOutputMin()!=null){
+                    Predicate px = criteriaBuilder.greaterThanOrEqualTo(root.get("output"),taxSearchTF.getOutputMin());
+                    if(p!=null){
+                        p = criteriaBuilder.and(p,px);
+                    }else{
+                        p = px;
+                    }
+                }
+                if (taxSearchTF.getOutputMax()!=null){
+                    Predicate px = criteriaBuilder.lessThan(root.get("output"),taxSearchTF.getOutputMax());
+                    if(p!=null){
+                        p = criteriaBuilder.and(p,px);
+                    }else{
+                        p = px;
                     }
                 }
                 if (taxSearchTF.getWorkType()!=null){
+                    System.out.println("******************"+taxSearchTF.getWorkType());
                     Predicate px = criteriaBuilder.equal(root.get("workType"),taxSearchTF.getWorkType());
                     if(p!=null){
                         p = criteriaBuilder.and(p,px);
+                    }else{
+                        p = px;
                     }
                 }
                 if (taxSearchTF.getPost()!=null){
                     Predicate px = criteriaBuilder.equal(root.get("post"),taxSearchTF.getPost());
                     if(p!=null){
                         p = criteriaBuilder.and(p,px);
+                    }else{
+                        p = px;
                     }
                 }
                 if (taxSearchTF.getStatus()!=null){
                     Predicate px = criteriaBuilder.equal(root.get("status"),taxSearchTF.getStatus());
                     if(p!=null){
                         p = criteriaBuilder.and(p,px);
+                    }else{
+                        p = px;
                     }
                 }
 
-                if(taxSearchTF.getUpdateTimeMin()!=null&&taxSearchTF.getUpdateTimeMax()!=null){
-                    Predicate px = criteriaBuilder.between(root.get("assets"),taxSearchTF.getUpdateTimeMin(),taxSearchTF.getUpdateTimeMax());
+                if(taxSearchTF.getUpdateTimeMin()!=null){
+                    Predicate px = criteriaBuilder.greaterThanOrEqualTo(root.get("assets"),taxSearchTF.getUpdateTimeMin());
                     if(p!=null){
                         p = criteriaBuilder.and(p,px);
+                    }else{
+                        p = px;
                     }
                 }
 
+                if(taxSearchTF.getUpdateTimeMax()!=null){
+                    Predicate px = criteriaBuilder.lessThan(root.get("assets"),taxSearchTF.getUpdateTimeMax());
+                    if(p!=null){
+                        p = criteriaBuilder.and(p,px);
+                    }else{
+                        p = px;
+                    }
+                }
 
 
                 return p;

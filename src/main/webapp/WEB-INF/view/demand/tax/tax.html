@@ -10,9 +10,9 @@
 需求首页
 <form>
     <a href="/demand/tax/add"><input type="button" value="添加"></a>
-    <input id="/demand/tax/delete" type="button" value="删除">
+    <input id="delete" type="button" value="删除">
     <a href="/demand/tax/update"><input type="button" value="修改"></a>
-    <a href="/demand/tax/find"><input type="button" value="查询"></a>
+    <a href="/demand/tax/search"><input type="button" value="查询"></a>
     <div >
         <ul id="case_list">
         </ul>
@@ -25,10 +25,9 @@
             url: "/demand/tax/list",
             data:{},
             success:function (data) {
-
-                    $("#case_list").append("<li>"+data+"</li>")
-
-
+                $.each(data,function (index,value) {
+                    $("#case_list").append("<li>"+value.name+"</li>")
+                })
             },
             error:function (data) {
                 alert("error")
@@ -39,10 +38,10 @@
         $("#delete").on("click",function () {
             $.ajax({
                 type: "POST",
-                url: "/case/delete",
+                url: "/demand/tax/delete",
                 data:{id:1},
                 success:function (data) {
-                    alert(data)
+                    alert(data.message)
 
                 },
                 dataType: "json"
