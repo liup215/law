@@ -47,7 +47,7 @@ public class DemandTaxController {
         return list;
     }
 
-    @RequestMapping(value = "/find",method = RequestMethod.GET)
+    @RequestMapping(value = "/search",method = RequestMethod.POST)
     public @ResponseBody List<DemandTax> list(TaxSearchTF taxSearchTF){
         List<DemandTax> list = null;
 
@@ -85,10 +85,7 @@ public class DemandTaxController {
 
     @RequestMapping(value = "/delete",method = RequestMethod.POST)
     @ResponseBody
-    public Tip taxDelet(@RequestParam(name = "id") Integer taxId){
-//        if(taxId==null){
-//            return new ErrorTip(400,"请求参数错误");
-//        }
+    public Tip taxDelet(@RequestParam(name = "taxId") Integer taxId){
 
         DemandTax tax = demandTaxRepository.findOne(taxId);
         if(tax==null){
@@ -102,7 +99,6 @@ public class DemandTaxController {
 
     @RequestMapping(value = "/update",method = RequestMethod.GET)
     public String taxUpdate(){
-
         return BASE_PATH +"/tax_update.html";
     }
 

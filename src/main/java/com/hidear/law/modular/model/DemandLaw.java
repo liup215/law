@@ -25,32 +25,38 @@ public class DemandLaw {
     @Column(name="phoneNumber",nullable = false,length = 25)
     private String phone;
 
-    @Column(name="province",nullable = false,length = 20)
-    private String province;
+    /**
+     * 联系人所在地
+     */
+    @Column(name="contactAddress",nullable = false)
+    private String contactAddress;
 
-    @Column(name="city",nullable = false,length = 20)
-    private String city;
-
-    @Column(name="town",nullable = false,length = 20)
-    private String town;
-
-    @Column(name="county",nullable = false,length = 20)
-    private String county;
-
-    @Column(name="detail_address",nullable = false)
-    private String detailAddress;
-
+    /**
+     * 案件类型
+     */
     @Column(name="case_type",nullable = false,length = 20)
     private Integer caseType;
 
+    /**
+     * 被告所在地
+     */
     @Column(name="accused_area",nullable = false)
     private String accusedArea;
 
+    /**
+     * 合同签约地
+     */
     @Column(name="contract_area",nullable = false)
     private String contractArea;
 
+    /**
+     * 案发地
+     */
     @Column(name="venue_area",nullable = false)
     private String venueArea;
+
+    @Column(name="work_type",nullable = false,length = 2)
+    private Integer workType;
 
     @Column(name="case_detail",nullable = false,length = 300)
     @Type(type = "text")
@@ -65,21 +71,17 @@ public class DemandLaw {
     @Column(name="status",nullable = false,length = 2)
     private Integer status;
 
-    @Column(name="visitTime",nullable = false,length = 45)
-    private Integer visitTime;
+    @Column(name="visitCount",nullable = false,length = 45)
+    private Integer visitCount;
 
     public DemandLaw() {
     }
 
-    public DemandLaw(String name, String contact, String phone, String province, String city, String town, String county, String detailAddress, Integer caseType, String accusedArea, String contractArea, String venueArea, String caseDetail, Long submitTime, Long updateTime, Integer status, Integer visitTime) {
+    public DemandLaw(String name, String contact, String phone, String contactAddress, Integer caseType, String accusedArea, String contractArea, String venueArea, String caseDetail, Long submitTime, Long updateTime, Integer status, Integer visitCount) {
         this.name = name;
         this.contact = contact;
         this.phone = phone;
-        this.province = province;
-        this.city = city;
-        this.town = town;
-        this.county = county;
-        this.detailAddress = detailAddress;
+        this.contactAddress = contactAddress;
         this.caseType = caseType;
         this.accusedArea = accusedArea;
         this.contractArea = contractArea;
@@ -88,7 +90,7 @@ public class DemandLaw {
         this.submitTime = submitTime;
         this.updateTime = updateTime;
         this.status = status;
-        this.visitTime = visitTime;
+        this.visitCount = visitCount;
     }
 
     public Integer getId() {
@@ -123,44 +125,12 @@ public class DemandLaw {
         this.phone = phone;
     }
 
-    public String getProvince() {
-        return province;
+    public String getContactAddress() {
+        return contactAddress;
     }
 
-    public void setProvince(String province) {
-        this.province = province;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getTown() {
-        return town;
-    }
-
-    public void setTown(String town) {
-        this.town = town;
-    }
-
-    public String getCounty() {
-        return county;
-    }
-
-    public void setCounty(String county) {
-        this.county = county;
-    }
-
-    public String getDetailAddress() {
-        return detailAddress;
-    }
-
-    public void setDetailAddress(String detailAddress) {
-        this.detailAddress = detailAddress;
+    public void setContactAddress(String contactAddress) {
+        this.contactAddress = contactAddress;
     }
 
     public Integer getCaseType() {
@@ -227,12 +197,12 @@ public class DemandLaw {
         this.status = status;
     }
 
-    public Integer getVisitTime() {
-        return visitTime;
+    public Integer getVisitCount() {
+        return visitCount;
     }
 
-    public void setVisitTime(Integer visitTime) {
-        this.visitTime = visitTime;
+    public void setVisitCount(Integer visitCount) {
+        this.visitCount = visitCount;
     }
 
     @Override
@@ -241,12 +211,8 @@ public class DemandLaw {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", contact='" + contact + '\'' +
-                ", phoneNumber='" + phone + '\'' +
-                ", province='" + province + '\'' +
-                ", city='" + city + '\'' +
-                ", town='" + town + '\'' +
-                ", county='" + county + '\'' +
-                ", detailAddress='" + detailAddress + '\'' +
+                ", phone='" + phone + '\'' +
+                ", contactAddress='" + contactAddress + '\'' +
                 ", caseType=" + caseType +
                 ", accusedArea='" + accusedArea + '\'' +
                 ", contractArea='" + contractArea + '\'' +
@@ -255,7 +221,7 @@ public class DemandLaw {
                 ", submitTime=" + submitTime +
                 ", updateTime=" + updateTime +
                 ", status=" + status +
-                ", visitTime=" + visitTime +
+                ", visitCount=" + visitCount +
                 '}';
     }
 }

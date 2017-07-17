@@ -1,16 +1,19 @@
 package com.hidear.law.modular.controller;
 
+import com.hidear.law.common.constant.tip.SuccessTip;
+import com.hidear.law.common.constant.tip.Tip;
 import com.hidear.law.common.exception.BizExceptionEnum;
 import com.hidear.law.common.exception.BussinessException;
 import com.hidear.law.modular.dao.DemandLawRepository;
 import com.hidear.law.modular.model.DemandLaw;
-import com.hidear.law.modular.model.DemandTax;
+import com.hidear.law.modular.transfer.LawSearchTF;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Date;
@@ -40,12 +43,11 @@ public class DemandLawController {
         return demandLawRepository.findAll();
     }
 
-    @RequestMapping(value = "/list_condition",method = RequestMethod.GET)
+    @RequestMapping(value = "/search",method = RequestMethod.POST)
     @ResponseBody
-    public List<DemandLaw> list(DemandLaw law){
+    public List<DemandLaw> list(LawSearchTF lawSearchTF){
 
-        Example<DemandLaw> lawExample = Example.of(law);
-        return demandLawRepository.findAll(lawExample);
+        return demandLawRepository.findAll();
     }
 
     @RequestMapping(value = "/add",method = RequestMethod.GET)
@@ -54,29 +56,32 @@ public class DemandLawController {
     }
 
     @RequestMapping(value = "/add",method = RequestMethod.POST)
-    public String add(DemandLaw law){
-        if(law==null){
+    @ResponseBody
+    public Tip add(DemandLaw newLaw){
+        if(newLaw==null){
             throw new BussinessException(BizExceptionEnum.REQUEST_NULL);
         }
-        DemandTax tax = new DemandTax();
-        BeanUtils.copyProperties(law,tax);
-        tax.setStatus(1);
-        tax.setSubmitTime((new Date().getTime()));
-        tax.setUpdateTime((new Date().getTime()));
+        DemandLaw law = new DemandLaw();
+        BeanUtils.copyProperties(newLaw,law);
+        law.setStatus(1);
+        law.setSubmitTime((new Date().getTime()));
+        law.setUpdateTime((new Date().getTime()));
+
 
         demandLawRepository.save(law);
-        return BASE_PATH+"/law_add.html";
+        return new SuccessTip();
     }
 
     @RequestMapping(value = "/delete",method = RequestMethod.POST)
-    public String add(Integer lawId){
+    @ResponseBody
+    public Tip add(@RequestParam(name = "lawId") Integer lawId){
         if(lawId==null){
             throw new BussinessException(BizExceptionEnum.REQUEST_NULL);
         }
         DemandLaw law = demandLawRepository.findOne(lawId);
         law.setStatus(0);
         demandLawRepository.save(law);
-        return "delete succeed";
+        return new SuccessTip();
     }
 
     @RequestMapping(value = "/update",method = RequestMethod.GET)
@@ -93,9 +98,8 @@ public class DemandLawController {
             throw new BussinessException(BizExceptionEnum.REQUEST_NULL);
         }
         DemandLaw law = demandLawRepository.findOne(newLaw.getId());
-        BeanUtils.copyProperties(newLaw,law);
-        law.setUpdateTime((new Date()).getTime());
 
+        law.setUpdateTime((new Date()).getTime());
         demandLawRepository.save(law);
 
         return "update succeed";

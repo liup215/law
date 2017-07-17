@@ -10,10 +10,8 @@ public class TaxSearchTF {
     private String sortColumn;
     private String sortType;
 
-    private String province;
-    private String city;
-    private String town;
-    private String county;
+    private String contactAddress;
+    private String workSpace;
 
     private Integer scaleMin;
     private Integer scaleMax;
@@ -64,36 +62,20 @@ public class TaxSearchTF {
         this.pageSize = pageSize;
     }
 
-    public String getProvince() {
-        return province;
+    public String getContactAddress() {
+        return contactAddress;
     }
 
-    public void setProvince(String province) {
-        this.province = province;
+    public void setContactAddress(String contactAddress) {
+        this.contactAddress = contactAddress;
     }
 
-    public String getCity() {
-        return city;
+    public String getWorkSpace() {
+        return workSpace;
     }
 
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getTown() {
-        return town;
-    }
-
-    public void setTown(String town) {
-        this.town = town;
-    }
-
-    public String getCounty() {
-        return county;
-    }
-
-    public void setCounty(String county) {
-        this.county = county;
+    public void setWorkSpace(String workSpace) {
+        this.workSpace = workSpace;
     }
 
     public Integer getScaleMin() {
@@ -184,6 +166,29 @@ public class TaxSearchTF {
         this.status = status;
     }
 
+    public TaxSearchTF() {
+    }
+
+    public TaxSearchTF(Integer pageNumber, Integer pageSize, String sortColumn, String sortType, String contactAddress, String workSpace, Integer scaleMin, Integer scaleMax, Double assetsMin, Double assetsMax, Double outputMin, Double outputMax, Integer workType, Integer post, Long updateTimeMin, Long updateTimeMax, Integer status) {
+        this.pageNumber = pageNumber;
+        this.pageSize = pageSize;
+        this.sortColumn = sortColumn;
+        this.sortType = sortType;
+        this.contactAddress = contactAddress;
+        this.workSpace = workSpace;
+        this.scaleMin = scaleMin;
+        this.scaleMax = scaleMax;
+        this.assetsMin = assetsMin;
+        this.assetsMax = assetsMax;
+        this.outputMin = outputMin;
+        this.outputMax = outputMax;
+        this.workType = workType;
+        this.post = post;
+        this.updateTimeMin = updateTimeMin;
+        this.updateTimeMax = updateTimeMax;
+        this.status = status;
+    }
+
     @Override
     public String toString() {
         return "TaxSearchTF{" +
@@ -191,10 +196,8 @@ public class TaxSearchTF {
                 ", pageSize=" + pageSize +
                 ", sortColumn='" + sortColumn + '\'' +
                 ", sortType='" + sortType + '\'' +
-                ", province='" + province + '\'' +
-                ", city='" + city + '\'' +
-                ", town='" + town + '\'' +
-                ", county='" + county + '\'' +
+                ", contactAddress='" + contactAddress + '\'' +
+                ", workSpace='" + workSpace + '\'' +
                 ", scaleMin=" + scaleMin +
                 ", scaleMax=" + scaleMax +
                 ", assetsMin=" + assetsMin +

@@ -75,4 +75,5 @@ public class ToolUtil {
         }
         return sw.getBuffer().toString().replaceAll("\\$","T");
     }
+
 }

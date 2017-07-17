@@ -44,38 +44,25 @@ public class TaxDemandServiceImpl implements IDemandService<DemandTax,TaxSearchT
             public Predicate toPredicate(Root<DemandTax> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
 
                 Predicate p = null;
-                if (taxSearchTF.getProvince()!=null){
-                    Predicate px = criteriaBuilder.equal(root.get("province"),taxSearchTF.getProvince());
+
+                if(taxSearchTF.getContactAddress()!=null && !taxSearchTF.getContactAddress().trim().equals("")){
+                    Predicate px = criteriaBuilder.like(root.get("contactAddress"),taxSearchTF.getContactAddress()+"%");
                     if(p!=null){
                         p = criteriaBuilder.and(p,px);
                     }else{
                         p = px;
                     }
                 }
-                if (taxSearchTF.getCity()!=null){
-                    Predicate px = criteriaBuilder.equal(root.get("city"),taxSearchTF.getCity());
+
+                if(taxSearchTF.getWorkSpace()!=null&& !taxSearchTF.getWorkSpace().trim().equals("")){
+                    Predicate px = criteriaBuilder.like(root.get("workSpace"),taxSearchTF.getWorkSpace()+"%");
                     if(p!=null){
                         p = criteriaBuilder.and(p,px);
                     }else{
                         p = px;
                     }
                 }
-                if (taxSearchTF.getTown()!=null){
-                    Predicate px = criteriaBuilder.equal(root.get("town"),taxSearchTF.getTown());
-                    if(p!=null){
-                        p = criteriaBuilder.and(p,px);
-                    }else{
-                        p = px;
-                    }
-                }
-                if (taxSearchTF.getCounty()!=null){
-                    Predicate px = criteriaBuilder.equal(root.get("county"),taxSearchTF.getCounty());
-                    if(p!=null){
-                        p = criteriaBuilder.and(p,px);
-                    }else{
-                        p = px;
-                    }
-                }
+
                 if (taxSearchTF.getScaleMin()!=null){
                     Predicate px = criteriaBuilder.greaterThanOrEqualTo(root.get("scale"),taxSearchTF.getScaleMin());
                     if(p!=null){
@@ -128,7 +115,7 @@ public class TaxDemandServiceImpl implements IDemandService<DemandTax,TaxSearchT
                     }
                 }
                 if (taxSearchTF.getWorkType()!=null){
-                    System.out.println("******************"+taxSearchTF.getWorkType());
+
                     Predicate px = criteriaBuilder.equal(root.get("workType"),taxSearchTF.getWorkType());
                     if(p!=null){
                         p = criteriaBuilder.and(p,px);
@@ -154,7 +141,7 @@ public class TaxDemandServiceImpl implements IDemandService<DemandTax,TaxSearchT
                 }
 
                 if(taxSearchTF.getUpdateTimeMin()!=null){
-                    Predicate px = criteriaBuilder.greaterThanOrEqualTo(root.get("assets"),taxSearchTF.getUpdateTimeMin());
+                    Predicate px = criteriaBuilder.greaterThanOrEqualTo(root.get("updateTime"),taxSearchTF.getUpdateTimeMin());
                     if(p!=null){
                         p = criteriaBuilder.and(p,px);
                     }else{
@@ -163,7 +150,7 @@ public class TaxDemandServiceImpl implements IDemandService<DemandTax,TaxSearchT
                 }
 
                 if(taxSearchTF.getUpdateTimeMax()!=null){
-                    Predicate px = criteriaBuilder.lessThan(root.get("assets"),taxSearchTF.getUpdateTimeMax());
+                    Predicate px = criteriaBuilder.lessThan(root.get("updateTime"),taxSearchTF.getUpdateTimeMax());
                     if(p!=null){
                         p = criteriaBuilder.and(p,px);
                     }else{
