@@ -39,17 +39,29 @@ public class HomeController {
     @Autowired
     UserRepository userRepository;
 
+    /**
+     * 项目首页
+     * @return 返回首页
+     */
     @RequestMapping(value="/",method = RequestMethod.GET)
     public String index(){
 
         return "/index.html";
     }
 
+    /**
+     * 项目首页，同"/"
+     * @return
+     */
     @RequestMapping(value="/index",method=RequestMethod.GET)
     public String home(){
         return "index.html";
     }
 
+    /**
+     * 登录页面
+     * @return
+     */
     @RequestMapping(value="/login",method = RequestMethod.GET)
     public String login(){
         if (ShiroKit.isAuthenticated() || ShiroKit.getUser() != null) {
@@ -59,6 +71,12 @@ public class HomeController {
         }
     }
 
+    /**
+     * 登录
+     * @param loginTF 登录信息
+     * @param result 格式验证结果
+     * @return
+     */
     @RequestMapping(value = "/login",method = RequestMethod.POST)
     @ResponseBody
     public Tip login(@Valid LoginTF loginTF, BindingResult result){
@@ -110,6 +128,7 @@ public class HomeController {
     public String register(){
         return "/register.html";
     }
+
 
     @RequestMapping(value = "/register",method = RequestMethod.POST)
     @ResponseBody

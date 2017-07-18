@@ -17,53 +17,91 @@ public class DemandTax {
     @Column(name = "id",nullable = false,length = 45)
     private Integer id;
 
+    /**
+     * 需求名称
+     */
     @Column(name = "name",nullable = false,length = 20)
     private String name;
 
+    /**
+     * 需求联系人
+     */
     @Column(name="contact",nullable = false,length = 45)
     private String contact;
-
+    /**
+     * 联系电话
+     */
     @Column(name="phoneNumber",nullable = false,length = 25)
     private String phoneNumber;
-
+    /**
+     * 联系人所在地
+     */
     @Column(name="contactAddress",nullable = false,length = 250)
     private String contactAddress;
-
+    /**
+     * 工作地点
+     */
     @Column(name="workSpace",nullable = false,length = 250)
     private String workSpace;
-
+    /**
+     * 公司规模
+     */
     @Column(name="scale",nullable = false,length = 75)
     private Integer scale;
-
+    /**
+     * 公司产值
+     */
     @Column(name = "assets",nullable = false,length = 45)
     private Double assets;
 
-
+    /**
+     * 公司产量
+     */
     @Column(name = "output",nullable = false,length = 45)
     private Double output;
-
+    /**
+     * 行业
+     */
     @Column(name = "industry",nullable = false,length = 125)
     private String industry;
-
+    /**
+     * 需求详情
+     */
     @Column(name="case_detail",nullable = false,length = 300)
     @Type(type = "text")
     private String caseDetail;
-
+    /**
+     * 工作类型，0兼职，1全职
+     */
     @Column(name="work_type",nullable = false,length = 2)
     private Integer workType;
-
+    /**
+     * 岗位
+     */
     @Column(name="post",nullable = false,length = 2)
     private Integer post;
 
+    /**
+     * 提交时间
+     */
     @Column(name="submit_time",nullable = false,length = 45)
     private Long submitTime;
 
+    /**
+     * 更新时间
+     */
     @Column(name="update_time",nullable = false,length = 45)
     private Long updateTime;
 
+    /**
+     * 状态
+     */
     @Column(name="status",nullable = false,length = 2)
     private Integer status;
 
+    /**
+     * 访问次数
+     */
     @Column(name="visitCount",nullable = false,length = 45)
     private Integer visitCount;
 

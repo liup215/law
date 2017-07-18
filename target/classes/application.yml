@@ -4,7 +4,7 @@
 
 ###################  guns配置  ###################
 law:
-  fileUploadPath: "" #设置fileUploadPath
+  file-upload-path: d:\\ #设置fileUploadPath
   swagger-open: false #是否开启swagger (true/false)
   kaptcha-open: true #是否开启登录时验证码 (true/false)
   session-open: false #是否开启session验证 (true/false)

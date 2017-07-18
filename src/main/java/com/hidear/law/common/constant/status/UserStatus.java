@@ -3,8 +3,7 @@ package com.hidear.law.common.constant.status;
 /**
  * 管理员的状态
  *
- * @author fengshuonan
- * @Date 2017年1月10日 下午9:54:13
+ * @author liupeng
  */
 public enum UserStatus {
 

@@ -27,12 +27,16 @@ import java.lang.reflect.UndeclaredThrowableException;
  * 全局的的异常拦截器（拦截所有的控制器）（带有@RequestMapping注解的方法上都会拦截）
  *
  * @author liupeng
- * @date 2017年7月8日 晚23:19:56
  */
 @ControllerAdvice
 public class GlobalExceptionHandler {
     private Logger log = Logger.getLogger(this.getClass());
 
+    /**
+     * 业务异常处理
+     * @param e 业务异常
+     * @return 错误信息
+     */
     @ExceptionHandler(BussinessException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ResponseBody
@@ -45,8 +49,8 @@ public class GlobalExceptionHandler {
 
     /**
      * 用户未登录
-     *
-     * @author fengshuonan
+     * @param e 用户认证错误
+     * @return 错误信息
      */
     @ExceptionHandler(AuthenticationException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
@@ -58,8 +62,8 @@ public class GlobalExceptionHandler {
 
     /**
      * 账号被冻结
-     *
-     * @author fengshuonan
+     * @param e 账号冻结异常
+     * @return 错误信息
      */
     @ExceptionHandler(DisabledAccountException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
@@ -73,8 +77,8 @@ public class GlobalExceptionHandler {
 
     /**
      * 账号密码错误
-     *
-     * @author fengshuonan
+     * @param e 用户名密码认证错误
+     * @return 错误信息
      */
     @ExceptionHandler(CredentialsException.class)
     @ResponseBody
@@ -85,6 +89,11 @@ public class GlobalExceptionHandler {
         return new ErrorTip(BizExceptionEnum.PWD_NOT_RIGHT);
     }
 
+    /**
+     * 数字解析错误
+     * @param e 数据解析异常
+     * @return 错误信息
+     */
     @ExceptionHandler(NumberFormatException.class)
     @ResponseBody
     public ErrorTip numberFormatException(NumberFormatException e){
@@ -95,9 +104,9 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * 无权访问该资源
-     *
-     * @author fengshuonan
+     * 无法访问该资源
+     * @param e 无法访问资源异常
+     * @return 错误信息
      */
     @ExceptionHandler(UndeclaredThrowableException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
@@ -109,9 +118,9 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * 拦截未知的运行时异常
-     *
-     * @author fengshuonan
+     * 拦截未知异常
+     * @param e 未知异常
+     * @return 错误信息
      */
     @ExceptionHandler(RuntimeException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -123,6 +132,11 @@ public class GlobalExceptionHandler {
         return new ErrorTip(BizExceptionEnum.SERVER_ERROR);
     }
 
+    /**
+     * 验证码错误
+     * @param e 验证码错误异常
+     * @return 错误信息
+     */
     @ExceptionHandler(InvalidKaptchaException.class)
     @ResponseBody
     public ErrorTip invalidKaptcha(InvalidKaptchaException e){
@@ -132,10 +146,12 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * session失效的异常拦截
-     *
-     * @author stylefeng
-     * @Date 2017/6/7 21:02
+     * session实效的异常拦截
+     * @param e 错误信息
+     * @param model model
+     * @param request 请求
+     * @param response 响应
+     * @return 错误信息
      */
     @ExceptionHandler(InvalidSessionException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -147,9 +163,11 @@ public class GlobalExceptionHandler {
 
     /**
      * session异常
-     *
-     * @author stylefeng
-     * @Date 2017/6/7 21:02
+     * @param e 错误信息
+     * @param model model
+     * @param request 请求
+     * @param response 响应
+     * @return 错误信息
      */
     @ExceptionHandler(UnknownSessionException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)

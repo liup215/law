@@ -15,7 +15,9 @@ import org.springframework.core.io.ClassPathResource;
 @EnableCaching
 public class EhCacheConfig {
     /**
-     * EhCache的配置
+     * CacheManager配置
+     * @param cacheManager 传入CacheManager
+     * @return 返回EhCacheCacheManager
      */
     @Bean
     public EhCacheCacheManager cacheManager(CacheManager cacheManager) {
@@ -24,6 +26,7 @@ public class EhCacheConfig {
 
     /**
      * EhCache的配置
+     * @return 返回EhCacheManagerFactoryBean
      */
     @Bean
     public EhCacheManagerFactoryBean ehcache() {

@@ -10,6 +10,9 @@ import com.hidear.law.modular.service.IDemandService;
 import com.hidear.law.modular.transfer.TaxSearchTF;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -40,10 +43,20 @@ public class DemandTaxController {
         return BASE_PATH +"/tax.html";
     }
 
+    /**
+     * 获得需求列表
+     * @param pageNumber 页码
+     * @param pageSize 每页条数
+     * @param sortColumn 排序字段
+     * @param sortType 排序类型
+     * @return 返回List,前端解析为json数组
+     */
     @RequestMapping(value = "/list",method = RequestMethod.GET)
-    public @ResponseBody List<DemandTax> list(){
+    public @ResponseBody List<DemandTax> list(@RequestParam(name = "pageNumber") Integer pageNumber,@RequestParam(name="pageSize") Integer pageSize,@RequestParam(name="sortColumn") String sortColumn,@RequestParam(name="sortType") String sortType){
         List<DemandTax> list = null;
-        list = demandTaxRepository.findAll();
+        Sort sort = new Sort(sortType,sortColumn);
+        Pageable page = new PageRequest(pageNumber,pageSize,sort);
+        list = demandTaxRepository.findAll(page).getContent();
         return list;
     }
 

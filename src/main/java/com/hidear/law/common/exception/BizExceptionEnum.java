@@ -1,9 +1,8 @@
 package com.hidear.law.common.exception;
 
 /**
- * @Description 所有业务异常的枚举
- * @author fengshuonan
- * @date 2016年11月12日 下午5:04:51
+ * 业务异常汇总
+ * @author 刘鹏
  */
 public enum BizExceptionEnum {
 
@@ -53,10 +52,8 @@ public enum BizExceptionEnum {
 	SESSION_TIMEOUT(400, "会话超时"),
 	SERVER_ERROR(500, "服务器异常"),
 
-	/**获取用户信息异常
-	 *
-	 * @param code
-	 * @param message
+	/**
+	 * 获取用户信息异常
 	 */
 	NO_USERID_PARAM(400,"缺少用户ID");
 

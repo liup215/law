@@ -16,12 +16,20 @@ public class DemandLaw {
     @Column(name = "id",nullable = false,length = 45)
     private Integer id;
 
+    /**
+     * 需求名称
+     */
     @Column(name = "name",nullable = false,length = 20)
     private String name;
 
+    /**
+     * 需求联系人
+     */
     @Column(name="contact",nullable = false,length = 45)
     private String contact;
-
+    /**
+     * 联系电话
+     */
     @Column(name="phoneNumber",nullable = false,length = 25)
     private String phone;
 
@@ -55,22 +63,40 @@ public class DemandLaw {
     @Column(name="venue_area",nullable = false)
     private String venueArea;
 
+    /**
+     * 工作类型，0兼职，1全职
+     */
     @Column(name="work_type",nullable = false,length = 2)
     private Integer workType;
 
-    @Column(name="case_detail",nullable = false,length = 300)
+    /**
+     * 需求说明
+     */
+    @Column(name="case_detail",nullable = false)
     @Type(type = "text")
     private String caseDetail;
 
+    /**
+     * 提交时间
+     */
     @Column(name="submit_time",nullable = false,length = 45)
     private Long submitTime;
 
+    /**
+     * 更新时间
+     */
     @Column(name="update_time",nullable = false,length = 45)
     private Long updateTime;
 
+    /**
+     * 状态
+     */
     @Column(name="status",nullable = false,length = 2)
     private Integer status;
 
+    /**
+     * 访问次数
+     */
     @Column(name="visitCount",nullable = false,length = 45)
     private Integer visitCount;
 

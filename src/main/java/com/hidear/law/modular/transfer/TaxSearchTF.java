@@ -4,28 +4,69 @@ package com.hidear.law.modular.transfer;
  * Created by Administrator on 2017/7/15.
  */
 public class TaxSearchTF {
-
+    /**
+     * 页数
+     */
     private Integer pageNumber;
+    /**
+     * 每页条数
+     */
     private Integer pageSize;
+    /**
+     * 排序字段
+     */
     private String sortColumn;
+    /**
+     * 排序类型，ASC升序，DESC降序
+     */
     private String sortType;
-
+    /**
+     * 联系地址,格式：省-市-区县-乡镇街道
+     */
     private String contactAddress;
+    /**
+     * 办公地址，格式：省-市-区县-乡镇街道
+     */
     private String workSpace;
-
+    /**
+     * 规模-最小
+     */
     private Integer scaleMin;
+    /**
+     * 规模-最大
+     */
     private Integer scaleMax;
-
+    /**
+     * 产值-最小
+     */
     private Double assetsMin;
+    /**
+     * 产值-最大
+     */
     private Double assetsMax;
-
+    /**
+     * 产量-最小
+     */
     private Double outputMin;
+    /**
+     * 产量-最大
+     */
     private Double outputMax;
-
+    /**
+     * 工作类型
+     */
     private Integer workType;
+    /**
+     * 工作岗位
+     */
     private Integer post;
-
+    /**
+     * 更新时间-开始
+     */
     private Long updateTimeMin;
+    /**
+     * 更新时间-结束
+     */
     private Long updateTimeMax;
 
     private Integer status;

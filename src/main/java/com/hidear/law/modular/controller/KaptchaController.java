@@ -90,9 +90,6 @@ public class KaptchaController {
 
     /**
      * 返回图片
-     *
-     * @author stylefeng
-     * @Date 2017/5/24 23:00
      */
     @RequestMapping("/{pictureId}")
     public void renderPicture(@PathVariable("pictureId") String pictureId, HttpServletResponse response) {

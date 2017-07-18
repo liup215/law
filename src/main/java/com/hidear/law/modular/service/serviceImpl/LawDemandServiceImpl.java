@@ -29,13 +29,20 @@ public class LawDemandServiceImpl implements IDemandService<DemandLaw,LawSearchT
 
         List<DemandLaw> list = null;
 
+        //处理排序
         Sort sort = new Sort(Sort.Direction.fromStringOrNull(lawSearchTF.getSortType()),lawSearchTF.getSortColumn());
+        //处理分页
         Pageable page = new PageRequest(lawSearchTF.getPageNumber()!=null? (lawSearchTF.getPageNumber()-1):0,lawSearchTF.getPageSize()!=null?lawSearchTF.getPageSize():25,sort);
 
         list = demandLawRepository.findAll(getSpec(lawSearchTF),page).getContent();
         return list;
     }
 
+    /**
+     * 创建动态查询
+     * @param lawSearchTF 搜索条件
+     * @return 返回查询
+     */
     private Specification<DemandLaw> getSpec(LawSearchTF lawSearchTF){
         return new Specification<DemandLaw>() {
             @Override

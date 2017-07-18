@@ -13,8 +13,8 @@ public interface IShiro {
 
     /**
      * 根据账号获取登录用户
-     *
      * @param username 账号
+     * @return 登录用户
      */
     User user(String username);
 
@@ -22,12 +22,17 @@ public interface IShiro {
      * 根据系统用户获取Shiro的用户
      *
      * @param user 系统用户
+     * @return Shiro用户
      */
     ShiroUser shiroUser(User user);
 
 
     /**
      * 获取shiro的认证信息
+     * @param shiroUser shiro用户
+     * @param user 用户
+     * @param realmName 认证
+     * @return 认证信息
      */
     SimpleAuthenticationInfo info(ShiroUser shiroUser, User user, String realmName);
 }

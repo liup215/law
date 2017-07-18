@@ -5,22 +5,58 @@ package com.hidear.law.modular.transfer;
  */
 public class LawSearchTF {
 
+    /**
+     * 页数
+     */
     private Integer pageNumber;
+    /**
+     * 每页条数
+     */
     private Integer pageSize;
+    /**
+     * 排序字段
+     */
     private String sortColumn;
+    /**
+     * 排序类型，ASC升序，DESC降序
+     */
     private String sortType;
-
+    /**
+     * 联系地址，格式：省-市-区县-乡镇街道
+     */
     private String contactAddress;
+    /**
+     * 被告所在地，格式：省-市-区县-乡镇街道
+     */
     private String accusedArea;
+    /**
+     * 合同签约地，格式：省-市-区县-乡镇街道
+     */
     private String contractArea;
+    /**
+     * 案发地，格式：省-市-区县-乡镇街道
+     */
     private String venueArea;
-
+    /**
+     * 案件类型
+     */
     private Integer caseType;
+    /**
+     * 工作类型，0兼职，1全职
+     */
     private Integer workType;
 
+    /**
+     * 更新时间-开始
+     */
     private Long updateTimeMin;
+    /**
+     * 更新时间-结束
+     */
     private Long updateTimeMax;
-
+    /**
+     * 状态
+     */
     private Integer status;
 
     public LawSearchTF() {

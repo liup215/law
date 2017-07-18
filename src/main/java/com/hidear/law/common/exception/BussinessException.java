@@ -1,9 +1,7 @@
 package com.hidear.law.common.exception;
 
 /**
- * @Description 业务异常的封装
- * @author fengshuonan
- * @date 2016年11月12日 下午5:05:10
+ * 业务异常的封装
  */
 @SuppressWarnings("serial")
 public class BussinessException extends RuntimeException{

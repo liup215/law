@@ -9,13 +9,22 @@ import javax.validation.constraints.Size;
  */
 public class PasswordModify {
 
+    /**
+     * 原密码
+     */
     @NotBlank(message = "原密码不能为空")
     private String oldPassword;
 
-    @NotBlank(message = "原密码不能为空")
+    /**
+     * 新密码
+     */
+    @NotBlank(message = "新密码不能为空")
     @Size(min=6,max=8,message = "密码为6~8位的字母、数字、符号组成")
     private String newPassword;
 
+    /**
+     * 新密码确认
+     */
     @NotBlank
     @Size(min=6,max=8,message = "密码为6~8位的字母、数字、符号组成")
     private String passwordConfirm;
