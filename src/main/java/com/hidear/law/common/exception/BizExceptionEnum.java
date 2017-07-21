@@ -25,6 +25,7 @@ public enum BizExceptionEnum {
 	 * 权限和数据问题
 	 */
 	DB_RESOURCE_NULL(400,"数据库中没有该资源"),
+	DB_WRITE_ERROR(400,"数据库写入失败"),
 	NO_PERMITION(405, "权限异常"),
 	REQUEST_INVALIDATE(400,"请求数据格式不正确"),
 	INVALID_KAPTCHA(400,"验证码不正确"),
