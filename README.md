@@ -19,3 +19,11 @@ Law And Tax demand system
 3.项目修改配置文件，打jar包运行（运行后会自动建立系统需要的其他表结构）；
 
 4.浏览器、app访问host:port测试；
+
+###接口文档使用说明
+--------
+前端只需查看com.hidear.law.modular.controller中的api说明；
+
+访问路径是 类注解+方法 注解；
+
+参数名和对应类的属性名相同；
