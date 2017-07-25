@@ -4,6 +4,7 @@ import com.hidear.law.core.util.ToolUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 
 import java.util.Properties;
 
@@ -15,6 +16,7 @@ import java.util.Properties;
  */
 @Configuration
 @ConfigurationProperties(prefix = BeetlProperties.BEETLCONF_PREFIX)
+@PropertySource(value = {"classpath:application.yml"},encoding="utf-8")
 public class BeetlProperties {
 
     public static final String BEETLCONF_PREFIX = "beetl";

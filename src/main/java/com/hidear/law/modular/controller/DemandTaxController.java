@@ -14,10 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
@@ -45,17 +42,27 @@ public class DemandTaxController {
 
     /**
      * 获得需求列表
+     */
+    @RequestMapping(value = "/list",method = RequestMethod.GET)
+    public String list(){
+
+        return "redirect:"+BASE_PATH+"/find-1-50-id-ASC";
+    }
+
+    /**
+     * 获得需求列表
      * @param pageNumber 页码
      * @param pageSize 每页条数
      * @param sortColumn 排序字段
      * @param sortType 排序类型
      * @return 返回List,前端解析为json数组
      */
-    @RequestMapping(value = "/list",method = RequestMethod.GET)
-    public @ResponseBody List<DemandTax> list(@RequestParam(name = "pageNumber") Integer pageNumber,@RequestParam(name="pageSize") Integer pageSize,@RequestParam(name="sortColumn") String sortColumn,@RequestParam(name="sortType") String sortType){
+    @RequestMapping(value = "/find-{pageNumber}-{pageSize}-{sortColumn}-{sortType}",method = RequestMethod.GET)
+    public @ResponseBody List<DemandTax> listDemand(@PathVariable(name="pageNumber") Integer pageNumber, @PathVariable(name="pageSize") Integer pageSize, @PathVariable(name="sortColumn") String sortColumn, @PathVariable(name="sortType") String sortType){
+
         List<DemandTax> list = null;
-        Sort sort = new Sort(sortType,sortColumn);
-        Pageable page = new PageRequest(pageNumber,pageSize,sort);
+        Sort sort = new Sort(Sort.Direction.valueOf(sortType),sortColumn);
+        Pageable page = new PageRequest(pageNumber-1,pageSize,sort);
         list = demandTaxRepository.findAll(page).getContent();
         return list;
     }
@@ -68,8 +75,6 @@ public class DemandTaxController {
             list = demandTaxRepository.findAll();
             return list;
         }
-        System.out.println(taxSearchTF.toString());
-        System.out.println(taxDemandServiceImpl);
         list = taxDemandServiceImpl.findDemandBySearch(taxSearchTF);
         return list;
     }

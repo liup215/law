@@ -81,6 +81,7 @@ public class GlobalExceptionHandler {
      * @return 错误信息
      */
     @ExceptionHandler(CredentialsException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ResponseBody
     public ErrorTip credentials(CredentialsException e) {
         String username = HttpKit.getRequest().getParameter("phoneNumber");
@@ -138,6 +139,7 @@ public class GlobalExceptionHandler {
      * @return 错误信息
      */
     @ExceptionHandler(InvalidKaptchaException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
     public ErrorTip invalidKaptcha(InvalidKaptchaException e){
 //        LogManager.me().executeLog(LogTaskFactory.exceptionLog(ShiroKit.getUser().getId(), e));

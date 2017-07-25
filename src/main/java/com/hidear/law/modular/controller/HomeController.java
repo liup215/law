@@ -5,6 +5,8 @@ import com.hidear.law.common.constant.status.UserStatus;
 import com.hidear.law.common.constant.tip.ErrorTip;
 import com.hidear.law.common.constant.tip.SuccessTip;
 import com.hidear.law.common.constant.tip.Tip;
+import com.hidear.law.common.exception.BizExceptionEnum;
+import com.hidear.law.common.exception.BussinessException;
 import com.hidear.law.common.exception.InvalidKaptchaException;
 import com.hidear.law.core.log.LogManager;
 import com.hidear.law.core.log.factory.LogTaskFactory;
@@ -138,23 +140,23 @@ public class HomeController {
         if(result.hasErrors()){
             List<ObjectError> list = result.getAllErrors();
             for(ObjectError error:list){
-                return error.getDefaultMessage();
+                throw new BussinessException(BizExceptionEnum.BAD_FORMATED);
             }
         }
 
         //校验验证码是否正确
-        if(!registerTF.getVerifyCode().equals("1011")){
-            return "验证码输入错误！！！";
+        if(!registerTF.getVerifyCode().equals("111111")){
+            throw new BussinessException(BizExceptionEnum.INVID_VERYFY_CODE);
         }
 
         //密码确认是否相同
         if(!registerTF.getPassword().equals(registerTF.getPasswordConfirm())){
-            return "两次输入密码不相同";
+            throw new BussinessException(BizExceptionEnum.TWO_PWD_NOT_MATCH);
         }
 
         //手机号是否唯一
         if(userRepository.findByPhoneNumber(registerTF.getPhoneNumber())!=null){
-            return "手机号已存在！！！";
+            throw new BussinessException(BizExceptionEnum.USER_ALREADY_REG);
         }
 
 

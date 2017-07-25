@@ -1,0 +1,69 @@
+{
+  "hints": [],
+  "groups": [
+    {
+      "sourceType": "com.hidear.law.config.properties.BeetlProperties",
+      "name": "beetl",
+      "type": "com.hidear.law.config.properties.BeetlProperties"
+    },
+    {
+      "sourceType": "com.hidear.law.config.properties.LawProperties",
+      "name": "law",
+      "type": "com.hidear.law.config.properties.LawProperties"
+    }
+  ],
+  "properties": [
+    {
+      "sourceType": "com.hidear.law.config.properties.BeetlProperties",
+      "name": "beetl.delimiter-statement-end",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.hidear.law.config.properties.BeetlProperties",
+      "name": "beetl.delimiter-statement-start",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.hidear.law.config.properties.BeetlProperties",
+      "name": "beetl.properties",
+      "type": "java.util.Properties"
+    },
+    {
+      "sourceType": "com.hidear.law.config.properties.BeetlProperties",
+      "name": "beetl.resource-tagroot",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.hidear.law.config.properties.BeetlProperties",
+      "name": "beetl.resource-tagsuffix",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.hidear.law.config.properties.LawProperties",
+      "name": "law.file-upload-path",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.hidear.law.config.properties.LawProperties",
+      "defaultValue": false,
+      "name": "law.kaptcha-open",
+      "type": "java.lang.Boolean"
+    },
+    {
+      "sourceType": "com.hidear.law.config.properties.LawProperties",
+      "name": "law.session-invalidate-time",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "com.hidear.law.config.properties.LawProperties",
+      "name": "law.session-validation-interval",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "com.hidear.law.config.properties.LawProperties",
+      "defaultValue": false,
+      "name": "law.swagger-open",
+      "type": "java.lang.Boolean"
+    }
+  ]
+}

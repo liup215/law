@@ -33,6 +33,7 @@ public enum BizExceptionEnum {
 	CANT_FREEZE_ADMIN(600,"不能冻结超级管理员"),
 	CANT_CHANGE_ADMIN(600,"不能修改超级管理员角色"),
 	NUMBER_FORMAT_ERROR(400,"数字格式错误"),
+	BAD_FORMATED(400,"数据格式错误"),
 
 	/**
 	 * 账户问题
@@ -45,6 +46,7 @@ public enum BizExceptionEnum {
 	ACCOUNT_FREEZED(401, "账号被冻结"),
 	OLD_PWD_NOT_RIGHT(402, "原密码不正确"),
 	TWO_PWD_NOT_MATCH(405, "两次输入密码不一致"),
+	INVID_VERYFY_CODE(400,"验证码输入错误"),
 
 	/**
 	 * 错误的请求
