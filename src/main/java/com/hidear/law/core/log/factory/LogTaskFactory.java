@@ -5,10 +5,10 @@ import com.hidear.law.common.constant.status.LogType;
 import com.hidear.law.core.db.Db;
 import com.hidear.law.core.log.LogManager;
 import com.hidear.law.core.util.ToolUtil;
-import com.hidear.law.modular.dao.LoginLogRepository;
-import com.hidear.law.modular.dao.OperationRepository;
-import com.hidear.law.modular.model.LoginLog;
-import com.hidear.law.modular.model.OperationLog;
+import com.hidear.law.modular.common.dao.LoginLogRepository;
+import com.hidear.law.modular.common.dao.OperationRepository;
+import com.hidear.law.modular.common.model.LoginLog;
+import com.hidear.law.modular.common.model.OperationLog;
 import org.apache.log4j.Logger;
 
 import java.util.TimerTask;

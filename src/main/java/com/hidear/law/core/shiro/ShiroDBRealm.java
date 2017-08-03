@@ -2,7 +2,7 @@ package com.hidear.law.core.shiro;
 
 import com.hidear.law.core.shiro.factory.IShiro;
 import com.hidear.law.core.shiro.factory.ShiroFactory;
-import com.hidear.law.modular.model.User;
+import com.hidear.law.modular.User.model.User;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authc.credential.CredentialsMatcher;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;

@@ -73,7 +73,7 @@ spring:
 
 logging:
   level: debug
-  file: logs/guns.log
+  file: logs/law.log
 
 ---
 
