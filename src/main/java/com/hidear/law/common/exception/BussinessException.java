@@ -14,6 +14,11 @@ public class BussinessException extends RuntimeException{
 	
 	//业务异常跳转的页面
 	private String urlPath;
+
+	public BussinessException(int friendlyCode,String friendlyMsg){
+		this.friendlyCode = friendlyCode;
+		this.friendlyMsg = friendlyMsg;
+	}
 	
 	public BussinessException(BizExceptionEnum bizExceptionEnum){
 		this.friendlyCode = bizExceptionEnum.getCode();

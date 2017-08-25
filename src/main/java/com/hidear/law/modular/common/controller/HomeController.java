@@ -2,24 +2,20 @@ package com.hidear.law.modular.common.controller;
 
 import com.google.code.kaptcha.Constants;
 import com.hidear.law.common.constant.status.UserStatus;
-import com.hidear.law.common.constant.tip.ErrorTip;
-import com.hidear.law.common.constant.tip.SuccessTip;
-import com.hidear.law.common.constant.tip.Tip;
 import com.hidear.law.common.exception.BizExceptionEnum;
 import com.hidear.law.common.exception.BussinessException;
 import com.hidear.law.common.exception.InvalidKaptchaException;
 import com.hidear.law.core.log.LogManager;
 import com.hidear.law.core.log.factory.LogTaskFactory;
 import com.hidear.law.core.shiro.ShiroKit;
-import com.hidear.law.core.shiro.ShiroUser;
 import com.hidear.law.core.support.HttpKit;
 import com.hidear.law.core.util.ToolUtil;
 import com.hidear.law.modular.User.dao.UserRepository;
 import com.hidear.law.modular.User.model.User;
+import com.hidear.law.modular.common.service.IHomeService;
 import com.hidear.law.modular.transfer.LoginTF;
 import com.hidear.law.modular.transfer.RegisterTF;
-import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.subject.Subject;
+import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -40,6 +37,9 @@ public class HomeController {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    IHomeService homeService;
 
     /**
      * 项目首页
@@ -81,11 +81,11 @@ public class HomeController {
      */
     @RequestMapping(value = "/login",method = RequestMethod.POST)
     @ResponseBody
-    public Tip login(@Valid LoginTF loginTF, BindingResult result){
+    public Map<String,Object> login(@Valid LoginTF loginTF, BindingResult result){
         if(result.hasErrors()){
             List<ObjectError>  errors = result.getAllErrors();
             for(ObjectError error : errors){
-                return new ErrorTip(400,error.getDefaultMessage());
+                throw new BussinessException(400,error.getDefaultMessage());
             }
         }
 
@@ -98,24 +98,16 @@ public class HomeController {
             }
         }
 
-        Subject currentUser = ShiroKit.getSubject();
-        UsernamePasswordToken token = new UsernamePasswordToken(loginTF.getPhoneNumber(),loginTF.getPassword().toCharArray());
-        token.setRememberMe(true);
+        String username = loginTF.getPhoneNumber();
+        String password = loginTF.getPassword();
+        String token = homeService.login(username,password);
 
-        currentUser.login(token);
-        ShiroUser shiroUser = ShiroKit.getUser();
-        HttpKit.getRequest().getSession().setAttribute("shiroUser", shiroUser);
-        HttpKit.getRequest().getSession().setAttribute("phone", shiroUser.getPhoneNumber());
+        Map<String,Object> map = new HashedMap();
+        map.put("token",token);
+        map.put("code",200);
+        map.put("data",null);
 
-
-        LogManager.me().executeLog(LogTaskFactory.loginLog(shiroUser.getId(), HttpKit.getIp()));
-        User user = userRepository.findByPhoneNumber(loginTF.getPhoneNumber());
-        user.setLastLoginTime((new Date()).getTime());
-        userRepository.save(user);
-
-        ShiroKit.getSession().setAttribute("sessionFlag",true);
-
-        return new SuccessTip();
+        return map;
 
     }
 
@@ -159,7 +151,6 @@ public class HomeController {
             throw new BussinessException(BizExceptionEnum.USER_ALREADY_REG);
         }
 
-
         User user = new User();
         //完善账号信息
         BeanUtils.copyProperties(registerTF,user);
@@ -170,6 +161,7 @@ public class HomeController {
         user.setRegisterTime((new Date()).getTime());
         user.setStatus(UserStatus.OK.getCode());
 
+        System.out.println(user.toString());
         userRepository.save(user);
 
        return "注册成功！！！";
