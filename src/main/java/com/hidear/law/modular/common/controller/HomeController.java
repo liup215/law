@@ -1,20 +1,26 @@
 package com.hidear.law.modular.common.controller;
 
 import com.google.code.kaptcha.Constants;
+import com.hidear.law.common.annotion.AuthenticationCheck;
 import com.hidear.law.common.constant.status.UserStatus;
+import com.hidear.law.common.constant.tip.SuccessTip;
+import com.hidear.law.common.constant.tip.Tip;
 import com.hidear.law.common.exception.BizExceptionEnum;
 import com.hidear.law.common.exception.BussinessException;
 import com.hidear.law.common.exception.InvalidKaptchaException;
 import com.hidear.law.core.log.LogManager;
 import com.hidear.law.core.log.factory.LogTaskFactory;
 import com.hidear.law.core.shiro.ShiroKit;
+import com.hidear.law.core.shiro.ShiroUser;
 import com.hidear.law.core.support.HttpKit;
 import com.hidear.law.core.util.ToolUtil;
 import com.hidear.law.modular.User.dao.UserRepository;
 import com.hidear.law.modular.User.model.User;
 import com.hidear.law.modular.common.service.IHomeService;
+import com.hidear.law.modular.common.service.ServiceImpl.HomeServiceImpl;
 import com.hidear.law.modular.transfer.LoginTF;
 import com.hidear.law.modular.transfer.RegisterTF;
+import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,12 +71,15 @@ public class HomeController {
      * @return
      */
     @RequestMapping(value="/login",method = RequestMethod.GET)
-    public String login(){
-        if (ShiroKit.isAuthenticated() || ShiroKit.getUser() != null) {
-            return "redirect:/";
-        } else {
-            return "/login.html";
+    public String login(HttpServletRequest request){
+        String token = request.getHeader("token");
+        if(token != null){
+            ShiroUser shiroUser = HomeServiceImpl.loginUserMap.get(token);
+            if(shiroUser!=null){
+                return "redirect:/";
+            }
         }
+        return "/login.html";
     }
 
     /**
@@ -81,7 +90,7 @@ public class HomeController {
      */
     @RequestMapping(value = "/login",method = RequestMethod.POST)
     @ResponseBody
-    public Map<String,Object> login(@Valid LoginTF loginTF, BindingResult result){
+    public Tip login(@Valid @RequestBody LoginTF loginTF, BindingResult result){
         if(result.hasErrors()){
             List<ObjectError>  errors = result.getAllErrors();
             for(ObjectError error : errors){
@@ -104,10 +113,8 @@ public class HomeController {
 
         Map<String,Object> map = new HashedMap();
         map.put("token",token);
-        map.put("code",200);
-        map.put("data",null);
 
-        return map;
+        return new SuccessTip(map);
 
     }
 
@@ -126,7 +133,7 @@ public class HomeController {
 
     @RequestMapping(value = "/register",method = RequestMethod.POST)
     @ResponseBody
-    public String register(@Valid RegisterTF registerTF, BindingResult result){
+    public Tip register(@Valid RegisterTF registerTF, BindingResult result){
 
         //校验输入规则
         if(result.hasErrors()){
@@ -154,17 +161,7 @@ public class HomeController {
         User user = new User();
         //完善账号信息
         BeanUtils.copyProperties(registerTF,user);
-        user.setUsername(registerTF.getPhoneNumber());
-        user.setCoin(0.00);
-        user.setSalt(ShiroKit.getRandomSalt(5));
-        user.setPassword(ShiroKit.md5(registerTF.getPassword(),user.getSalt()));
-        user.setRegisterTime((new Date()).getTime());
-        user.setStatus(UserStatus.OK.getCode());
-
-        System.out.println(user.toString());
-        userRepository.save(user);
-
-       return "注册成功！！！";
+       return new SuccessTip();
     }
 
 }

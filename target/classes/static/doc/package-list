@@ -1,4 +1,5 @@
 com.hidear.law
+com.hidear.law.common.annotion
 com.hidear.law.common.constant.status
 com.hidear.law.common.constant.tip
 com.hidear.law.common.exception
@@ -8,6 +9,7 @@ com.hidear.law.config.web
 com.hidear.law.core.aop
 com.hidear.law.core.beetl
 com.hidear.law.core.db
+com.hidear.law.core.filter
 com.hidear.law.core.interceptor
 com.hidear.law.core.listener
 com.hidear.law.core.log
@@ -23,6 +25,8 @@ com.hidear.law.modular.User.model
 com.hidear.law.modular.common.controller
 com.hidear.law.modular.common.dao
 com.hidear.law.modular.common.model
+com.hidear.law.modular.common.service
+com.hidear.law.modular.common.service.ServiceImpl
 com.hidear.law.modular.demand.controller
 com.hidear.law.modular.demand.dao
 com.hidear.law.modular.demand.model
