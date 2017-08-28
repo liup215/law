@@ -15,7 +15,7 @@ public class SuccessTip extends Tip{
         message = "操作成功！！！";
     }
 
-    public SuccessTip(Map data){
+    public SuccessTip(Object data){
         super();
         code = 200;
         message = "操作成功！！！";
@@ -28,7 +28,7 @@ public class SuccessTip extends Tip{
         this.message = message;
     }
 
-    public SuccessTip(int code, String message,Map data) {
+    public SuccessTip(int code, String message,Object data) {
         super();
         this.code = code;
         this.message = message;

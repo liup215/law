@@ -23,6 +23,8 @@ beetl:
   resource-tagroot: common/tags   #自定义标签文件Root目录和后缀
   resource-tagsuffix: tag
 
+###################  redis配置  ####################
+
 
 ###################  spring配置  ###################
 spring:
@@ -42,6 +44,10 @@ spring:
           auto: update
         dialect: com.hidear.law.core.db.MySQL5UTF8Dialect
         show_sql: true
+  redis:
+    database: 0
+    host: 47.92.126.169
+    port: 6379
 
 ###################  mybatis-plus配置  ###################
 #mybatis-plus:

@@ -1,5 +1,6 @@
 package com.hidear.law;
 
+import com.alibaba.fastjson.JSON;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,6 +22,8 @@ public class LawApplication extends WebMvcConfigurerAdapter {
     protected final static Logger logger = LoggerFactory.getLogger(LawApplication.class);
 
     public static void main(String[] args){
+
+        JSON.DEFAULT_TYPE_KEY = "type";
 
         SpringApplication.run(LawApplication.class,args);
         logger.info("LawApplication Start success!!!");

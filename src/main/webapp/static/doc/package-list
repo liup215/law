@@ -17,11 +17,16 @@ com.hidear.law.core.log.factory
 com.hidear.law.core.shiro
 com.hidear.law.core.shiro.factory
 com.hidear.law.core.support
+com.hidear.law.core.token
+com.hidear.law.core.token.config
+com.hidear.law.core.token.manager
 com.hidear.law.core.util
 com.hidear.law.core.util.xss
 com.hidear.law.modular.User.controller
 com.hidear.law.modular.User.dao
 com.hidear.law.modular.User.model
+com.hidear.law.modular.User.service
+com.hidear.law.modular.User.service.serviceImpl
 com.hidear.law.modular.common.controller
 com.hidear.law.modular.common.dao
 com.hidear.law.modular.common.model

@@ -8,13 +8,13 @@ import java.util.Map;
 public abstract class Tip {
     protected int code;
     protected String message;
-    protected Map data;
+    protected Object data;
 
-    public Map getData() {
+    public Object getData() {
         return data;
     }
 
-    public void setData(Map data) {
+    public void setData(Object data) {
         this.data = data;
     }
 

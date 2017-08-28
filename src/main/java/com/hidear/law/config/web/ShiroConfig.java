@@ -2,6 +2,8 @@ package com.hidear.law.config.web;
 
 import com.hidear.law.config.properties.LawProperties;
 import com.hidear.law.core.shiro.ShiroDBRealm;
+import org.apache.shiro.cache.Cache;
+import org.apache.shiro.cache.CacheException;
 import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.codec.Base64;
@@ -20,6 +22,7 @@ import org.springframework.cache.ehcache.EhCacheManagerFactoryBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
+import org.springframework.data.redis.cache.RedisCacheManager;
 
 import java.util.HashMap;
 import java.util.Map;

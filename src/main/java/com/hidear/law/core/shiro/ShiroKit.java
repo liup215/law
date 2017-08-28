@@ -1,5 +1,6 @@
 package com.hidear.law.core.shiro;
 
+import com.hidear.law.modular.User.model.User;
 import com.hidear.law.modular.common.service.ServiceImpl.HomeServiceImpl;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.crypto.hash.Md5Hash;
@@ -75,10 +76,6 @@ public class ShiroKit {
         } else {
             return (ShiroUser) getSubject().getPrincipals().getPrimaryPrincipal();
         }
-    }
-
-    public static ShiroUser getUser(String token){
-        return HomeServiceImpl.loginUserMap.get(token);
     }
 
     /**

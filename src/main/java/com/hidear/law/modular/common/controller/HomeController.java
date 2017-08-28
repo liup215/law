@@ -1,5 +1,6 @@
 package com.hidear.law.modular.common.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.google.code.kaptcha.Constants;
 import com.hidear.law.common.annotion.AuthenticationCheck;
 import com.hidear.law.common.constant.status.UserStatus;
@@ -13,6 +14,9 @@ import com.hidear.law.core.log.factory.LogTaskFactory;
 import com.hidear.law.core.shiro.ShiroKit;
 import com.hidear.law.core.shiro.ShiroUser;
 import com.hidear.law.core.support.HttpKit;
+import com.hidear.law.core.token.TokenModel;
+import com.hidear.law.core.token.config.AuthConstants;
+import com.hidear.law.core.token.manager.TokenManager;
 import com.hidear.law.core.util.ToolUtil;
 import com.hidear.law.modular.User.dao.UserRepository;
 import com.hidear.law.modular.User.model.User;
@@ -47,6 +51,9 @@ public class HomeController {
     @Autowired
     IHomeService homeService;
 
+    @Autowired
+    TokenManager tokenManager;
+
     /**
      * 项目首页
      * @return 返回首页
@@ -72,10 +79,10 @@ public class HomeController {
      */
     @RequestMapping(value="/login",method = RequestMethod.GET)
     public String login(HttpServletRequest request){
-        String token = request.getHeader("token");
-        if(token != null){
-            ShiroUser shiroUser = HomeServiceImpl.loginUserMap.get(token);
-            if(shiroUser!=null){
+        String authorization = request.getHeader(AuthConstants.AUTHORIZATION);
+        if(authorization != null){
+            TokenModel model = tokenManager.getToken(authorization);
+            if(tokenManager.checkToken(model)){
                 return "redirect:/";
             }
         }
@@ -83,7 +90,7 @@ public class HomeController {
     }
 
     /**
-     * 登录
+     * 登录,
      * @param loginTF 登录信息
      * @param result 格式验证结果
      * @return
@@ -109,19 +116,15 @@ public class HomeController {
 
         String username = loginTF.getPhoneNumber();
         String password = loginTF.getPassword();
-        String token = homeService.login(username,password);
+        TokenModel token = homeService.login(username,password);
 
-        Map<String,Object> map = new HashedMap();
-        map.put("token",token);
-
-        return new SuccessTip(map);
+        return new SuccessTip(token);
 
     }
 
     @RequestMapping(value="/logout",method = RequestMethod.GET)
-    public String logout(){
-        LogManager.me().executeLog(LogTaskFactory.exitLog(ShiroKit.getUser().getId(), HttpKit.getRequest().getRemoteHost()));
-        ShiroKit.getSubject().logout();
+    public String logout(@RequestHeader("authorization") String authorization){
+        homeService.logout(authorization);
         return "redirect:/login";
     }
 
@@ -133,7 +136,7 @@ public class HomeController {
 
     @RequestMapping(value = "/register",method = RequestMethod.POST)
     @ResponseBody
-    public Tip register(@Valid RegisterTF registerTF, BindingResult result){
+    public Tip register(@Valid @RequestBody RegisterTF registerTF, BindingResult result){
 
         //校验输入规则
         if(result.hasErrors()){
@@ -158,10 +161,8 @@ public class HomeController {
             throw new BussinessException(BizExceptionEnum.USER_ALREADY_REG);
         }
 
-        User user = new User();
-        //完善账号信息
-        BeanUtils.copyProperties(registerTF,user);
-       return new SuccessTip();
+        homeService.register(registerTF);
+        return new SuccessTip();
     }
 
 }

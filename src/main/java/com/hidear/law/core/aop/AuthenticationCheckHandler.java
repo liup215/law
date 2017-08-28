@@ -2,12 +2,14 @@ package com.hidear.law.core.aop;
 
 import com.hidear.law.common.exception.BizExceptionEnum;
 import com.hidear.law.common.exception.BussinessException;
-import com.hidear.law.core.shiro.ShiroUser;
-import com.hidear.law.modular.common.service.ServiceImpl.HomeServiceImpl;
+import com.hidear.law.core.token.TokenModel;
+import com.hidear.law.core.token.config.AuthConstants;
+import com.hidear.law.core.token.manager.TokenManager;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -22,6 +24,9 @@ import javax.servlet.http.HttpServletRequest;
 @Component
 public class AuthenticationCheckHandler {
 
+    @Autowired
+    TokenManager tokenManager;
+
     @Pointcut(value = "@annotation(com.hidear.law.common.annotion.AuthenticationCheck)")
     public void cutAuth(){
 
@@ -33,12 +38,11 @@ public class AuthenticationCheckHandler {
         ServletRequestAttributes sra = (ServletRequestAttributes) ra;
         HttpServletRequest request = sra.getRequest();
 
-        String token = request.getHeader("token");
-        if(token != null){
-            ShiroUser shiroUser = HomeServiceImpl.loginUserMap.get(token);
-            if(shiroUser!=null){
-                return point.proceed();
-            }
+        String authorization  = request.getHeader(AuthConstants.AUTHORIZATION);
+
+        TokenModel model = tokenManager.getToken(authorization);
+        if(tokenManager.checkToken(model)){
+            return point.proceed();
         }
 
         throw new BussinessException(BizExceptionEnum.USER_NOT_LOGIN);

@@ -6,11 +6,14 @@ import com.hidear.law.core.log.factory.LogTaskFactory;
 import com.hidear.law.core.shiro.ShiroKit;
 import com.hidear.law.core.shiro.ShiroUser;
 import com.hidear.law.core.support.HttpKit;
+import com.hidear.law.core.token.TokenModel;
+import com.hidear.law.core.token.manager.TokenManager;
 import com.hidear.law.core.util.MD5Util;
 import com.hidear.law.modular.User.dao.UserRepository;
 import com.hidear.law.modular.User.model.User;
 import com.hidear.law.modular.common.service.IHomeService;
 import com.hidear.law.modular.transfer.RegisterTF;
+import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
@@ -27,43 +30,36 @@ import java.util.Map;
  */
 @Service
 public class HomeServiceImpl implements IHomeService {
-    public static Map<String,String> tokenMap = new HashedMap();
-    public static Map<String,ShiroUser> loginUserMap = new HashMap<>();
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
+
+    @Autowired
+    private TokenManager tokenManager;
 
     @Override
-    public String login(String username, String password) {
-        String token = tokenMap.get(username);
+    public TokenModel login(String username, String password) {
         ShiroUser shiroUser = null;
-        if(token==null){
-            Subject currentUser = ShiroKit.getSubject();
-            UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(username,password.toCharArray());
-            usernamePasswordToken.setRememberMe(true);
-            currentUser.login(usernamePasswordToken);
 
-            shiroUser = ShiroKit.getUser();
+        Subject currentUser = ShiroKit.getSubject();
+        UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(username,password.toCharArray());
+        usernamePasswordToken.setRememberMe(true);
+        currentUser.login(usernamePasswordToken);
 
-            HttpKit.getRequest().getSession().setAttribute("shiroUser", shiroUser);
-            HttpKit.getRequest().getSession().setAttribute("phone", shiroUser.getPhoneNumber());
+        shiroUser = ShiroKit.getUser();
 
+        HttpKit.getRequest().getSession().setAttribute("shiroUser", shiroUser);
+        HttpKit.getRequest().getSession().setAttribute("phone", shiroUser.getPhoneNumber());
 
-            LogManager.me().executeLog(LogTaskFactory.loginLog(shiroUser.getId(), HttpKit.getIp()));
-            User user = userRepository.findByPhoneNumber(username);
-            user.setLastLoginTime((new Date()).getTime());
-            userRepository.save(user);
-            ShiroKit.getSession().setAttribute("sessionFlag",true);
-        }else{
-            shiroUser = loginUserMap.get(token);
-            loginUserMap.remove(token);
-        }
+        LogManager.me().executeLog(LogTaskFactory.loginLog(shiroUser.getId(), HttpKit.getIp()));
+        User user = userRepository.findByPhoneNumber(username);
+        user.setLastLoginTime((new Date()).getTime());
+        userRepository.save(user);
+        ShiroKit.getSession().setAttribute("sessionFlag",true);
 
-        token = MD5Util.encrypt(username+password+new Date().getTime());
-        loginUserMap.put(token,shiroUser);
-        tokenMap.put(username,token);
+        TokenModel model = tokenManager.createToken(user.getId());
 
-        return token;
+        return model;
     }
 
     @Override
@@ -80,5 +76,16 @@ public class HomeServiceImpl implements IHomeService {
 
         System.out.println(user.toString());
         userRepository.save(user);
+    }
+
+    @Override
+    public void logout(String authorization) {
+        TokenModel model = tokenManager.getToken(authorization);
+        if(tokenManager.checkToken(model)){
+            tokenManager.deleteToken(model.getUserId());
+        }
+
+        LogManager.me().executeLog(LogTaskFactory.exitLog(ShiroKit.getUser().getId(), HttpKit.getRequest().getRemoteHost()));
+        ShiroKit.getSubject().logout();
     }
 }

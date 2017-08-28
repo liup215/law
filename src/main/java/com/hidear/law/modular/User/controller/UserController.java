@@ -10,10 +10,13 @@ import com.hidear.law.config.properties.LawProperties;
 
 import com.hidear.law.core.shiro.ShiroKit;
 import com.hidear.law.core.shiro.ShiroUser;
+import com.hidear.law.core.shiro.factory.ShiroFactory;
 import com.hidear.law.core.support.HttpKit;
 
+import com.hidear.law.core.token.config.AuthConstants;
 import com.hidear.law.modular.User.dao.UserRepository;
 import com.hidear.law.modular.User.model.User;
+import com.hidear.law.modular.User.service.IUserService;
 import com.hidear.law.modular.common.service.ServiceImpl.HomeServiceImpl;
 import com.hidear.law.modular.transfer.PasswordModify;
 
@@ -47,6 +50,9 @@ public class UserController {
     @Resource
     private LawProperties lawProperties;
 
+    @Autowired
+    IUserService userService;
+
     /**
      * 获得登录用户资料
      * @return
@@ -54,8 +60,10 @@ public class UserController {
     @RequestMapping(value="/info",method = RequestMethod.GET)
     @ResponseBody
     @AuthenticationCheck
-    public ShiroUser UserInfo(@RequestHeader("token") String token){
-        ShiroUser shiroUser = ShiroKit.getUser(token);
+    public ShiroUser UserInfo(@RequestHeader(name = AuthConstants.AUTHORIZATION) String authorization){
+
+        ShiroUser shiroUser = userService.userInfo(authorization);
+
         if(shiroUser == null){
             throw new AuthenticationException();
         }
@@ -72,9 +80,9 @@ public class UserController {
     @RequestMapping(value="/password_edit",method = RequestMethod.POST)
     @ResponseBody
     @AuthenticationCheck
-    public Tip passwordModify(@Valid @RequestBody PasswordModify modify, BindingResult result,@RequestHeader("token") String token){
+    public Tip passwordModify(@Valid @RequestBody PasswordModify modify, BindingResult result,@RequestHeader(name = AuthConstants.AUTHORIZATION) String authorization){
         //判断密码是否正确
-        ShiroUser shiroUser = ShiroKit.getUser(token);
+        ShiroUser shiroUser = userService.userInfo(authorization);
         if(!shiroUser.getPassword().equals(ShiroKit.md5(modify.getOldPassword(),shiroUser.getSalt()))){
             throw new BussinessException(BizExceptionEnum.OLD_PWD_NOT_RIGHT);
         }
@@ -105,14 +113,14 @@ public class UserController {
     /**
      * 会员信息修改，只能修改昵称和头像
      * @param newUser
-     * @param token
+     * @param userId
      * @return
      */
     @RequestMapping(value="/info_edit")
     @ResponseBody
     @AuthenticationCheck
-    public Tip userNameEdit(@RequestBody User newUser,@RequestHeader("token") String token){
-        ShiroUser shiroUser = ShiroKit.getUser(token);
+    public Tip userNameEdit(@RequestBody User newUser,@RequestHeader(name = AuthConstants.AUTHORIZATION) String authorization){
+        ShiroUser shiroUser = userService.userInfo(authorization);
         User user = userRepository.findOne(shiroUser.getId());
         user.setNickname(newUser.getNickname());
         user.setAvatar(newUser.getAvatar());

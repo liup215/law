@@ -32,7 +32,6 @@ public class ShiroFactory implements IShiro {
 
     @Override
     public User user(String phone) {
-
         User user = userRepository.findByPhoneNumber(phone);
         // 账号不存在
         if (null == user) {
@@ -43,6 +42,26 @@ public class ShiroFactory implements IShiro {
             throw new LockedAccountException();
         }
         return user;
+    }
+
+    @Override
+    public User user(Integer userId) {
+        User user = userRepository.findOne(userId);
+        // 账号不存在
+        if (null == user) {
+            throw new CredentialsException();
+        }
+        // 账号被冻结
+        if (user.getStatus() != UserStatus.OK.getCode()) {
+            throw new LockedAccountException();
+        }
+        return user;
+    }
+
+    @Override
+    public ShiroUser shiroUser(Integer userId) {
+        User user = user(userId);
+        return shiroUser(user);
     }
 
     @Override

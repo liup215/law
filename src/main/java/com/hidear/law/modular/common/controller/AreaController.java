@@ -27,27 +27,27 @@ public class AreaController {
 
     @RequestMapping(value="/child-of-{id}",method = RequestMethod.GET)
     @ResponseBody
-    public List<Area> findChild(@PathVariable("id") Integer id){
+    public Tip findChild(@PathVariable("id") Integer id){
 
         List<Area> areas = areaRepository.findByParentId(id);
 
-        return areas;
+        return new SuccessTip(areas);
     }
 
     @RequestMapping(value="/{id}",method = RequestMethod.GET)
     @ResponseBody
-    public Area areaIndex(@PathVariable("id") Integer id){
+    public Tip areaIndex(@PathVariable("id") Integer id){
         Area area = areaRepository.findOne(id);
 
-        return area;
+        return new SuccessTip(area);
     }
 
     @RequestMapping(value="/parent-of-{id}",method = RequestMethod.GET)
     @ResponseBody
-    public Area areaParent(@PathVariable("id") Integer id){
+    public Tip areaParent(@PathVariable("id") Integer id){
         Area area = areaRepository.findParentArea(id);
 
-        return area;
+        return new SuccessTip(area);
     }
 
     @RequestMapping(value="/add",method = RequestMethod.POST)

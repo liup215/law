@@ -49,20 +49,20 @@ public class LawController {
      */
     @RequestMapping(value = "/list-{pageNumber}-{pageSize}-{sortColumn}-{sortType}",method = RequestMethod.GET)
     @ResponseBody
-    public List<DemandLaw> list(@PathVariable(name="pageNumber") Integer pageNumber, @PathVariable(name="pageSize") Integer pageSize, @PathVariable(name="sortColumn") String sortColumn, @PathVariable(name="sortType") String sortType){
+    public Tip list(@PathVariable(name="pageNumber") Integer pageNumber, @PathVariable(name="pageSize") Integer pageSize, @PathVariable(name="sortColumn") String sortColumn, @PathVariable(name="sortType") String sortType){
         List<DemandLaw> list = null;
 
         Sort sort = new Sort(Sort.Direction.valueOf(sortType),sortColumn);
         Pageable page = new PageRequest(pageNumber-1,pageSize,sort);
         list = demandLawRepository.findAll(page).getContent();
-        return list;
+        return new SuccessTip(list);
     }
 
     @RequestMapping(value = "/search",method = RequestMethod.POST)
     @ResponseBody
-    public List<DemandLaw> list(LawSearchTF lawSearchTF){
+    public Tip list(LawSearchTF lawSearchTF){
 
-        return demandLawRepository.findAll();
+        return new SuccessTip(demandLawRepository.findAll());
     }
 
     @RequestMapping(value = "/add",method = RequestMethod.POST)

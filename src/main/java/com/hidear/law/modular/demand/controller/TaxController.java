@@ -1,5 +1,6 @@
 package com.hidear.law.modular.demand.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.databind.util.BeanUtil;
 import com.hidear.law.common.annotion.AuthenticationCheck;
 import com.hidear.law.common.constant.tip.SuccessTip;
@@ -58,25 +59,25 @@ public class TaxController {
      * @return 返回List,前端解析为json数组
      */
     @RequestMapping(value = "/list-{pageNumber}-{pageSize}-{sortColumn}-{sortType}",method = RequestMethod.GET)
-    public @ResponseBody List<DemandTax> listDemand(@PathVariable(name="pageNumber") Integer pageNumber, @PathVariable(name="pageSize") Integer pageSize, @PathVariable(name="sortColumn") String sortColumn, @PathVariable(name="sortType") String sortType){
+    public @ResponseBody Tip listDemand(@PathVariable(name="pageNumber") Integer pageNumber, @PathVariable(name="pageSize") Integer pageSize, @PathVariable(name="sortColumn") String sortColumn, @PathVariable(name="sortType") String sortType){
 
         List<DemandTax> list = null;
         Sort sort = new Sort(Sort.Direction.valueOf(sortType),sortColumn);
         Pageable page = new PageRequest(pageNumber-1,pageSize,sort);
         list = demandTaxRepository.findAll(page).getContent();
-        return list;
+        return new SuccessTip(list);
     }
 
     @RequestMapping(value = "/search",method = RequestMethod.POST)
-    public @ResponseBody List<DemandTax> list(@RequestBody TaxSearchTF taxSearchTF){
+    public @ResponseBody Tip list(@RequestBody TaxSearchTF taxSearchTF){
         List<DemandTax> list = null;
 
         if(taxSearchTF==null){
             list = demandTaxRepository.findAll();
-            return list;
+            return new SuccessTip(list);
         }
         list = taxDemandServiceImpl.findDemandBySearch(taxSearchTF);
-        return list;
+        return new SuccessTip(list);
     }
 
 

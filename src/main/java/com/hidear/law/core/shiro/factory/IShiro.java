@@ -10,6 +10,13 @@ import org.apache.shiro.authc.SimpleAuthenticationInfo;
 public interface IShiro {
 
     /**
+     * 根据用户Id获取用户
+     * @param userId
+     * @return
+     */
+    User user(Integer userId);
+
+    /**
      * 根据账号获取登录用户
      * @param username 账号
      * @return 登录用户
@@ -24,6 +31,7 @@ public interface IShiro {
      */
     ShiroUser shiroUser(User user);
 
+    ShiroUser shiroUser(Integer userId);
 
     /**
      * 获取shiro的认证信息
