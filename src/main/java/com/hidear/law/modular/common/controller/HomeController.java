@@ -1,32 +1,21 @@
 package com.hidear.law.modular.common.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.google.code.kaptcha.Constants;
-import com.hidear.law.common.annotion.AuthenticationCheck;
-import com.hidear.law.common.constant.status.UserStatus;
 import com.hidear.law.common.constant.tip.SuccessTip;
 import com.hidear.law.common.constant.tip.Tip;
 import com.hidear.law.common.exception.BizExceptionEnum;
 import com.hidear.law.common.exception.BussinessException;
 import com.hidear.law.common.exception.InvalidKaptchaException;
-import com.hidear.law.core.log.LogManager;
-import com.hidear.law.core.log.factory.LogTaskFactory;
-import com.hidear.law.core.shiro.ShiroKit;
-import com.hidear.law.core.shiro.ShiroUser;
 import com.hidear.law.core.support.HttpKit;
 import com.hidear.law.core.token.TokenModel;
 import com.hidear.law.core.token.config.AuthConstants;
 import com.hidear.law.core.token.manager.TokenManager;
 import com.hidear.law.core.util.ToolUtil;
 import com.hidear.law.modular.User.dao.UserRepository;
-import com.hidear.law.modular.User.model.User;
 import com.hidear.law.modular.common.service.IHomeService;
-import com.hidear.law.modular.common.service.ServiceImpl.HomeServiceImpl;
 import com.hidear.law.modular.transfer.LoginTF;
 import com.hidear.law.modular.transfer.RegisterTF;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
-import org.apache.commons.collections.map.HashedMap;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -34,7 +23,7 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -120,6 +109,15 @@ public class HomeController {
 
         return new SuccessTip(token);
 
+    }
+
+    @RequestMapping(value ="/authCheck",method = RequestMethod.POST)
+    @ResponseBody
+    public Tip login(@Valid @RequestBody String authentication){
+        boolean isLogin = homeService.loginCheck(authentication);
+        Map<String,Object> map = new HashMap<>();
+        map.put("authCheck",isLogin);
+        return new SuccessTip(isLogin);
     }
 
     @RequestMapping(value="/logout",method = RequestMethod.GET)

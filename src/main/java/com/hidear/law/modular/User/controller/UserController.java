@@ -11,6 +11,7 @@ import com.hidear.law.config.properties.LawProperties;
 import com.hidear.law.core.shiro.ShiroKit;
 import com.hidear.law.core.shiro.ShiroUser;
 import com.hidear.law.core.shiro.factory.ShiroFactory;
+import com.hidear.law.core.support.BeanKit;
 import com.hidear.law.core.support.HttpKit;
 
 import com.hidear.law.core.token.config.AuthConstants;
@@ -60,7 +61,7 @@ public class UserController {
     @RequestMapping(value="/info",method = RequestMethod.GET)
     @ResponseBody
     @AuthenticationCheck
-    public ShiroUser UserInfo(@RequestHeader(name = AuthConstants.AUTHORIZATION) String authorization){
+    public Tip UserInfo(@RequestHeader(name = AuthConstants.AUTHORIZATION) String authorization){
 
         ShiroUser shiroUser = userService.userInfo(authorization);
 
@@ -68,7 +69,11 @@ public class UserController {
             throw new AuthenticationException();
         }
 
-        return shiroUser;
+        Map<String,Object> map = BeanKit.beanToMap(shiroUser);
+        map.remove("password");
+        map.remove("salt");
+
+        return new SuccessTip(map);
     }
 
     /**
@@ -113,7 +118,7 @@ public class UserController {
     /**
      * 会员信息修改，只能修改昵称和头像
      * @param newUser
-     * @param userId
+     * @param authorization
      * @return
      */
     @RequestMapping(value="/info_edit")

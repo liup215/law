@@ -88,4 +88,10 @@ public class HomeServiceImpl implements IHomeService {
         LogManager.me().executeLog(LogTaskFactory.exitLog(ShiroKit.getUser().getId(), HttpKit.getRequest().getRemoteHost()));
         ShiroKit.getSubject().logout();
     }
+
+    @Override
+    public boolean loginCheck(String authorization) {
+        TokenModel tokenModel = tokenManager.getToken(authorization);
+        return tokenManager.checkToken(tokenModel);
+    }
 }

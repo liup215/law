@@ -295,6 +295,8 @@ public class BeanKit {
 					Object value = getter.invoke(bean);
 					if (null != value) {
 						map.put(isToUnderlineCase ? StrKit.toUnderlineCase(key) : key, value);
+					}else{
+						map.put(isToUnderlineCase ? StrKit.toUnderlineCase(key) : key,"");
 					}
 				}
 			}

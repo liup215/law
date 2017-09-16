@@ -11,4 +11,5 @@ public interface IHomeService {
     public TokenModel login(String username, String password);
     public void register(RegisterTF registerTF);
     public void logout(String authorization);
+    public boolean loginCheck(String authorization);
 }
