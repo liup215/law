@@ -77,8 +77,8 @@ info0:{[file;onlycols]
 	loadfmts:(count colhdrs)#"S";if[count onlycols;loadfmts[where not colhdrs in onlycols]:"C"];
 	breaks:where 0xa=read1(file;0;floor(10+READLINES)*WIDTHHDR%count head);
 	nas:count as:colhdrs xcol(loadfmts;enlist DELIM)0:(file;0;1+last((1+READLINES)&count breaks)#breaks);
-	info:([]c:key flip as;v:value flip as);as:();
-	reserved:key`.q;reserved,:.Q.res;reserved,:`i;
+	info:([]c:appKey flip as;v:value flip as);as:();
+	reserved:appKey`.q;reserved,:.Q.res;reserved,:`i;
 	info:update res:c in reserved from info;
 	info:update ci:i,t:"?",ipa:0b,mdot:0,mw:0,rule:0,gr:0,ndv:0,maybe:0b,empty:0b,j10:0b,j12:0b from info;
 	info:update ci:`s#ci from info;

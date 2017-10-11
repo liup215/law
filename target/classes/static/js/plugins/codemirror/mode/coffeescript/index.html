@@ -131,7 +131,7 @@ _.each = (obj, iterator, context) ->
     else if _.isNumber obj.length
       iterator.call context, obj[i], i, obj for i in [0...obj.length]
     else
-      iterator.call context, val, key, obj for own key, val of obj
+      iterator.call context, val, appKey, obj for own appKey, val of obj
   catch e
     throw e if e isnt breaker
   obj
@@ -222,7 +222,7 @@ _.some = (obj, iterator, context) ->
 # based on `===`.
 _.include = (obj, target) ->
   return _.indexOf(obj, target) isnt -1 if nativeIndexOf and obj.indexOf is nativeIndexOf
-  return true for own key, val of obj when val is target
+  return true for own appKey, val of obj when val is target
   false
 
 
@@ -233,8 +233,8 @@ _.invoke = (obj, method) ->
 
 
 # Convenience version of a common use case of **map**: fetching a property.
-_.pluck = (obj, key) ->
-  _.map(obj, (val) -> val[key])
+_.pluck = (obj, appKey) ->
+  _.map(obj, (val) -> val[appKey])
 
 
 # Return the maximum item or (item-based computation).
@@ -431,9 +431,9 @@ _.memoize = (func, hasher) ->
   memo = {}
   hasher or= _.identity
   ->
-    key = hasher.apply this, arguments
-    return memo[key] if key of memo
-    memo[key] = func.apply this, arguments
+    appKey = hasher.apply this, arguments
+    return memo[appKey] if appKey of memo
+    memo[appKey] = func.apply this, arguments
 
 
 # Defers a function, scheduling it to run after the current call stack has
@@ -466,7 +466,7 @@ _.compose = ->
 # Retrieve the names of an object's properties.
 _.keys = nativeKeys or (obj) ->
   return _.range 0, obj.length if _.isArray(obj)
-  key for key, val of obj
+  appKey for appKey, val of obj
 
 
 # Retrieve the values of an object's properties.
@@ -476,13 +476,13 @@ _.values = (obj) ->
 
 # Return a sorted list of the function names available in Underscore.
 _.functions = (obj) ->
-  _.filter(_.keys(obj), (key) -> _.isFunction(obj[key])).sort()
+  _.filter(_.keys(obj), (appKey) -> _.isFunction(obj[appKey])).sort()
 
 
 # Extend a given object with all of the properties in a source object.
 _.extend = (obj) ->
   for source in _.rest(arguments)
-    obj[key] = val for key, val of source
+    obj[appKey] = val for appKey, val of source
   obj
 
 
@@ -533,14 +533,14 @@ _.isEqual = (a, b) ->
   # Different object sizes?
   return false if aKeys.length isnt bKeys.length
   # Recursive comparison of contents.
-  return false for key, val of a when !(key of b) or !_.isEqual(val, b[key])
+  return false for appKey, val of a when !(appKey of b) or !_.isEqual(val, b[appKey])
   true
 
 
 # Is a given array or object empty?
 _.isEmpty = (obj) ->
   return obj.length is 0 if _.isArray(obj) or _.isString(obj)
-  return false for own key of obj
+  return false for own appKey of obj
   true
 
 

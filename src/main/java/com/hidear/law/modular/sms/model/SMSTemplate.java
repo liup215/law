@@ -1,4 +1,4 @@
-package com.hidear.law.modular.common.model;
+package com.hidear.law.modular.sms.model;
 
 import javax.persistence.*;
 
@@ -14,6 +14,12 @@ public class SMSTemplate {
     @Column(name="id",nullable = false,length = 11)
     private Integer id;
 
+    @Column(name="type",nullable = false,length = 10,unique = true)
+    private Integer type;
+
+    @Column(name="code",nullable = false,length = 20)
+    private String code;
+
     @Column(name="sign",nullable = false,length = 10)
     private String sign;
 
@@ -26,20 +32,36 @@ public class SMSTemplate {
     public SMSTemplate() {
     }
 
-    public SMSTemplate(String sign, String content, String scene) {
-
+    public SMSTemplate(Integer type, String code, String sign, String content, String scene) {
+        this.type = type;
+        this.code = code;
         this.sign = sign;
         this.content = content;
         this.scene = scene;
     }
 
     public Integer getId() {
-
         return id;
     }
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public String getSign() {
@@ -70,9 +92,12 @@ public class SMSTemplate {
     public String toString() {
         return "SMSTemplate{" +
                 "id=" + id +
+                ", type=" + type +
+                ", code=" + code +
                 ", sign='" + sign + '\'' +
                 ", content='" + content + '\'' +
                 ", scene='" + scene + '\'' +
                 '}';
     }
+
 }

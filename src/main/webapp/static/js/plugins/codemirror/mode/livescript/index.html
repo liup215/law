@@ -32,7 +32,7 @@
 #   https://github.com/gkz/prelude-ls
 
 export objToFunc = objToFunc = (obj) ->
-  (key) -> obj[key]
+  (appKey) -> obj[appKey]
 
 export each = (f, xs) -->
   if typeof! xs is \Object
@@ -45,7 +45,7 @@ export map = (f, xs) -->
   f = objToFunc f if typeof! f isnt \Function
   type = typeof! xs
   if type is \Object
-    {[key, f x] for key, x of xs}
+    {[appKey, f x] for appKey, x of xs}
   else
     result = [f x for x in xs]
     if type is \String then result * '' else result
@@ -54,7 +54,7 @@ export filter = (f, xs) -->
   f = objToFunc f if typeof! f isnt \Function
   type = typeof! xs
   if type is \Object
-    {[key, x] for key, x of xs when f x}
+    {[appKey, x] for appKey, x of xs when f x}
   else
     result = [x for x in xs when f x]
     if type is \String then result * '' else result
@@ -63,7 +63,7 @@ export reject = (f, xs) -->
   f = objToFunc f if typeof! f isnt \Function
   type = typeof! xs
   if type is \Object
-    {[key, x] for key, x of xs when not f x}
+    {[appKey, x] for appKey, x of xs when not f x}
   else
     result = [x for x in xs when not f x]
     if type is \String then result * '' else result
@@ -74,8 +74,8 @@ export partition = (f, xs) -->
   if type is \Object
     passed = {}
     failed = {}
-    for key, x of xs
-      (if f x then passed else failed)[key] = x
+    for appKey, x of xs
+      (if f x then passed else failed)[appKey] = x
   else
     passed = []
     failed = []

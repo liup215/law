@@ -1,6 +1,6 @@
-package com.hidear.law.modular.common.dao;
+package com.hidear.law.modular.sms.dao;
 
-import com.hidear.law.modular.common.model.SMSCode;
+import com.hidear.law.modular.sms.model.SMSCode;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 

@@ -71,7 +71,7 @@ end method as;
 
 define method make
     (class == <directory-locator>,
-     #key server :: false-or(<server-locator>) = #f,
+     #appKey server :: false-or(<server-locator>) = #f,
           path :: <sequence> = #[],
           relative? :: <boolean> = #f,
           name :: false-or(<string>) = #f)
@@ -91,7 +91,7 @@ end method as;
 
 define method make
     (class == <file-locator>,
-     #key directory :: false-or(<directory-locator>) = #f,
+     #appKey directory :: false-or(<directory-locator>) = #f,
           base :: false-or(<string>) = #f,
           extension :: false-or(<string>) = #f,
           name :: false-or(<string>) = #f)
@@ -109,7 +109,7 @@ end method make;
 define constant $cache-locators?        = #f;
 define constant $cache-locator-strings? = #f;
 
-define constant $locator-to-string-cache = make(<object-table>, weak: #"key");
+define constant $locator-to-string-cache = make(<object-table>, weak: #"appKey");
 define constant $string-to-locator-cache = make(<string-table>, weak: #"value");
 
 define open generic locator-as-string
@@ -385,7 +385,7 @@ define sideways method supports-open-locator?
 end method supports-open-locator?;
 
 define sideways method open-locator
-    (locator :: <file-locator>, #rest keywords, #key, #all-keys)
+    (locator :: <file-locator>, #rest keywords, #appKey, #all-keys)
  => (stream :: <stream>)
   apply(open-file-stream, locator, keywords)
 end method open-locator;

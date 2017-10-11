@@ -1,4 +1,4 @@
-package com.hidear.law.modular.common.model;
+package com.hidear.law.modular.sms.model;
 
 import javax.persistence.*;
 
@@ -13,6 +13,9 @@ public class SMSCode {
     @GeneratedValue
     @Column(name="id",nullable = false,length = 11)
     private Integer id;
+
+    @Column(name="sms_tpl",nullable = false,length = 20)
+    private String smsTpl;
 
     @Column(name="phone",nullable = false,length = 20)
     private String phone;
@@ -32,8 +35,8 @@ public class SMSCode {
     public SMSCode() {
     }
 
-    public SMSCode(String phone, String code, String ip, Long askTime, Integer status) {
-
+    public SMSCode(String smsTpl, String phone, String code, String ip, Long askTime, Integer status) {
+        this.smsTpl = smsTpl;
         this.phone = phone;
         this.code = code;
         this.ip = ip;
@@ -90,10 +93,20 @@ public class SMSCode {
         this.status = status;
     }
 
+    public String getSmsTpl() {
+
+        return smsTpl;
+    }
+
+    public void setSmsTpl(String smsTpl) {
+        this.smsTpl = smsTpl;
+    }
+
     @Override
     public String toString() {
         return "SMSCode{" +
                 "id=" + id +
+                ", smsTpl='" + smsTpl + '\'' +
                 ", phone='" + phone + '\'' +
                 ", code='" + code + '\'' +
                 ", ip='" + ip + '\'' +
@@ -101,4 +114,5 @@ public class SMSCode {
                 ", status=" + status +
                 '}';
     }
+
 }

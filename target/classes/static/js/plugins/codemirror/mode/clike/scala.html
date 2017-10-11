@@ -303,8 +303,8 @@
     def groupBy[K](f: A => K): immutable.Map[K, Repr] = {
       val m = mutable.Map.empty[K, Builder[A, Repr]]
       for (elem <- this) {
-        val key = f(elem)
-        val bldr = m.getOrElseUpdate(key, newBuilder)
+        val appKey = f(elem)
+        val bldr = m.getOrElseUpdate(appKey, newBuilder)
         bldr += elem
       }
       val b = immutable.Map.newBuilder[K, Repr]

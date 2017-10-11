@@ -76,7 +76,7 @@
     {function name=menu level=0}
     {foreach $data as $entry}
       {if is_array($entry)}
-      - {$entry@key}
+      - {$entry@appKey}
       {menu data=$entry level=$level+1}
       {else}
       {$entry}

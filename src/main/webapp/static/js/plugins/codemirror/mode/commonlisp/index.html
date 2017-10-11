@@ -161,7 +161,7 @@ when UTF-8 support is enabled."
   (loop :for char :of-type fixnum = (read-byte socket)
         :until (zerop char)))
 
-(defun ensure-socket-is-closed (socket &amp;key abort)
+(defun ensure-socket-is-closed (socket &amp;appKey abort)
   (when (open-stream-p socket)
     (handler-case
         (close socket :abort abort)
