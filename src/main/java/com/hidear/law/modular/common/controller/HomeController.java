@@ -3,9 +3,11 @@ package com.hidear.law.modular.common.controller;
 import com.google.code.kaptcha.Constants;
 import com.hidear.law.common.constant.tip.SuccessTip;
 import com.hidear.law.common.constant.tip.Tip;
+import com.hidear.law.common.constant.type.LoginType;
 import com.hidear.law.common.exception.BizExceptionEnum;
 import com.hidear.law.common.exception.BussinessException;
 import com.hidear.law.common.exception.InvalidKaptchaException;
+import com.hidear.law.common.exception.InvalidSMSCodeException;
 import com.hidear.law.core.support.HttpKit;
 import com.hidear.law.core.token.TokenModel;
 import com.hidear.law.core.token.config.AuthConstants;
@@ -94,18 +96,27 @@ public class HomeController {
             }
         }
 
-        //验证验证码是否正确
-        if(ToolUtil.getKaptchaOnOff()){
-            String kaptcha = loginTF.getKaptcha();
-            String code = (String) HttpKit.getRequest().getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY);
-            if(ToolUtil.isEmpty(kaptcha) || !kaptcha.equals(code)){
-                throw new InvalidKaptchaException();
+        //验证码是否正确
+        if(loginTF.getLoginType()== LoginType.SMS_CODE.getType()){
+            //验证短信验证码是否正确
+            String smsCode = loginTF.getSmsCode();
+            String code = (String) HttpKit.getRequest().getSession().getAttribute("code_"+loginTF.getPhoneNumber());
+            if(ToolUtil.isEmpty(smsCode)||!smsCode.equals(code)){
+                throw new InvalidSMSCodeException();
             }
+        }else if(loginTF.getLoginType()== LoginType.USERNAME_PASSWORD.getType()){
+            //验证图片验证码是否正确
+            if(ToolUtil.getKaptchaOnOff()){
+                String kaptcha = loginTF.getKaptcha();
+                String code = (String) HttpKit.getRequest().getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY);
+                if(ToolUtil.isEmpty(kaptcha) || !kaptcha.equals(code)){
+                    throw new InvalidKaptchaException();
+                }
+            }
+        }else{
+            throw new BussinessException(BizExceptionEnum.REQUEST_NULL);
         }
-
-        String username = loginTF.getPhoneNumber();
-        String password = loginTF.getPassword();
-        TokenModel token = homeService.login(username,password);
+        TokenModel token = homeService.login(loginTF);
 
         return new SuccessTip(token);
 
@@ -145,8 +156,10 @@ public class HomeController {
         }
 
         //校验验证码是否正确
-        if(!registerTF.getVerifyCode().equals("111111")){
-            throw new BussinessException(BizExceptionEnum.INVID_VERYFY_CODE);
+        String smsCode = registerTF.getSmsCode();
+        String code = (String) HttpKit.getRequest().getSession().getAttribute("code_"+registerTF.getPhoneNumber());
+        if(ToolUtil.isEmpty(smsCode)||!smsCode.equals(code)){
+            throw new InvalidSMSCodeException();
         }
 
         //密码确认是否相同

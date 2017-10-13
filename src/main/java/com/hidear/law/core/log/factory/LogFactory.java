@@ -1,7 +1,7 @@
 package com.hidear.law.core.log.factory;
 
 import com.hidear.law.common.constant.status.LogSucceed;
-import com.hidear.law.common.constant.status.LogType;
+import com.hidear.law.common.constant.type.LogType;
 import com.hidear.law.modular.common.model.LoginLog;
 import com.hidear.law.modular.common.model.OperationLog;
 

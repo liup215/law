@@ -1,7 +1,7 @@
 package com.hidear.law.core.sms.factory;
 
 import com.hidear.law.common.constant.status.SMSCodeStatus;
-import com.hidear.law.common.constant.status.SMSType;
+import com.hidear.law.common.constant.type.SMSType;
 import com.hidear.law.core.db.Db;
 import com.hidear.law.modular.sms.dao.SMSTemplateRepository;
 import com.hidear.law.modular.sms.model.SMSCode;

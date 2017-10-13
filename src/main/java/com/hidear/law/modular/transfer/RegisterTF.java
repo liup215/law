@@ -13,8 +13,8 @@ public class RegisterTF {
     @NotBlank(message = "电话号码不能为空")
     private String phoneNumber;
 
-    @NotBlank(message = "验证码不能为空")
-    private String verifyCode;
+    @NotBlank(message = "短信验证码不能为空")
+    private String smsCode;
 
     @NotBlank(message = "密码不能为空")
     @Size(min=6,max=8)
@@ -27,9 +27,9 @@ public class RegisterTF {
     public RegisterTF() {
     }
 
-    public RegisterTF(String phoneNumber, String verifyCode, String password, String passwordConfirm) {
+    public RegisterTF(String phoneNumber, String smsCode, String password, String passwordConfirm) {
         this.phoneNumber = phoneNumber;
-        this.verifyCode = verifyCode;
+        this.smsCode = smsCode;
         this.password = password;
         this.passwordConfirm = passwordConfirm;
     }
@@ -42,12 +42,12 @@ public class RegisterTF {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getVerifyCode() {
-        return verifyCode;
+    public String getSmsCode() {
+        return smsCode;
     }
 
-    public void setVerifyCode(String verifyCode) {
-        this.verifyCode = verifyCode;
+    public void setSmsCode(String verifyCode) {
+        this.smsCode = smsCode;
     }
 
     public String getPassword() {
@@ -70,7 +70,7 @@ public class RegisterTF {
     public String toString() {
         return "RegisterTF{" +
                 "phoneNumber='" + phoneNumber + '\'' +
-                ", verifyCode='" + verifyCode + '\'' +
+                ", verifyCode='" + smsCode + '\'' +
                 ", password='" + password + '\'' +
                 ", passwordConfirm='" + passwordConfirm + '\'' +
                 '}';

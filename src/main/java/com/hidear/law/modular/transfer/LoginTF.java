@@ -10,6 +10,11 @@ import javax.validation.constraints.NotNull;
 public class LoginTF {
 
     /**
+     * 登录方式
+     */
+    private Integer loginType;
+
+    /**
      * 手机号
      */
     @NotBlank(message = "手机号不能为空")
@@ -22,14 +27,21 @@ public class LoginTF {
     private String password;
 
     /**
-     * 验证码
+     * 图片验证码
      */
     private String kaptcha;
 
-    public LoginTF(String phoneNumber, String password,String kaptcha) {
+    /**
+     * 短信验证码
+     */
+    private String smsCode;
+
+    public LoginTF(Integer loginType, String phoneNumber, String password, String kaptcha, String smsCode) {
+        this.loginType = loginType;
         this.phoneNumber = phoneNumber;
         this.password = password;
         this.kaptcha = kaptcha;
+        this.smsCode = smsCode;
     }
 
     public LoginTF() {
@@ -60,12 +72,30 @@ public class LoginTF {
         this.kaptcha = kaptcha;
     }
 
+    public Integer getLoginType() {
+        return loginType;
+    }
+
+    public void setLoginType(Integer loginType) {
+        this.loginType = loginType;
+    }
+
+    public String getSmsCode() {
+        return smsCode;
+    }
+
+    public void setSmsCode(String smsCode) {
+        this.smsCode = smsCode;
+    }
+
     @Override
     public String toString() {
         return "LoginTF{" +
-                "phoneNumber='" + phoneNumber + '\'' +
+                "loginType=" + loginType +
+                ", phoneNumber='" + phoneNumber + '\'' +
                 ", password='" + password + '\'' +
                 ", kaptcha='" + kaptcha + '\'' +
+                ", smsCode='" + smsCode + '\'' +
                 '}';
     }
 }

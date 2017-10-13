@@ -1,10 +1,14 @@
 package com.hidear.law.modular.common.service.ServiceImpl;
 
 import com.hidear.law.common.constant.status.UserStatus;
+import com.hidear.law.common.constant.type.LoginType;
+import com.hidear.law.common.exception.BizExceptionEnum;
+import com.hidear.law.common.exception.BussinessException;
 import com.hidear.law.core.log.LogManager;
 import com.hidear.law.core.log.factory.LogTaskFactory;
 import com.hidear.law.core.shiro.ShiroKit;
 import com.hidear.law.core.shiro.ShiroUser;
+import com.hidear.law.core.shiro.factory.ShiroFactory;
 import com.hidear.law.core.support.HttpKit;
 import com.hidear.law.core.token.TokenModel;
 import com.hidear.law.core.token.manager.TokenManager;
@@ -12,6 +16,7 @@ import com.hidear.law.core.util.MD5Util;
 import com.hidear.law.modular.User.dao.UserRepository;
 import com.hidear.law.modular.User.model.User;
 import com.hidear.law.modular.common.service.IHomeService;
+import com.hidear.law.modular.transfer.LoginTF;
 import com.hidear.law.modular.transfer.RegisterTF;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.apache.commons.collections.map.HashedMap;
@@ -38,26 +43,49 @@ public class HomeServiceImpl implements IHomeService {
     private TokenManager tokenManager;
 
     @Override
-    public TokenModel login(String username, String password) {
+    public TokenModel login(LoginTF loginTF) {
         ShiroUser shiroUser = null;
+        TokenModel model = null;
 
-        Subject currentUser = ShiroKit.getSubject();
-        UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(username,password.toCharArray());
-        usernamePasswordToken.setRememberMe(true);
-        currentUser.login(usernamePasswordToken);
+        if(loginTF.getLoginType()== LoginType.USERNAME_PASSWORD.getType()){
+            String username = loginTF.getPhoneNumber();
+            String password = loginTF.getPassword();
+            Subject currentUser = ShiroKit.getSubject();
+            UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(username,password.toCharArray());
+            usernamePasswordToken.setRememberMe(true);
+            currentUser.login(usernamePasswordToken);
 
-        shiroUser = ShiroKit.getUser();
+            shiroUser = ShiroKit.getUser();
 
-        HttpKit.getRequest().getSession().setAttribute("shiroUser", shiroUser);
-        HttpKit.getRequest().getSession().setAttribute("phone", shiroUser.getPhoneNumber());
+            HttpKit.getRequest().getSession().setAttribute("shiroUser", shiroUser);
+            HttpKit.getRequest().getSession().setAttribute("phone", shiroUser.getPhoneNumber());
 
-        LogManager.me().executeLog(LogTaskFactory.loginLog(shiroUser.getId(), HttpKit.getIp()));
-        User user = userRepository.findByPhoneNumber(username);
-        user.setLastLoginTime((new Date()).getTime());
-        userRepository.save(user);
-        ShiroKit.getSession().setAttribute("sessionFlag",true);
+            LogManager.me().executeLog(LogTaskFactory.loginLog(shiroUser.getId(), HttpKit.getIp()));
+            User user = userRepository.findByPhoneNumber(username);
+            user.setLastLoginTime((new Date()).getTime());
+            userRepository.save(user);
+            ShiroKit.getSession().setAttribute("sessionFlag",true);
 
-        TokenModel model = tokenManager.createToken(user.getId());
+            model = tokenManager.createToken(user.getId());
+        }else if(loginTF.getLoginType()==LoginType.SMS_CODE.getType()){
+
+            String phone = loginTF.getPhoneNumber();
+            User user = userRepository.findByPhoneNumber(phone);
+
+            shiroUser = ShiroFactory.me().shiroUser(user);
+            HttpKit.getRequest().getSession().setAttribute("shiroUser", shiroUser);
+            HttpKit.getRequest().getSession().setAttribute("phone", shiroUser.getPhoneNumber());
+            LogManager.me().executeLog(LogTaskFactory.loginLog(user.getId(),HttpKit.getIp()));
+
+            user.setLastLoginTime((new Date()).getTime());
+            userRepository.save(user);
+            ShiroKit.getSession().setAttribute("sessionFlag",true);
+
+            model = tokenManager.createToken(user.getId());
+        }else{
+            throw new BussinessException(BizExceptionEnum.REQUEST_NULL);
+        }
+
 
         return model;
     }

@@ -1,4 +1,4 @@
-package com.hidear.law.common.constant.status;
+package com.hidear.law.common.constant.type;
 
 /**
  * Created by Administrator on 2017/7/7.

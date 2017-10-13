@@ -46,7 +46,7 @@ public enum BizExceptionEnum {
 	ACCOUNT_FREEZED(401, "账号被冻结"),
 	OLD_PWD_NOT_RIGHT(402, "原密码不正确"),
 	TWO_PWD_NOT_MATCH(405, "两次输入密码不一致"),
-	INVID_VERYFY_CODE(400,"验证码输入错误"),
+	INVID_SMS_CODE(400,"验证码输入错误"),
 
 	/**
 	 * 错误的请求

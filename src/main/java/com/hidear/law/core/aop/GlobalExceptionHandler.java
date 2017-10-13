@@ -134,7 +134,7 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * 验证码错误
+     * 图片验证码错误
      * @param e 验证码错误异常
      * @return 错误信息
      */
@@ -145,6 +145,13 @@ public class GlobalExceptionHandler {
 //        LogManager.me().executeLog(LogTaskFactory.exceptionLog(ShiroKit.getUser().getId(), e));
         return new ErrorTip(BizExceptionEnum.INVALID_KAPTCHA.getCode(),BizExceptionEnum.INVALID_KAPTCHA.getMessage());
 
+    }
+
+    @ExceptionHandler(InvalidSMSCodeException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public ErrorTip invalidSMSCode(InvalidSMSCodeException e){
+        return new ErrorTip(BizExceptionEnum.INVID_SMS_CODE.getCode(),BizExceptionEnum.INVID_SMS_CODE.getMessage());
     }
 
     /**
