@@ -133,26 +133,5 @@ public class UserController {
         return new SuccessTip();
     }
 
-    /**
-     * 单文件上传
-     * @param file 文件参数，名称为"file"
-     * @return 返回操作结果
-     */
-    @RequestMapping(method = RequestMethod.POST, path = "/upload")
-    @ResponseBody
-    @AuthenticationCheck
-    public Tip upload(@RequestParam(name = "file") MultipartFile file) {
 
-        String pictureName = UUID.randomUUID().toString() + ".jpg";
-        try {
-            String fileSavePath = lawProperties.getFileUploadPath();
-            file.transferTo(new File(fileSavePath + pictureName));
-            Map<String,Object> data = new HashedMap();
-            data.put("file",fileSavePath+pictureName);
-            return new SuccessTip(data);
-        } catch (Exception e) {
-            throw new BussinessException(BizExceptionEnum.UPLOAD_ERROR);
-        }
-
-    }
 }

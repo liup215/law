@@ -38,7 +38,6 @@ public class GlobalExceptionHandler {
      * @return 错误信息
      */
     @ExceptionHandler(BussinessException.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ResponseBody
     public ErrorTip notFount(BussinessException e) {
         LogManager.me().executeLog(LogTaskFactory.exceptionLog(ShiroKit.getUser().getId(), e));
@@ -53,7 +52,6 @@ public class GlobalExceptionHandler {
      * @return 错误信息
      */
     @ExceptionHandler(AuthenticationException.class)
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ResponseBody
     public ErrorTip unAuth(AuthenticationException e) {
         log.error("用户未登陆：", e);
@@ -66,7 +64,6 @@ public class GlobalExceptionHandler {
      * @return 错误信息
      */
     @ExceptionHandler(DisabledAccountException.class)
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ResponseBody
     public ErrorTip accountLocked(DisabledAccountException e) {
         String username = HttpKit.getRequest().getParameter("username");

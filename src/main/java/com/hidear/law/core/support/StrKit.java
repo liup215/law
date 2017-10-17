@@ -1,5 +1,7 @@
 package com.hidear.law.core.support;
 
+import com.alibaba.druid.sql.visitor.functions.Char;
+
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
@@ -784,6 +786,10 @@ public class StrKit {
         return sub(string, 0, toIndex);
     }
 
+    public static String subPre(String string, String c){
+        return subPre(string,string.indexOf(c));
+    }
+
     /**
      * 切割后部分
      *
@@ -796,6 +802,10 @@ public class StrKit {
             return null;
         }
         return sub(string, fromIndex, string.length());
+    }
+
+    public static String subSuf(String string , String c){
+        return subSuf(string,string.indexOf(c));
     }
 
     /**
