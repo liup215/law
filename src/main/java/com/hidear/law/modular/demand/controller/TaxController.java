@@ -127,7 +127,6 @@ public class TaxController {
 
     @RequestMapping(value="/detail/{taxId}")
     @ResponseBody
-    @AuthenticationCheck
     public Tip taxDetail(@PathVariable Integer taxId){
         if(ToolUtil.isEmpty(taxId)){
             throw new BussinessException(BizExceptionEnum.REQUEST_NULL);

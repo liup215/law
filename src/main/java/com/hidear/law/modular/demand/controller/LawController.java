@@ -36,7 +36,7 @@ public class LawController {
 
     @RequestMapping(value = "",method = RequestMethod.GET)
     public String index(){
-        return "redirect:"+BASE_PATH+"/law.html";
+        return "redirect:"+BASE_PATH+"/list-1-50-id-DESC";
     }
 
     /**

@@ -1,5 +1,7 @@
 package com.hidear.law.modular.common.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.google.code.kaptcha.Constants;
 import com.hidear.law.common.constant.tip.SuccessTip;
 import com.hidear.law.common.constant.tip.Tip;
@@ -125,10 +127,13 @@ public class HomeController {
     @RequestMapping(value ="/authCheck",method = RequestMethod.POST)
     @ResponseBody
     public Tip login(@Valid @RequestBody String authentication){
-        boolean isLogin = homeService.loginCheck(authentication);
+        System.out.println(authentication);
+        JSONObject object = (JSONObject) JSON.parse(authentication);
+        System.out.println(object);
+        boolean isLogin = homeService.loginCheck((String)object.get("authentication"));
         Map<String,Object> map = new HashMap<>();
         map.put("authCheck",isLogin);
-        return new SuccessTip(isLogin);
+        return new SuccessTip(map);
     }
 
     @RequestMapping(value="/logout",method = RequestMethod.GET)
